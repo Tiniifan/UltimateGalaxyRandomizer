@@ -1,0 +1,10 @@
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\bin\Release\IEGOGALAXYrandomizer.exe.config
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\bin\Release\IEGOGALAXYrandomizer.exe
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\bin\Release\IEGOGALAXYrandomizer.pdb
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.csproj.AssemblyReference.cache
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.Properties.Resources.resources
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.RandomizerWindow.resources
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.csproj.GenerateResource.cache
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.csproj.CoreCompileInputs.cache
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.exe
+C:\Users\Mathieu\source\repos\IEGOGALAXYrandomizer\IEGOGALAXYrandomizer\obj\Release\IEGOGALAXYrandomizer.pdb

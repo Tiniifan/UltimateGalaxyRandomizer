@@ -25,9 +25,9 @@ namespace UltimateGalaxyRandomizer.Logic
         {
             Player cloned = new Player(Name);
 
-            cloned.Param = Param;
-            cloned.Base = Base;
-            cloned.Skills = Skills;
+            cloned.Param = Param.Clone();
+            cloned.Base = Base.Clone();
+            cloned.Skills = Skills.Select(x => x.Clone()).ToArray();
 
             return cloned;
         }
@@ -47,7 +47,7 @@ namespace UltimateGalaxyRandomizer.Logic
             }
             else
             {
-                elementProbability[Param.Element] = 40;
+                elementProbability[Param.Element-1] = 40;
             }
 
             return new Probability(elementProbability);

@@ -80,7 +80,10 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public void Write(DataWriter writer)
         {
-            writer.Skip(0x10);
+            writer.Seek((uint) Offset);
+            writer.Skip(0x0C);
+            writer.WriteByte(0x06);
+            writer.Skip(0x03);
             writer.WriteUInt32(TeamParamID);
             writer.WriteUInt32(TeamBaseID);
             writer.Skip(0x04);

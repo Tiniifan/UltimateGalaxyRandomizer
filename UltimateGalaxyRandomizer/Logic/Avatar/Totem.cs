@@ -36,7 +36,7 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public void Read(DataReader reader)
         {
-            Offset = reader.BaseStream.Position;
+            Offset = reader.BaseStream.Position-4;
             DescriptionID = reader.ReadUInt32();
             NameID = reader.ReadUInt32();
             ImageModel = reader.ReadInt16();
@@ -74,7 +74,7 @@ namespace UltimateGalaxyRandomizer.Logic
             writer.Skip(0x08);
             writer.Write(Position);
             writer.Write(Element);
-            writer.Skip(2U);
+            writer.Skip(0x02);
         }
 
         public Probability GetPositionProbability()
@@ -92,7 +92,7 @@ namespace UltimateGalaxyRandomizer.Logic
             }
             else
             {
-                elementProbability[Element] = 40;
+                elementProbability[Element-1] = 40;
             }
 
             return new Probability(elementProbability);

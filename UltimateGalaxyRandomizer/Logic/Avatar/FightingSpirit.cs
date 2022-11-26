@@ -91,7 +91,7 @@ namespace UltimateGalaxyRandomizer.Logic
             }
             else
             {
-                elementProbability[Element] = 40;
+                elementProbability[Element-1] = 40;
             }
 
             return new Probability(elementProbability);

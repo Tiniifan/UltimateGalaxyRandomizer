@@ -2,9 +2,9 @@ C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\
 C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\UltimateGalaxyRandomizer.RandomizerWindow.resources
 C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\UltimateGalaxyRandomizer.csproj.GenerateResource.cache
 C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\UltimateGalaxyRandomizer.csproj.CoreCompileInputs.cache
-C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\IEGOGALAXYrandomizer.exe
-C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\IEGOGALAXYrandomizer.pdb
-C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Debug\IEGOGALAXYrandomizer.exe.config
-C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Debug\IEGOGALAXYrandomizer.exe
-C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Debug\IEGOGALAXYrandomizer.pdb
 C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\UltimateGalaxyRandomizer.Properties.Resources.resources
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Debug\UltimateGalaxyRandomizer.exe.config
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Debug\UltimateGalaxyRandomizer.exe
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Debug\UltimateGalaxyRandomizer.pdb
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\UltimateGalaxyRandomizer.exe
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Debug\UltimateGalaxyRandomizer.pdb

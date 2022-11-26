@@ -23,7 +23,7 @@ namespace UltimateGalaxyRandomizer.Resources
         public static Dictionary<uint, ScriptSoccer> ScriptSoccerGalaxy = new Dictionary<uint, ScriptSoccer>()
         {
             {0x02, new ScriptSoccer(new List<int>(){8, 9, 10}, 0x5B620610) },
-            {0x03, new ScriptSoccer(new List<int>(){7}, 0x42B66C65) },
+            {0x03, new ScriptSoccer(new List<int>(){7}, 0x656CB642) },
             {0x05, new ScriptSoccer(new List<int>(){9, 10}, 0xB201A325) },
             {0x06, new ScriptSoccer(new List<int>(){10}, 0x2B08F29F) },
             {0x08, new ScriptSoccer(new List<int>(){8, 9, 10}, 0x5C0FC209) },

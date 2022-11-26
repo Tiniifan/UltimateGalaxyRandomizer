@@ -15,6 +15,11 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public byte SkillLevel { get; set; }
 
+        public SkillTable()
+        {
+
+        }
+
         public SkillTable(DataReader reader)
         {
             Offset = reader.BaseStream.Position;
@@ -22,6 +27,19 @@ namespace UltimateGalaxyRandomizer.Logic
             SkillNumber = reader.ReadInt16();
             LearnAtLevel = reader.ReadByte();
             SkillLevel = reader.ReadByte();
+        }
+
+        public SkillTable Clone()
+        {
+            SkillTable cloned = new SkillTable();
+
+            cloned.Offset = Offset;
+            cloned.SkillID = SkillID;
+            cloned.SkillNumber = SkillNumber;
+            cloned.LearnAtLevel = LearnAtLevel;
+            cloned.SkillLevel = SkillLevel;
+
+            return cloned;
         }
 
         public void Write(DataWriter writer)

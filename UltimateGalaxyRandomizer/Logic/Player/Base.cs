@@ -25,6 +25,11 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public byte Identity { get; set; }
 
+        public Base()
+        {
+
+        }
+
         public Base(DataReader reader)
         {
             Offset = reader.BaseStream.Position;
@@ -40,6 +45,23 @@ namespace UltimateGalaxyRandomizer.Logic
             Size = reader.ReadByte();
             Identity = reader.ReadByte();
             reader.Skip(0x04);
+        }
+
+        public Base Clone()
+        {
+            Base cloned = new Base();
+
+            cloned.Offset = Offset;
+            cloned.BaseID = BaseID;
+            cloned.NameID = NameID;
+            cloned.NicknameID = NicknameID;
+            cloned.DescriptionID = DescriptionID;
+            cloned.HeadID = HeadID;
+            cloned.Style = Style;
+            cloned.Size = Size;
+            cloned.Identity = Identity;
+
+            return cloned;
         }
 
         public void Swap(Base characterBase)

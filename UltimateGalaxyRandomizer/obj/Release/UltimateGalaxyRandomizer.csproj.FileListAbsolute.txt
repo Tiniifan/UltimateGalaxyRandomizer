@@ -1,0 +1,10 @@
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.csproj.AssemblyReference.cache
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.Properties.Resources.resources
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.RandomizerWindow.resources
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.csproj.GenerateResource.cache
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.csproj.CoreCompileInputs.cache
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Release\UltimateGalaxyRandomizer.exe.config
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Release\UltimateGalaxyRandomizer.exe
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\bin\Release\UltimateGalaxyRandomizer.pdb
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.exe
+C:\Users\Mathieu\source\repos\UltimateGalaxyRandomizer\UltimateGalaxyRandomizer\obj\Release\UltimateGalaxyRandomizer.pdb

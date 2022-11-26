@@ -33,6 +33,11 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public Int16 Freedom { get; set; }
 
+        public Param()
+        {
+
+        }
+
         public Param(DataReader reader)
         {
             Offset = reader.BaseStream.Position-4;
@@ -48,6 +53,27 @@ namespace UltimateGalaxyRandomizer.Logic
             ExperienceBar = reader.ReadByte();
             SkillCount = (byte) (reader.ReadByte() >> 0x04);
             Freedom = reader.ReadInt16();
+        }
+
+        public Param Clone()
+        {
+            Param cloned = new Param();
+
+            cloned.Offset = Offset;
+            cloned.BaseID = BaseID;
+            cloned.SkillOffset = SkillOffset;
+            cloned.UnknownValue = UnknownValue;
+            cloned.Invoke = Invoke;
+            cloned.BaseStat = BaseStat;
+            cloned.Element = Element;
+            cloned.Position = Position;
+            cloned.GrownStat = GrownStat;
+            cloned.Avatar = Avatar;
+            cloned.ExperienceBar = ExperienceBar;
+            cloned.SkillCount = SkillCount;
+            cloned.Freedom = Freedom;
+
+            return cloned;
         }
 
         public void Swap(Param characterParam)

@@ -29,7 +29,7 @@ namespace UltimateGalaxyRandomizer.Logic
         {
             writer.Seek((uint) Offset + 4);
             writer.Skip(0x1C);
-            writer.Write(BaseStat.Values.Select(x => Convert.ToByte(x)).ToArray());
+            writer.Write(BaseStat.Values.Select(x => Convert.ToByte(x.Value)).ToArray());
             writer.Skip(0x06);
         }
     }

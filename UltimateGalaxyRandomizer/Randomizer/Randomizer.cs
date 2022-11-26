@@ -479,7 +479,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxUltimatePower"].Name == "Random")
                 {
-                    move.Power = Convert.ToByte(Seed.Next(28, 33) * 10);
+                    move.Power = Convert.ToInt16(Seed.Next(28, 33) * 10);
                 }
 
                 if (options["groupBoxUltimateTP"].Name == "Random")
@@ -644,9 +644,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
                 {
                     // Reset Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = 0;
+                        equipment.BaseStat.Values[keys[i]] = 0;
                     }
 
                     // Create Random Stat
@@ -656,9 +657,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Create Totaly Random  Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
                     }
                 }
             }
@@ -669,9 +671,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
                 {
                     // Reset Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = 0;
+                        equipment.BaseStat.Values[keys[i]] = 0;
                     }
 
                     // Create Random Stat
@@ -681,9 +684,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Create Totaly Random  Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
                     }
                 }
             }
@@ -694,9 +698,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
                 {
                     // Reset Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = 0;
+                        equipment.BaseStat.Values[keys[i]] = 0;
                     }
 
                     // Create Random Stat
@@ -706,9 +711,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Create Totaly Random  Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
                     }
                 }
             }
@@ -719,9 +725,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
                 {
                     // Reset Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = 0;
+                        equipment.BaseStat.Values[keys[i]] = 0;
                     }
 
                     // Create Random Stat
@@ -731,9 +738,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Create Totaly Random  Stat
-                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
+                    for (int i = 0; i < keys.Count; i++)
                     {
-                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
                     }
                 }
             }
@@ -751,6 +759,13 @@ namespace UltimateGalaxyRandomizer.Randomizer
             // Randomize Each Team
             foreach (Team team in teams.Values)
             {
+                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMiniMatchize"].Checked == true)
+                {
+                    team.IsMatchField = false;
+                    team.MiniMatchValue = 0x04;
+                    team.Timer = 0x0F;
+                }
+
                 if (options["groupBoxTeamsTimer"].Name == "Random")
                 {
                     if (team.IsMatchField == true)
@@ -763,25 +778,31 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
                 }
 
-                if (options["groupBoxTeamsMiscellaneous"].Name == "Random")
+                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsDisableScript"].Checked == true)
                 {
-                    if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsDisableScript"].Checked == true)
+                    if (team.IsMatchField == true)
                     {
                         team.ScriptID = 0x000009D3;
                         team.ScriptID2 = 0x00000019;
                         team.RestrictionID = 0x0;
                         team.RestrictionID2 = 0x0;
+                    } else
+                    {
+                        team.ScriptID = 0x00000066;
+                        team.ScriptID2 = 0x0000006C;
+                        team.RestrictionID = 0x0;
+                        team.RestrictionID2 = 0x0;
                     }
+                }
 
-                    if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMaxDifficulty"].Checked == true)
+                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMaxDifficulty"].Checked == true)
+                {
+                    if (team.IsMatchField == true)
                     {
                         team.ArtificialIntelligenceID = 0xF26795E4;
-                    }
-
-                    if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMiniMatchize"].Checked == true)
+                    } else
                     {
-                        team.IsMatchField = false;
-                        team.MiniMatchValue = 0x04;
+                        team.ArtificialIntelligenceID = 0xF36795E4;
                     }
                 }
 
@@ -820,7 +841,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     {
                         for (int d = 0; d < team.Param.Drop.Length; d++)
                         {
-                            if (Items.PotentialDrop.ContainsKey(team.Param.Drop[d]) == false)
+                            if (Items.PotentialDrop.ContainsKey(team.Param.Drop[d]))
                             {
                                 team.Param.Drop[d] = Items.PotentialDrop.ElementAt(Seed.Next(0, Items.PotentialDrop.Count)).Key;
                             }
@@ -875,20 +896,33 @@ namespace UltimateGalaxyRandomizer.Randomizer
             DataReader shopReader = new DataReader(File.ReadAllBytes(filename));
             DataWriter shopWriter = new DataWriter(filename);
 
-            shopReader.Seek(0x40);
-            int shopCount = shopReader.ReadInt32();
-            for (int i = 0; i < shopCount; i++)
+            UInt32 takeUInt32 = shopReader.ReadUInt32();
+            while (shopReader.BaseStream.Position < shopReader.Length)
             {
-                shopReader.Skip(0x08);
-                shopWriter.Seek((uint)shopReader.BaseStream.Position);
-
-                UInt32 itemID = shopReader.ReadUInt32();
-                if (Items.PotentialShop.ContainsKey(itemID))
+                // Shop Data Found
+                if (takeUInt32 == 0x6CFC021A)
                 {
-                    shopWriter.WriteUInt32(Items.PotentialShop.ElementAt(Seed.Next(0, Items.PotentialShop.Count)).Key);
+                    shopReader.Skip(0x08);
+
+                    int shopCount = shopReader.ReadInt32();
+                    for (int i = 0; i < shopCount; i++)
+                    {
+                        shopReader.Skip(0x08);
+                        shopWriter.Seek((uint)shopReader.BaseStream.Position);
+
+                        UInt32 itemID = shopReader.ReadUInt32();
+                        if (Items.PotentialShop.ContainsKey(itemID))
+                        {
+                            shopWriter.WriteUInt32(Items.PotentialShop.ElementAt(Seed.Next(0, Items.PotentialShop.Count)).Key);
+                        }
+
+                        shopReader.Skip(0x04);
+                    }
+
+                    break;
                 }
 
-                shopReader.Skip(0x04);
+                takeUInt32 = shopReader.ReadUInt32();
             }
 
             shopReader.Close();

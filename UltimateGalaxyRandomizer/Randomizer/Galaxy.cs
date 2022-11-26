@@ -74,6 +74,71 @@ namespace UltimateGalaxyRandomizer.Randomizer
             charaparamReader.Close();
             skilltableReader.Close();
         }
+        private void FixPlayer(KeyValuePair<UInt32, Player> player)
+        {
+            // Jean Pierre Lapin
+            if (player.Key == 0x960E2CA3)
+            {
+                player.Value.Skills[3].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0xE8BF501E)
+            {
+                player.Value.Skills[0].SkillID = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 2).Select(x => x.Key).FirstOrDefault();
+                player.Value.Skills[0].LearnAtLevel = 0x00;
+                player.Value.Skills[3].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x9FB86088)
+            {
+                player.Value.Skills[3].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0xFF7FE96D)
+            {
+                player.Value.Skills[0].SkillID = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 1).Select(x => x.Key).FirstOrDefault();
+                player.Value.Skills[0].LearnAtLevel = 0x00;
+                player.Value.Skills[3].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x83D64754)
+            {
+                player.Value.Skills[1].LearnAtLevel = 0x64;
+                player.Value.Skills[2].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x1ADF16EE)
+            {
+                player.Value.Skills[2].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x6DD82678)
+            {
+                player.Value.Skills[2].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0xF3BCB3DB)
+            {
+                player.Value.Skills[2].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x84BB834D)
+            {
+                player.Value.Skills[2].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x1DB2D2F7)
+            {
+                player.Value.Skills[2].LearnAtLevel = 0x64;
+            }
+            else if (player.Key == 0x9ACD7615)
+            {
+                player.Value.Skills[1].LearnAtLevel = 0x64;
+                player.Value.Skills[3].LearnAtLevel = 0x64;
+            } 
+            else
+            {
+                for (int s = 0; s < player.Value.Param.SkillCount; s++)
+                {
+                    if (player.Value.Skills[s].LearnAtLevel == 0x64)
+                    {
+                        player.Value.Skills[s].LearnAtLevel = 0x1E;
+                    }
+                }
+            }
+
+        }
         private void WritePlayers()
         {
             // Initialise Data Writer
@@ -81,21 +146,22 @@ namespace UltimateGalaxyRandomizer.Randomizer
             DataWriter charaparamWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat");
             DataWriter skilltableWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat");
 
-            // Merge Player Dictionary to one list
-            List<Player> players = new List<Player>();
-            players.AddRange(Players.Story.Select(x => x.Value).ToList());
-            players.AddRange(Players.Normal.Select(x => x.Value).ToList());
-            players.AddRange(Players.Scout.Select(x => x.Value).ToList());
+            // Merge Player Dictionaries to one
+            Dictionary<UInt32, Player> players = new Dictionary<UInt32, Player>();
+            Players.Story.ToList().ForEach(x => players.Add(x.Key, x.Value));
+            Players.Normal.ToList().ForEach(x => players.Add(x.Key, x.Value));
+            Players.Scout.ToList().ForEach(x => players.Add(x.Key, x.Value));
 
             // Write Player Data
-            for (int i = 0; i < players.Count; i++)
+            foreach(KeyValuePair<UInt32, Player> player in players)
             {
-                players[i].Base.Write(charabaseWriter);
-                players[i].Param.Write(charaparamWriter);
-                skilltableWriter.Seek((uint)(4 + players[i].Param.SkillOffset * 8));
-                for (int s = 0; s < players[i].Param.SkillCount; s++)
+                player.Value.Base.Write(charabaseWriter);
+                player.Value.Param.Write(charaparamWriter);
+                skilltableWriter.Seek((uint)(4 + player.Value.Param.SkillOffset * 8));
+                FixPlayer(player);
+                for (int s = 0; s < player.Value.Param.SkillCount; s++)
                 {
-                    players[i].Skills[s].Write(skilltableWriter);
+                    player.Value.Skills[s].Write(skilltableWriter);
                 }
             }
 
@@ -130,17 +196,17 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     string oldFileName = players[i].Base.HeadID.ToString().PadLeft(4, '0'); ;
                     string newFileName = players[i].Base.HeadIDSwap.ToString().PadLeft(4, '0');
 
-                    if (File.Exists(Directory + "/ie6_b_fa/data/img/bustup/face/cp" + oldFileName + "a.xi"))
-                        File.Copy(Directory + "/ie6_b_fa/data/img/bustup/face/cp" + oldFileName + "a.xi", Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xi");
+                    if (File.Exists(Directory + "/ie6_b_fa/data/img/bustup/face/cp" + newFileName + "a.xi"))
+                        File.Move(Directory + "/ie6_b_fa/data/img/bustup/face/cp" + newFileName + "a.xi", Directory + "/ie6_b_fa/temp/cp" + oldFileName + "a.xi");
 
-                    if (File.Exists(Directory + "/ie6_b_fa/data/img/mini_xb/cp" + oldFileName + "m.xi"))
-                        File.Copy(Directory + "/ie6_b_fa/data/img/mini_xb/cp" + oldFileName + "m.xi", Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xi");
+                    if (File.Exists(Directory + "/ie6_b_fa/data/img/mini_xb/cp" + newFileName + "m.xi"))
+                        File.Move(Directory + "/ie6_b_fa/data/img/mini_xb/cp" + newFileName + "m.xi", Directory + "/ie6_b_fa/temp/cp" + oldFileName + "m.xi");
 
-                    if (File.Exists(Directory + "/ie6_b_fa/data/chr/model/waza/face/cp" + oldFileName + "a.xc"))
-                        File.Copy(Directory + "/ie6_b_fa/data/chr/model/waza/face/cp" + oldFileName + "a.xc", Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xc");
+                    if (File.Exists(Directory + "/ie6_b_fa/data/chr/model/waza/face/cp" + newFileName + "a.xc"))
+                        File.Move(Directory + "/ie6_b_fa/data/chr/model/waza/face/cp" + newFileName + "a.xc", Directory + "/ie6_b_fa/temp/cp" + oldFileName + "a.xc");
 
-                    if (File.Exists(Directory + "/ie6_b_fa/data/chr/model/rpg/face/cp" + oldFileName + "m.xc"))
-                        File.Copy(Directory + "/ie6_b_fa/data/chr/model/rpg/face/cp" + oldFileName + "m.xc", Directory + Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xc");
+                    if (File.Exists(Directory + "/ie6_b_fa/data/chr/model/rpg/face/cp" + newFileName + "m.xc"))
+                        File.Move(Directory + "/ie6_b_fa/data/chr/model/rpg/face/cp" + newFileName + "m.xc", Directory + "/ie6_b_fa/temp/cp" + oldFileName + "m.xc");
                 }
 
                 // Moves file to right path
@@ -148,13 +214,17 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 {
                     string newFileName = players[i].Base.HeadIDSwap.ToString().PadLeft(4, '0');
 
-                    File.Copy(Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xi", Directory + "/ie6_b_fa/data/img/bustup/face/cp" + newFileName + "a.xi");
+                    if (File.Exists(Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xi"))
+                        File.Move(Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xi", Directory + "/ie6_b_fa/data/img/bustup/face/cp" + newFileName + "a.xi");
 
-                    File.Copy(Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xi", Directory + "/ie6_b_fa/data/img/mini_xb/cp" + newFileName + "m.xi");
+                    if (File.Exists(Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xi"))
+                        File.Move(Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xi", Directory + "/ie6_b_fa/data/img/mini_xb/cp" + newFileName + "m.xi");
 
-                    File.Copy(Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xc", Directory + "/ie6_b_fa/data/chr/model/waza/face/cp" + newFileName + "a.xc");
+                    if (File.Exists(Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xc"))
+                        File.Move(Directory + "/ie6_b_fa/temp/cp" + newFileName + "a.xc", Directory + "/ie6_b_fa/data/chr/model/waza/face/cp" + newFileName + "a.xc");
 
-                    File.Copy(Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xc", Directory + Directory + "/ie6_b_fa/data/chr/model/rpg/face/cp" + newFileName + "m.xc");
+                    if (File.Exists(Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xc"))
+                        File.Move(Directory + "/ie6_b_fa/temp/cp" + newFileName + "m.xc", Directory + "/ie6_b_fa/data/chr/model/rpg/face/cp" + newFileName + "m.xc");
                 }
             }
         }
@@ -302,19 +372,23 @@ namespace UltimateGalaxyRandomizer.Randomizer
             {
                 UInt32 equipmentID = itemconfigReader.ReadUInt32();
 
-                if (Moves.PlayerMoves.ContainsKey(equipmentID) == true)
+                if (Equipments.Boots.ContainsKey(equipmentID) == true)
                 {
                     Equipments.Boots[equipmentID].Read(itemconfigReader);
-                } else if (Moves.PlayerMoves.ContainsKey(equipmentID) == true)
+                } 
+                else if (Equipments.Gloves.ContainsKey(equipmentID) == true)
                 {
                     Equipments.Gloves[equipmentID].Read(itemconfigReader);
-                } else if (Moves.PlayerMoves.ContainsKey(equipmentID) == true)
-                {
-                    Equipments.Pendants[equipmentID].Read(itemconfigReader);
-                } else if (Moves.PlayerMoves.ContainsKey(equipmentID) == true)
+                }
+                else if (Equipments.Bracelets.ContainsKey(equipmentID) == true)
                 {
                     Equipments.Bracelets[equipmentID].Read(itemconfigReader);
-                } else
+                }
+                else if (Equipments.Pendants.ContainsKey(equipmentID) == true)
+                {
+                    Equipments.Pendants[equipmentID].Read(itemconfigReader);
+                } 
+                else
                 {
                     itemconfigReader.Skip(0x2C);
                 }
@@ -573,6 +647,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 {
                     itemconfigWriter.Skip(0x08);
                     itemconfigWriter.WriteByte(0x0);
+                    itemconfigWriter.Skip(0x0B);
 
                     for (int j = 0; j < 4; j++)
                     {
@@ -602,10 +677,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
         {
             Directory = folderPath;
 
-            // ReadMoves();
-            // ReadAvatars();
-            // ReadEquipments();
-            //ReadPlayers();
+            ReadMoves();
+            ReadAvatars();
+            ReadEquipments();
+            ReadPlayers();
             ReadTeams();
         }
     }

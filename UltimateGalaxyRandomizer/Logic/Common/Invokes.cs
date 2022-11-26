@@ -31,6 +31,7 @@ namespace UltimateGalaxyRandomizer.Logic
             {0x00, new Invoke(false, false, false, false, false) },
             {0x01, new Invoke(false, false, false, false, false) },
             {0x02, new Invoke(false, false, false, false, false) },
+            {0x03, new Invoke(false, false, false, false, false) },
             {0x04, new Invoke(true, true, false, false, false) },
             {0x0C, new Invoke(true, true, true, false, false) },
             {0x0D, new Invoke(true, true, true, false, false) },

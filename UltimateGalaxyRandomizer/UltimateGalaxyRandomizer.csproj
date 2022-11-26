@@ -7,7 +7,7 @@
     <ProjectGuid>{723BBAA3-CCF2-4951-B90B-394EB9034136}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>UltimateGalaxyRandomizer</RootNamespace>
-    <AssemblyName>IEGOGALAXYrandomizer</AssemblyName>
+    <AssemblyName>UltimateGalaxyRandomizer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

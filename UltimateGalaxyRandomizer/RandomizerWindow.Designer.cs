@@ -241,14 +241,18 @@ namespace UltimateGalaxyRandomizer
             this.checkBoxSwapSameBody = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.groupBoxMiscellaneousShop = new System.Windows.Forms.GroupBox();
-            this.radioButtonMiscellaneousShop2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonMiscellaneousShop1 = new System.Windows.Forms.RadioButton();
+            this.groupBoxMiscellaneousRecruitment = new System.Windows.Forms.GroupBox();
+            this.checkBoxMiscellaneousRecuitRemove = new System.Windows.Forms.CheckBox();
             this.groupBoxMiscellaneousTreasureBox = new System.Windows.Forms.GroupBox();
             this.radioButtonMiscellaneousTreasureBox2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMiscellaneousTreasureBox1 = new System.Windows.Forms.RadioButton();
-            this.groupBoxMiscellaneousRecruitment = new System.Windows.Forms.GroupBox();
-            this.checkBoxMiscellaneousRecuitRemove = new System.Windows.Forms.CheckBox();
+            this.groupBoxMiscellaneousShop = new System.Windows.Forms.GroupBox();
+            this.radioButtonMiscellaneousShop2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonMiscellaneousShop1 = new System.Windows.Forms.RadioButton();
+            this.groupBoxMiscellaneousEquipment = new System.Windows.Forms.GroupBox();
+            this.radioButtonMiscellaneousEquipment2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonMiscellaneousEquipment1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonMiscellaneousEquipment3 = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabControl4.SuspendLayout();
@@ -333,9 +337,10 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxSwapPlayer.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
-            this.groupBoxMiscellaneousShop.SuspendLayout();
-            this.groupBoxMiscellaneousTreasureBox.SuspendLayout();
             this.groupBoxMiscellaneousRecruitment.SuspendLayout();
+            this.groupBoxMiscellaneousTreasureBox.SuspendLayout();
+            this.groupBoxMiscellaneousShop.SuspendLayout();
+            this.groupBoxMiscellaneousEquipment.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -2950,6 +2955,7 @@ namespace UltimateGalaxyRandomizer
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.groupBoxMiscellaneousEquipment);
             this.tabPage7.Controls.Add(this.groupBoxMiscellaneousRecruitment);
             this.tabPage7.Controls.Add(this.groupBoxMiscellaneousTreasureBox);
             this.tabPage7.Controls.Add(this.groupBoxMiscellaneousShop);
@@ -2961,41 +2967,27 @@ namespace UltimateGalaxyRandomizer
             this.tabPage7.Text = "Miscellaneous";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
-            // groupBoxMiscellaneousShop
+            // groupBoxMiscellaneousRecruitment
             // 
-            this.groupBoxMiscellaneousShop.Controls.Add(this.radioButtonMiscellaneousShop2);
-            this.groupBoxMiscellaneousShop.Controls.Add(this.radioButtonMiscellaneousShop1);
-            this.groupBoxMiscellaneousShop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxMiscellaneousShop.Location = new System.Drawing.Point(6, 6);
-            this.groupBoxMiscellaneousShop.Name = "groupBoxMiscellaneousShop";
-            this.groupBoxMiscellaneousShop.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxMiscellaneousShop.TabIndex = 30;
-            this.groupBoxMiscellaneousShop.TabStop = false;
-            this.groupBoxMiscellaneousShop.Text = "Shop";
+            this.groupBoxMiscellaneousRecruitment.Controls.Add(this.checkBoxMiscellaneousRecuitRemove);
+            this.groupBoxMiscellaneousRecruitment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxMiscellaneousRecruitment.Location = new System.Drawing.Point(392, 6);
+            this.groupBoxMiscellaneousRecruitment.Name = "groupBoxMiscellaneousRecruitment";
+            this.groupBoxMiscellaneousRecruitment.Size = new System.Drawing.Size(187, 116);
+            this.groupBoxMiscellaneousRecruitment.TabIndex = 32;
+            this.groupBoxMiscellaneousRecruitment.TabStop = false;
+            this.groupBoxMiscellaneousRecruitment.Text = "Recruitment";
             // 
-            // radioButtonMiscellaneousShop2
+            // checkBoxMiscellaneousRecuitRemove
             // 
-            this.radioButtonMiscellaneousShop2.AutoSize = true;
-            this.radioButtonMiscellaneousShop2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonMiscellaneousShop2.Location = new System.Drawing.Point(23, 50);
-            this.radioButtonMiscellaneousShop2.Name = "radioButtonMiscellaneousShop2";
-            this.radioButtonMiscellaneousShop2.Size = new System.Drawing.Size(65, 17);
-            this.radioButtonMiscellaneousShop2.TabIndex = 4;
-            this.radioButtonMiscellaneousShop2.Text = "Random";
-            this.radioButtonMiscellaneousShop2.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonMiscellaneousShop1
-            // 
-            this.radioButtonMiscellaneousShop1.AutoSize = true;
-            this.radioButtonMiscellaneousShop1.Checked = true;
-            this.radioButtonMiscellaneousShop1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonMiscellaneousShop1.Location = new System.Drawing.Point(23, 27);
-            this.radioButtonMiscellaneousShop1.Name = "radioButtonMiscellaneousShop1";
-            this.radioButtonMiscellaneousShop1.Size = new System.Drawing.Size(81, 17);
-            this.radioButtonMiscellaneousShop1.TabIndex = 3;
-            this.radioButtonMiscellaneousShop1.TabStop = true;
-            this.radioButtonMiscellaneousShop1.Text = "Unchanged";
-            this.radioButtonMiscellaneousShop1.UseVisualStyleBackColor = true;
+            this.checkBoxMiscellaneousRecuitRemove.AutoSize = true;
+            this.checkBoxMiscellaneousRecuitRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxMiscellaneousRecuitRemove.Location = new System.Drawing.Point(23, 28);
+            this.checkBoxMiscellaneousRecuitRemove.Name = "checkBoxMiscellaneousRecuitRemove";
+            this.checkBoxMiscellaneousRecuitRemove.Size = new System.Drawing.Size(123, 17);
+            this.checkBoxMiscellaneousRecuitRemove.TabIndex = 5;
+            this.checkBoxMiscellaneousRecuitRemove.Text = "Remove Requirment";
+            this.checkBoxMiscellaneousRecuitRemove.UseVisualStyleBackColor = true;
             // 
             // groupBoxMiscellaneousTreasureBox
             // 
@@ -3033,27 +3025,89 @@ namespace UltimateGalaxyRandomizer
             this.radioButtonMiscellaneousTreasureBox1.Text = "Unchanged";
             this.radioButtonMiscellaneousTreasureBox1.UseVisualStyleBackColor = true;
             // 
-            // groupBoxMiscellaneousRecruitment
+            // groupBoxMiscellaneousShop
             // 
-            this.groupBoxMiscellaneousRecruitment.Controls.Add(this.checkBoxMiscellaneousRecuitRemove);
-            this.groupBoxMiscellaneousRecruitment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxMiscellaneousRecruitment.Location = new System.Drawing.Point(392, 6);
-            this.groupBoxMiscellaneousRecruitment.Name = "groupBoxMiscellaneousRecruitment";
-            this.groupBoxMiscellaneousRecruitment.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxMiscellaneousRecruitment.TabIndex = 32;
-            this.groupBoxMiscellaneousRecruitment.TabStop = false;
-            this.groupBoxMiscellaneousRecruitment.Text = "Recruitment";
+            this.groupBoxMiscellaneousShop.Controls.Add(this.radioButtonMiscellaneousShop2);
+            this.groupBoxMiscellaneousShop.Controls.Add(this.radioButtonMiscellaneousShop1);
+            this.groupBoxMiscellaneousShop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxMiscellaneousShop.Location = new System.Drawing.Point(6, 6);
+            this.groupBoxMiscellaneousShop.Name = "groupBoxMiscellaneousShop";
+            this.groupBoxMiscellaneousShop.Size = new System.Drawing.Size(187, 116);
+            this.groupBoxMiscellaneousShop.TabIndex = 30;
+            this.groupBoxMiscellaneousShop.TabStop = false;
+            this.groupBoxMiscellaneousShop.Text = "Shop";
             // 
-            // checkBoxMiscellaneousRecuitRemove
+            // radioButtonMiscellaneousShop2
             // 
-            this.checkBoxMiscellaneousRecuitRemove.AutoSize = true;
-            this.checkBoxMiscellaneousRecuitRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxMiscellaneousRecuitRemove.Location = new System.Drawing.Point(23, 28);
-            this.checkBoxMiscellaneousRecuitRemove.Name = "checkBoxMiscellaneousRecuitRemove";
-            this.checkBoxMiscellaneousRecuitRemove.Size = new System.Drawing.Size(123, 17);
-            this.checkBoxMiscellaneousRecuitRemove.TabIndex = 5;
-            this.checkBoxMiscellaneousRecuitRemove.Text = "Remove Requirment";
-            this.checkBoxMiscellaneousRecuitRemove.UseVisualStyleBackColor = true;
+            this.radioButtonMiscellaneousShop2.AutoSize = true;
+            this.radioButtonMiscellaneousShop2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMiscellaneousShop2.Location = new System.Drawing.Point(23, 50);
+            this.radioButtonMiscellaneousShop2.Name = "radioButtonMiscellaneousShop2";
+            this.radioButtonMiscellaneousShop2.Size = new System.Drawing.Size(65, 17);
+            this.radioButtonMiscellaneousShop2.TabIndex = 4;
+            this.radioButtonMiscellaneousShop2.Text = "Random";
+            this.radioButtonMiscellaneousShop2.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMiscellaneousShop1
+            // 
+            this.radioButtonMiscellaneousShop1.AutoSize = true;
+            this.radioButtonMiscellaneousShop1.Checked = true;
+            this.radioButtonMiscellaneousShop1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMiscellaneousShop1.Location = new System.Drawing.Point(23, 27);
+            this.radioButtonMiscellaneousShop1.Name = "radioButtonMiscellaneousShop1";
+            this.radioButtonMiscellaneousShop1.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonMiscellaneousShop1.TabIndex = 3;
+            this.radioButtonMiscellaneousShop1.TabStop = true;
+            this.radioButtonMiscellaneousShop1.Text = "Unchanged";
+            this.radioButtonMiscellaneousShop1.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxMiscellaneousEquipment
+            // 
+            this.groupBoxMiscellaneousEquipment.Controls.Add(this.radioButtonMiscellaneousEquipment3);
+            this.groupBoxMiscellaneousEquipment.Controls.Add(this.radioButtonMiscellaneousEquipment2);
+            this.groupBoxMiscellaneousEquipment.Controls.Add(this.radioButtonMiscellaneousEquipment1);
+            this.groupBoxMiscellaneousEquipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxMiscellaneousEquipment.Location = new System.Drawing.Point(6, 128);
+            this.groupBoxMiscellaneousEquipment.Name = "groupBoxMiscellaneousEquipment";
+            this.groupBoxMiscellaneousEquipment.Size = new System.Drawing.Size(187, 116);
+            this.groupBoxMiscellaneousEquipment.TabIndex = 34;
+            this.groupBoxMiscellaneousEquipment.TabStop = false;
+            this.groupBoxMiscellaneousEquipment.Text = "Equipments Stat";
+            // 
+            // radioButtonMiscellaneousEquipment2
+            // 
+            this.radioButtonMiscellaneousEquipment2.AutoSize = true;
+            this.radioButtonMiscellaneousEquipment2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMiscellaneousEquipment2.Location = new System.Drawing.Point(18, 50);
+            this.radioButtonMiscellaneousEquipment2.Name = "radioButtonMiscellaneousEquipment2";
+            this.radioButtonMiscellaneousEquipment2.Size = new System.Drawing.Size(65, 17);
+            this.radioButtonMiscellaneousEquipment2.TabIndex = 7;
+            this.radioButtonMiscellaneousEquipment2.Text = "Random";
+            this.radioButtonMiscellaneousEquipment2.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMiscellaneousEquipment1
+            // 
+            this.radioButtonMiscellaneousEquipment1.AutoSize = true;
+            this.radioButtonMiscellaneousEquipment1.Checked = true;
+            this.radioButtonMiscellaneousEquipment1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMiscellaneousEquipment1.Location = new System.Drawing.Point(18, 27);
+            this.radioButtonMiscellaneousEquipment1.Name = "radioButtonMiscellaneousEquipment1";
+            this.radioButtonMiscellaneousEquipment1.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonMiscellaneousEquipment1.TabIndex = 6;
+            this.radioButtonMiscellaneousEquipment1.TabStop = true;
+            this.radioButtonMiscellaneousEquipment1.Text = "Unchanged";
+            this.radioButtonMiscellaneousEquipment1.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMiscellaneousEquipment3
+            // 
+            this.radioButtonMiscellaneousEquipment3.AutoSize = true;
+            this.radioButtonMiscellaneousEquipment3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMiscellaneousEquipment3.Location = new System.Drawing.Point(18, 73);
+            this.radioButtonMiscellaneousEquipment3.Name = "radioButtonMiscellaneousEquipment3";
+            this.radioButtonMiscellaneousEquipment3.Size = new System.Drawing.Size(125, 17);
+            this.radioButtonMiscellaneousEquipment3.TabIndex = 9;
+            this.radioButtonMiscellaneousEquipment3.Text = "Random (Completely)";
+            this.radioButtonMiscellaneousEquipment3.UseVisualStyleBackColor = true;
             // 
             // RandomizerWindow
             // 
@@ -3205,12 +3259,14 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxSwapPlayer.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
-            this.groupBoxMiscellaneousShop.ResumeLayout(false);
-            this.groupBoxMiscellaneousShop.PerformLayout();
-            this.groupBoxMiscellaneousTreasureBox.ResumeLayout(false);
-            this.groupBoxMiscellaneousTreasureBox.PerformLayout();
             this.groupBoxMiscellaneousRecruitment.ResumeLayout(false);
             this.groupBoxMiscellaneousRecruitment.PerformLayout();
+            this.groupBoxMiscellaneousTreasureBox.ResumeLayout(false);
+            this.groupBoxMiscellaneousTreasureBox.PerformLayout();
+            this.groupBoxMiscellaneousShop.ResumeLayout(false);
+            this.groupBoxMiscellaneousShop.PerformLayout();
+            this.groupBoxMiscellaneousEquipment.ResumeLayout(false);
+            this.groupBoxMiscellaneousEquipment.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3438,6 +3494,10 @@ namespace UltimateGalaxyRandomizer
         private System.Windows.Forms.RadioButton radioButtonMiscellaneousShop2;
         private System.Windows.Forms.RadioButton radioButtonMiscellaneousShop1;
         private System.Windows.Forms.CheckBox checkBoxMiscellaneousRecuitRemove;
+        private System.Windows.Forms.GroupBox groupBoxMiscellaneousEquipment;
+        private System.Windows.Forms.RadioButton radioButtonMiscellaneousEquipment3;
+        private System.Windows.Forms.RadioButton radioButtonMiscellaneousEquipment2;
+        private System.Windows.Forms.RadioButton radioButtonMiscellaneousEquipment1;
     }
 }
 

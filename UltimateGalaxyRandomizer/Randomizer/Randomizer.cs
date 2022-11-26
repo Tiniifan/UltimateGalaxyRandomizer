@@ -636,6 +636,240 @@ namespace UltimateGalaxyRandomizer.Randomizer
             }
         }
 
+        public static void RandomizeEquipments(Dictionary<string, Option> options)
+        {
+            // Randomize Each Boots
+            foreach (Equipment equipment in Equipments.Boots.Values)
+            {
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                {
+                    // Reset Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = 0;
+                    }
+
+                    // Create Random Stat
+                    equipment.BaseStat.Values["Kick"] = Seed.Next(0, 15) * 5;
+                    equipment.BaseStat.Values["Speed"] = Seed.Next(0, 15) * 5;
+                } 
+                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
+                {
+                    // Create Totaly Random  Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                    }
+                }
+            }
+
+            // Randomize Each Gloves
+            foreach (Equipment equipment in Equipments.Gloves.Values)
+            {
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                {
+                    // Reset Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = 0;
+                    }
+
+                    // Create Random Stat
+                    equipment.BaseStat.Values["Catch"] = Seed.Next(0, 15) * 5;
+                    equipment.BaseStat.Values["Technique"] = Seed.Next(0, 15) * 5;
+                }
+                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
+                {
+                    // Create Totaly Random  Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                    }
+                }
+            }
+
+            // Randomize Each Bracelets
+            foreach (Equipment equipment in Equipments.Bracelets.Values)
+            {
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                {
+                    // Reset Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = 0;
+                    }
+
+                    // Create Random Stat
+                    equipment.BaseStat.Values["Stamina"] = Seed.Next(0, 15) * 5;
+                    equipment.BaseStat.Values["Luck"] = Seed.Next(0, 15) * 5;
+                }
+                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
+                {
+                    // Create Totaly Random  Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                    }
+                }
+            }
+
+            // Randomize Each Pendants
+            foreach (Equipment equipment in Equipments.Pendants.Values)
+            {
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                {
+                    // Reset Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = 0;
+                    }
+
+                    // Create Random Stat
+                    equipment.BaseStat.Values["Dribble"] = Seed.Next(0, 15) * 5;
+                    equipment.BaseStat.Values["Block"] = Seed.Next(0, 15) * 5;
+                }
+                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
+                {
+                    // Create Totaly Random  Stat
+                    foreach (string key in equipment.BaseStat.Values.Keys)
+                    {
+                        equipment.BaseStat.Values[key] = Seed.Next(0, 15) * 5;
+                    }
+                }
+            }
+        }
+
+        public static void RandomizeTeams(Dictionary<string, Option> options)
+        {
+            // Merge Teams Dictionaries to one
+            Dictionary<UInt32, Team> teams = new Dictionary<UInt32, Team>();
+            Teams.Story.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+            Teams.Battle.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+            Teams.TaisenRoad.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+            Teams.LegendGate.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+
+            // Randomize Each Team
+            foreach (Team team in teams.Values)
+            {
+                if (options["groupBoxTeamsTimer"].Name == "Random")
+                {
+                    if (team.IsMatchField == true)
+                    {
+                        team.Timer = (byte)options["groupBoxTeamsTimer"].NumericUpDowns["numericUpDownTeamsTimerMatch"].Value;
+                    }
+                    else
+                    {
+                        team.Timer = (byte)options["groupBoxTeamsTimer"].NumericUpDowns["numericUpDownTeamsTimerMiniMatch"].Value;
+                    }
+                }
+
+                if (options["groupBoxTeamsMiscellaneous"].Name == "Random")
+                {
+                    if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsDisableScript"].Checked == true)
+                    {
+                        team.ScriptID = 0x000009D3;
+                        team.ScriptID2 = 0x00000019;
+                        team.RestrictionID = 0x0;
+                        team.RestrictionID2 = 0x0;
+                    }
+
+                    if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMaxDifficulty"].Checked == true)
+                    {
+                        team.ArtificialIntelligenceID = 0xF26795E4;
+                    }
+
+                    if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMiniMatchize"].Checked == true)
+                    {
+                        team.IsMatchField = false;
+                        team.MiniMatchValue = 0x04;
+                    }
+                }
+
+                if (team.Param != null)
+                {
+                    if (options["groupBoxTeamsCoach"].Name == "Random")
+                    {
+                        team.Param.Coach = Items.Coaches.ElementAt(Seed.Next(0, Items.Coaches.Count)).Key;
+                    }
+
+                    if (options["groupBoxTeamsFormation"].Name == "Random")
+                    {
+                        if (team.IsMatchField == true)
+                        {
+                            team.Param.Formation = Items.FormationMatches.ElementAt(Seed.Next(0, Items.FormationMatches.Count)).Key;
+                        }
+                        else
+                        {
+                            team.Param.Formation = Items.FormationMiniMatches.ElementAt(Seed.Next(0, Items.FormationMiniMatches.Count)).Key;
+                        }
+                    }
+
+                    if (options["groupBoxTeamsTactic"].Name == "Random")
+                    {
+                        if (team.IsMatchField == true)
+                        {
+                            team.Param.Tactic = Items.Tactics.ElementAt(Seed.Next(0, Items.Tactics.Count)).Key;
+                        }
+                        else
+                        {
+                            team.Param.Tactic = 0x00;
+                        }
+                    }
+
+                    if (options["groupBoxTeamsDrop"].Name == "Random")
+                    {
+                        for (int d = 0; d < team.Param.Drop.Length; d++)
+                        {
+                            if (Items.PotentialDrop.ContainsKey(team.Param.Drop[d]) == false)
+                            {
+                                team.Param.Drop[d] = Items.PotentialDrop.ElementAt(Seed.Next(0, Items.PotentialDrop.Count)).Key;
+                            }
+                        }
+                    }
+
+                    if (options["groupBoxTeamsKit"].Name == "Random")
+                    {
+                        team.Param.Kit = Items.Kits.ElementAt(Seed.Next(0, Items.Kits.Count)).Key;
+                    }
+
+                    if (options["groupBoxTeamsEquipment"].Name == "Random")
+                    {
+                        team.Param.Equipments[0] = Equipments.Boots.ElementAt(Seed.Next(0, Equipments.Boots.Count)).Key;
+                        team.Param.Equipments[1] = Equipments.Gloves.ElementAt(Seed.Next(0, Equipments.Gloves.Count)).Key;
+                        team.Param.Equipments[2] = Equipments.Bracelets.ElementAt(Seed.Next(0, Equipments.Bracelets.Count)).Key;
+                        team.Param.Equipments[3] = Equipments.Pendants.ElementAt(Seed.Next(0, Equipments.Pendants.Count)).Key;
+                    }
+
+                    if (options["groupBoxTeamsLevel"].Name == "Random")
+                    {
+                        team.Param.Level += (byte)(Convert.ToInt32(options["groupBoxTeamsLevel"].NumericUpDowns["numericUpDownTeamsLevel"].Value) * team.Param.Level / 100);
+                    }
+
+                    if (options["groupBoxTeamsExperience"].Name == "Random")
+                    {
+                        team.Param.Experience += (byte)(Convert.ToInt32(options["groupBoxTeamsExperience"].NumericUpDowns["numericUpDownTeamsExperience"].Value) * team.Param.Experience / 100);
+                    }
+
+                    if (options["groupBoxTeamsPrestige"].Name == "Random")
+                    {
+                        team.Param.Prestige += (byte)(Convert.ToInt32(options["groupBoxTeamsPrestige"].NumericUpDowns["numericUpDownTeamsPrestige"].Value) * team.Param.Prestige / 100);
+                    }
+
+                    if (options["groupBoxTeamsFreedom"].Name == "Random")
+                    {
+                        if (options["groupBoxTeamsFreedom"].CheckBoxes["checkBoxTeamsFreedomAll"].Checked == true)
+                        {
+                            team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
+                        }
+                        else if (team.Param.Freedom > 0)
+                        {
+                            team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
+                        }
+                    }
+                }
+            }
+        }
+
         public static void RandomizeShop(string filename)
         {
             DataReader shopReader = new DataReader(File.ReadAllBytes(filename));

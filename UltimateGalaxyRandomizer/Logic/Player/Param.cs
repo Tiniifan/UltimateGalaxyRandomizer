@@ -9,8 +9,6 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public long Offset { get; set; }
 
-        public UInt32 ParamID { get; set; }
-
         public UInt32 BaseID { get; set; }
 
         public Int16 SkillOffset { get; set; }

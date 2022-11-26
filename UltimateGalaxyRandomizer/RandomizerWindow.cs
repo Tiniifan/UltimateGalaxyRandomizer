@@ -83,7 +83,7 @@ namespace UltimateGalaxyRandomizer
             Game.RandomizeAvatars(TabControlToDictOption(tabControl4));
             Game.RandomizeMoves(TabControlToDictOption(tabControl3));
             Game.RandomizePlayers(TabControlToDictOption(tabControl2));
-            // Randomizer.Randomizer.RandomizeTeams(TabControlToDictOption(tabControl5));
+            Game.RandomizeTeams(TabControlToDictOption(tabControl5));
             Game.Miscellaneous(TabControlToDictOption(tabControl1));
 
             MessageBox.Show("Done!");

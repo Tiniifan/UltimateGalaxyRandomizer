@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.IO;
 using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Resources;
@@ -8,7 +9,77 @@ namespace UltimateGalaxyRandomizer.Logic
 {
     public class SoccerCharaConfig
     {
-        List<SoccerPlayer> Players = new List<SoccerPlayer>();
+        public List<SoccerPlayer> Players = new List<SoccerPlayer>();
+
+        private SoccerPlayer GetPlayer(UInt32 charaparamID)
+        {
+            if (Resources.Players.Story.ContainsKey(charaparamID))
+            {
+                return new SoccerPlayer(Resources.Players.Story[charaparamID]);
+            }
+            else if (Resources.Players.Normal.ContainsKey(charaparamID))
+            {
+                return new SoccerPlayer(Resources.Players.Normal[charaparamID]);
+            }
+            else if (Resources.Players.Scout.ContainsKey(charaparamID))
+            {
+                return new SoccerPlayer(Resources.Players.Scout[charaparamID]);
+            } else
+            {
+                return null;
+            }
+        }
+        private UInt32 GetPlayerKey(SoccerPlayer player)
+        {
+            if (Resources.Players.Story.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
+            {
+                return Resources.Players.Story.FirstOrDefault(x => x.Value == player.Player).Key;
+            }
+            else if (Resources.Players.Normal.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
+            {
+                return Resources.Players.Normal.FirstOrDefault(x => x.Value == player.Player).Key;
+            }
+            else if (Resources.Players.Scout.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
+            {
+                return Resources.Players.Scout.FirstOrDefault(x => x.Value == player.Player).Key;
+            }
+            else
+            {
+                return 0x00;
+            }
+        }
+
+        private SoccerAvatar GetAvatar(UInt32 avatarID, byte avatarLevel)
+        {
+            if (Avatars.FightingSpirits.ContainsKey(avatarID))
+            {
+                return new SoccerAvatar(Avatars.FightingSpirits[avatarID], avatarLevel);
+            }
+            else if (Avatars.Totems.ContainsKey(avatarID))
+            {
+                return new SoccerAvatar(Avatars.Totems[avatarID], 1);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private UInt32 GetAvatarKey(SoccerAvatar avatar)
+        {
+            if (Avatars.FightingSpirits.FirstOrDefault(x => x.Value == avatar.Avatar).Key != 0x00)
+            {
+                return Avatars.FightingSpirits.FirstOrDefault(x => x.Value == avatar.Avatar).Key;
+            }
+            else if (Avatars.Totems.FirstOrDefault(x => x.Value == avatar.Avatar).Key != 0x00)
+            {
+                return Avatars.Totems.FirstOrDefault(x => x.Value == avatar.Avatar).Key;
+            } 
+            else
+            {
+                return 0x00;
+            }
+        }
 
         public SoccerCharaConfig(DataReader reader)
         {
@@ -18,8 +89,11 @@ namespace UltimateGalaxyRandomizer.Logic
 
             for (int i = 0; i < playerCount; i++)
             {
+                reader.Skip(0x08);
+
                 UInt32 charaparamID = reader.ReadUInt32();
-                // Players.Add(new SoccerPlayer(Resources.Players.Player.FirstOrDefault(x => x.Param.ParamID == charaparamID)));
+                Players.Add(GetPlayer(charaparamID));
+                Console.WriteLine(Players[i].Player.Name);
                 reader.Skip(0x14);
 
                 SoccerMove[] moves = new SoccerMove[6];
@@ -28,42 +102,45 @@ namespace UltimateGalaxyRandomizer.Logic
                     UInt32 moveID = reader.ReadUInt32();
                     byte moveLevel = reader.ReadByte();
                     reader.Skip(0x03);
-                    moves[s] = new SoccerMove(Moves.PlayerMoves[moveID], moveLevel);
+
+                    if (moveID != 0x00)
+                    {
+                        moves[s] = new SoccerMove(Moves.PlayerMoves[moveID], moveLevel);
+                    } 
+                    else
+                    {
+                        moves[s] = null;
+                    }
                 }
 
-                Players[i].Moves = moves;
-
+                if (Players[i] != null)
+                {
+                    Players[i].Moves = moves;
+                }
+                
                 UInt32 takeFourBytes = reader.ReadUInt32();
-                while (takeFourBytes != 0xEEA96EEA || takeFourBytes != 0x18CCE768)
+                while (takeFourBytes != 0xEEA96EEA && takeFourBytes != 0x18CCE768)
                 {
                     // Avatar Entry
                     if (takeFourBytes == 0x7499DA26)
                     {
-                        reader.Skip(0x08);
+                        reader.Skip(0x04);
                         UInt32 avatarID = reader.ReadUInt32();
                         byte avatarLevel = reader.ReadByte();
                         reader.Skip(0x03);
 
-                        // Try Avatar
-                        //FightingSpirit tryFightingSpirit = Avatars.FightingSpirits.FirstOrDefault(x => x.AvatarID == avatarID);
-                        //Totem tryTotem = Avatars.Totems.FirstOrDefault(x => x.AvatarID == avatarID);
+                        if (Players[i] != null)
+                        {
+                            Players[i].Avatar = GetAvatar(avatarID, avatarLevel);
+                        }
 
-                        //if (tryFightingSpirit != null)
-                        //{
-                          //  Players[i].Avatar = new SoccerAvatar(tryFightingSpirit, avatarLevel);
-                        //} else if (tryTotem != null)
-                        //{
-                            //Players[i].Avatar = new SoccerAvatar(tryTotem, 1);
-                        //} else
-                        //{
-                            //Players[i].Avatar = new SoccerAvatar(0x00, 0);
-                        //}
+                        takeFourBytes = reader.ReadUInt32();
                     }
 
                     // Miximax Entry
                     if (takeFourBytes == 0xE912CEED)
                     {
-                        reader.Skip(0x0C);
+                        reader.Skip(0x08);
                         UInt32 miximaxID = reader.ReadUInt32();
                         SoccerMove[] miximaxMoves = new SoccerMove[2];
                         for (int s = 0; s < 2; s++)
@@ -71,13 +148,135 @@ namespace UltimateGalaxyRandomizer.Logic
                             UInt32 moveID = reader.ReadUInt32();
                             byte moveLevel = reader.ReadByte();
                             reader.Skip(0x03);
-                            miximaxMoves[s] = new SoccerMove(Moves.PlayerMoves[moveID], moveLevel);
+
+                            if (moveID != 0x00)
+                            {
+                                miximaxMoves[s] = new SoccerMove(Moves.PlayerMoves[moveID], moveLevel);
+                            }
+                            else
+                            {
+                                miximaxMoves[s] = null;
+                            }
                         }
 
-                        // Players[i].MixiMax = new SoccerPlayer(Resources.Players.Player.FirstOrDefault(x => x.Param.ParamID == charaparamID), miximaxMoves);
+                        if (Players[i] != null)
+                        {
+                            Players[i].MixiMax = GetPlayer(miximaxID);
+
+                            if (Players[i].MixiMax != null)
+                            {
+                                Players[i].MixiMax.Moves = miximaxMoves;
+                            }
+                        }
+
+                        takeFourBytes = reader.ReadUInt32();
                     }
                 }
+
+                reader.Seek((uint)reader.BaseStream.Position - 4);
             }
+        }
+
+        public void Write(string path)
+        {
+            int playerBlock = 0;
+            for (int i = 0; i < Players.Count; i ++)
+            {
+                playerBlock += 80; 
+
+                if (Players[i].Avatar != null)
+                {
+                    playerBlock += 16;
+                }
+
+                if (Players[i].MixiMax != null)
+                {
+                    playerBlock += 32;
+                }
+            }
+
+            DataReader soccerCharaReader = new DataReader(File.ReadAllBytes(path));
+            Int32 unknownHeader = soccerCharaReader.ReadInt32();
+            Int32 size = soccerCharaReader.ReadInt32();
+
+            int emptyBlock = 16 - (64 + playerBlock) % 16;
+            byte[] outputBlock = new byte[64 + playerBlock + emptyBlock + soccerCharaReader.Length-size];
+
+            DataWriter outputWrite = new DataWriter(outputBlock);
+            outputWrite.WriteInt32(unknownHeader);
+            outputWrite.WriteInt32(64 + playerBlock + emptyBlock);
+            outputWrite.Write(soccerCharaReader.GetSection(0x08, 0x38));
+
+            for (int i = 0; i < Players.Count; i++)
+            {
+                WritePlayer(Players[i]);
+            }
+
+            outputWrite.Write(soccerCharaReader.GetSection((uint)size, (int) soccerCharaReader.Length-size));
+            File.WriteAllBytes(path, outputBlock);
+        }
+
+        private byte[] WriteMoves(SoccerMove[] moves)
+        {
+            byte[] outputBlock = new byte[moves.Length * 8];
+
+            DataWriter outputWrite = new DataWriter(outputBlock);
+
+            for (int i = 0; i < moves.Count(); i++)
+            {
+                if (moves[i] != null)
+                {
+                    outputWrite.WriteUInt32(Moves.PlayerMoves.FirstOrDefault(x => x.Value == moves[i].Move).Key);
+                    outputWrite.WriteInt32(moves[i].Level);
+                } else
+                {
+                    outputWrite.WriteInt32(0x0);
+                    outputWrite.WriteInt32(0x0);
+                }
+                    
+            }
+
+            return outputBlock;
+        }
+
+        public byte[] WritePlayer(SoccerPlayer player)
+        {
+            int outputLength = 80;
+
+            if (player.Avatar != null)
+            {
+                outputLength += 16;
+            }
+
+            if (player.MixiMax != null)
+            {
+                outputLength += 32;
+            }
+
+            byte[] outputBlock = new byte[outputLength];
+
+            DataWriter outputWrite = new DataWriter(outputBlock);
+            outputWrite.Write(new byte[8] {0xEA, 0x6E, 0xA9, 0xEE, 0x04, 0x55, 0xFF, 0xFF});
+            outputWrite.WriteUInt32(GetPlayerKey(player));
+            outputWrite.WriteInt32(0x0);
+            outputWrite.Write(new byte[16] { 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x54, 0x5B, 0x0C, 0x55, 0x55, 0x55 });
+            WriteMoves(player.Moves);
+
+            if (player.Avatar != null)
+            {
+                outputWrite.Write(new byte[8] { 0x26, 0xDA, 0x99, 0x74, 0x02, 0x05, 0xFF, 0xFF });
+                outputWrite.WriteUInt32(GetAvatarKey(player.Avatar));
+                outputWrite.WriteInt32(player.Avatar.Level);
+            }
+
+            if (player.MixiMax != null)
+            {
+                outputWrite.Write(new byte[12] { 0xED, 0xCE, 0x12, 0xE9, 0x06, 0x55, 0x05, 0xEF, 0x01, 0x00, 0x00, 0x00 });
+                outputWrite.WriteUInt32(GetPlayerKey(player.MixiMax));
+                WriteMoves(player.MixiMax.Moves);
+            }
+
+            return outputBlock;
         }
     }
 }

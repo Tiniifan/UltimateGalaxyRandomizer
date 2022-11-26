@@ -49,6 +49,7 @@
     <Compile Include="Resources\Equipments.cs" />
     <Compile Include="Resources\Items.cs" />
     <Compile Include="Resources\Moves.cs" />
+    <Compile Include="Resources\ScriptSoccers.cs" />
     <Compile Include="Resources\Teams.cs" />
     <Compile Include="Logic\Avatar\Totem.cs" />
     <Compile Include="Logic\Common\ExperienceBar.cs" />

@@ -345,6 +345,62 @@ namespace UltimateGalaxyRandomizer.Randomizer
             itemconfigWriter.Close();
         }
 
+        private void ReadSoccer(Team team)
+        {
+            string soccerFile = team.ScriptID.ToString().PadLeft(4, '0');
+
+            if (File.Exists(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin"))
+            {
+                DataReader soccerCharaReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin"));
+
+                team.SoccerChara = new SoccerCharaConfig(soccerCharaReader);
+
+
+                soccerCharaReader.Close();
+            }
+        }
+        private void WriteSoccer(Team team)
+        {
+            string soccerFile = team.ScriptID.ToString().PadLeft(4, '0');
+
+            if (File.Exists(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin"))
+            {
+                SoccerCharaConfig teamSoccerChara = team.SoccerChara;
+
+                // Fix Scripted Player
+                for (int i = 0; i < teamSoccerChara.Players.Count; i++)
+                {
+                    // Update Moveset
+                    for (int m = 0; m < 4; m++)
+                    {
+                        // Learn skill
+                        if (teamSoccerChara.Players[i].Player.Skills[m].LearnAtLevel < team.Param.Level)
+                        {
+                            teamSoccerChara.Players[i].Moves[m] = new SoccerMove(Moves.PlayerMoves[teamSoccerChara.Players[i].Player.Skills[m].SkillID], 1);
+                        } else
+                        {
+                            teamSoccerChara.Players[i].Moves[m] = null;
+                        }
+                    }
+
+                    // Update Avatar
+                    if (teamSoccerChara.Players[i].Player.Param.Avatar != 0x0)
+                    {
+                        if (Avatars.FightingSpirits.ContainsKey(teamSoccerChara.Players[i].Player.Param.Avatar))
+                        {
+                            teamSoccerChara.Players[i].Avatar = new SoccerAvatar(Avatars.FightingSpirits[teamSoccerChara.Players[i].Player.Param.Avatar], 1);
+                        }
+                        else if (Avatars.Totems.ContainsKey(teamSoccerChara.Players[i].Player.Param.Avatar))
+                        {
+                            teamSoccerChara.Players[i].Avatar = new SoccerAvatar(Avatars.Totems[teamSoccerChara.Players[i].Player.Param.Avatar], 1);
+                        }
+                        
+                    }
+                }
+
+                team.SoccerChara.Write(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin");
+            }
+        }
         private void ReadTeams()
         {
             // Initialise File Reader
@@ -403,18 +459,22 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (tryStory.Value != null)
                 {
                     tryStory.Value.Param = new TeamParam(teamParamReader);
+                    ReadSoccer(tryStory.Value);
                 } 
                 else if (tryBattle.Value != null)
                 {
                     tryBattle.Value.Param = new TeamParam(teamParamReader);
+                    ReadSoccer(tryBattle.Value);
                 }
                 else if (tryTaisenRoad.Value != null)
                 {
                     tryTaisenRoad.Value.Param = new TeamParam(teamParamReader);
+                    ReadSoccer(tryTaisenRoad.Value);
                 }
                 else if (tryLegendGate.Value != null)
                 {
                     tryLegendGate.Value.Param = new TeamParam(teamParamReader);
+                    ReadSoccer(tryLegendGate.Value);
                 } 
                 else
                 {
@@ -422,6 +482,52 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 }
 
             }
+        }
+        private void WriteTeams()
+        {
+            // Initialise File Writer
+            DataWriter soccerconfigWriter = new DataWriter(Directory + "/ie6_b_fa/data/res/soccer/soccer_config_0.01.cfg.bin");
+            DataWriter teamParamWriter = new DataWriter(Directory + "/ie6_b_fa/data/res/team/team_param.cfg.bin");
+
+            // Merge Teams Dictionaries to one
+            Dictionary<UInt32, Team> teams = new Dictionary<UInt32, Team>();
+            Teams.Story.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+            Teams.Battle.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+            Teams.TaisenRoad.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+            Teams.LegendGate.ToList().ForEach(x => teams.Add(x.Key, x.Value));
+
+            foreach (KeyValuePair<UInt32, Team> KeyValuePairTeam in teams)
+            {
+                KeyValuePairTeam.Value.Write(soccerconfigWriter);
+
+                if (KeyValuePairTeam.Value.Param != null)
+                {
+                    KeyValuePairTeam.Value.Param.Write(teamParamWriter);
+                }
+
+                if (KeyValuePairTeam.Value.SoccerChara != null)
+                {
+                    // Fix Script 
+                    if (ScriptSoccers.ScriptSoccerGalaxy.ContainsKey(KeyValuePairTeam.Value.ScriptID))
+                    {
+                        ScriptSoccer script = ScriptSoccers.ScriptSoccerGalaxy[KeyValuePairTeam.Value.ScriptID];
+                        for (int i = 0; i < script.PlayerIndex.Count; i ++)
+                        {
+                            KeyValuePairTeam.Value.SoccerChara.Players[script.PlayerIndex[i]].Moves[4] = new SoccerMove(Moves.PlayerMoves[script.RightMove], 1);
+                        }
+                    }
+
+                    WriteSoccer(KeyValuePairTeam.Value);
+                }
+            }
+        }
+        public void RandomizeTeams(Dictionary<string, Option> options)
+        {
+            // Call Function From Randomizer.cs class
+            Randomizer.RandomizeTeams(options);
+
+            // Save
+            WriteTeams();
         }
 
         public void Miscellaneous(Dictionary<string, Option> options)
@@ -481,16 +587,25 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 itemconfigWriter.Close();
             }
+
+            if (options["groupBoxMiscellaneousEquipment"].Name != "Unchanged")
+            {
+                // Call Function From Randomizer.cs class
+                Randomizer.RandomizeEquipments(options);
+
+                // Save
+                WriteEquipments();
+            }
         }
 
         public Galaxy(string folderPath)
         {
             Directory = folderPath;
 
-            ReadMoves();
-            ReadAvatars();
-            ReadEquipments();
-            ReadPlayers();
+            // ReadMoves();
+            // ReadAvatars();
+            // ReadEquipments();
+            //ReadPlayers();
             ReadTeams();
         }
     }

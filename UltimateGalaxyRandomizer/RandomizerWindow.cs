@@ -80,16 +80,13 @@ namespace UltimateGalaxyRandomizer
 
         private void RandomizeSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            // Randomizer.Randomizer.RandomizeAvatars(TabControlToDictOption(tabControl4));
-            // Randomizer.Randomizer.RandomizeMove(TabControlToDictOption(tabControl3));
+            Game.RandomizeAvatars(TabControlToDictOption(tabControl4));
+            Game.RandomizeMoves(TabControlToDictOption(tabControl3));
             Game.RandomizePlayers(TabControlToDictOption(tabControl2));
             // Randomizer.Randomizer.RandomizeTeams(TabControlToDictOption(tabControl5));
-            // Randomizer.Randomizer.Miscellaneous(TabControlToDictOption(tabControl1), Game.Directory);
+            Game.Miscellaneous(TabControlToDictOption(tabControl1));
 
-            // Game.Save();
-
-            Console.WriteLine("Done!");
+            MessageBox.Show("Done!");
         }
 
         private void Option_CheckedChanged(object sender, EventArgs e)

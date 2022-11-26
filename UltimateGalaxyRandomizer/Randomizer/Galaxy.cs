@@ -226,6 +226,14 @@ namespace UltimateGalaxyRandomizer.Randomizer
             // Close Stream
             skillConfigWriter.Close();
         }
+        public void RandomizeMoves(Dictionary<string, Option> options)
+        {
+            // Call Function From Randomizer.cs class
+            Randomizer.RandomizeMoves(options);
+
+            // Save
+            WriteMoves();
+        }
 
         private void ReadAvatars()
         {
@@ -272,6 +280,14 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
             // Close Stream
             itemconfigWriter.Close();
+        }
+        public void RandomizeAvatars(Dictionary<string, Option> options)
+        {
+            // Call Function From Randomizer.cs class
+            Randomizer.RandomizeAvatars(options);
+
+            // Save
+            WriteAvatars();
         }
 
         private void ReadEquipments()
@@ -408,12 +424,74 @@ namespace UltimateGalaxyRandomizer.Randomizer
             }
         }
 
+        public void Miscellaneous(Dictionary<string, Option> options)
+        {
+            if (options["groupBoxMiscellaneousShop"].Name == "Random")
+            {
+                string[] shopDirectory = System.IO.Directory.GetFiles(Directory + "/ie6_b_fa/data/res/shop/");
+
+                foreach (string shopFileName in shopDirectory)
+                {
+                    // Exclude Gashapon
+                    if (Path.GetFileNameWithoutExtension(shopFileName).StartsWith("shop_shp"))
+                    {
+                        // Call Function From Randomizer.cs class
+                        Randomizer.RandomizeShop(shopFileName);
+                    }
+                }
+            }
+
+            if (options["groupBoxMiscellaneousTreasureBox"].Name == "Random")
+            {
+                // Get All Treasure Box Files
+                string[] treasureBoxFolder = System.IO.Directory.GetFiles(Directory + "/ie6_b_fa/data/res/map/");
+
+                // Find All Files Who Contains Treasure Box Entry
+                string[] folders = System.IO.Directory.GetDirectories(Directory + "/ie6_b_fa/data/res/map/").Select(Path.GetFileName).ToArray();
+                foreach (string folder in folders)
+                {
+                    if (File.Exists(Directory + "/ie6_b_fa/data/res/map/" + folder + "/" + folder + "_oneplace.cfg.bin"))
+                    {
+                        // Call Function From Randomizer.cs class
+                        Randomizer.RandomizeTreasureBox(Directory + "/ie6_b_fa/data/res/map/" + folder + "/" + folder + "_oneplace.cfg.bin");
+                    }
+                }
+            }
+
+            if (options["groupBoxMiscellaneousRecruitment"].CheckBoxes["checkBoxMiscellaneousRecuitRemove"].Checked == true)
+            {
+                DataWriter itemconfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
+
+                itemconfigWriter.Seek(0xEA44);
+                for (int i = 0; i < 1988; i++)
+                {
+                    itemconfigWriter.Skip(0x08);
+                    itemconfigWriter.WriteByte(0x0);
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        itemconfigWriter.WriteInt32(0x00);
+                    }
+
+                    itemconfigWriter.WriteUInt32(0xFFFFFFFF);
+                    itemconfigWriter.WriteUInt32(0x00);
+
+                    itemconfigWriter.Skip(0x10);
+                }
+
+                itemconfigWriter.Close();
+            }
+        }
 
         public Galaxy(string folderPath)
         {
             Directory = folderPath;
 
+            ReadMoves();
+            ReadAvatars();
+            ReadEquipments();
             ReadPlayers();
+            ReadTeams();
         }
     }
 }

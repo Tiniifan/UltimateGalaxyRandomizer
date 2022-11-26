@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UltimateGalaxyRandomizer.Tools;
+using UltimateGalaxyRandomizer.Randomizer.Utility;
 
 namespace UltimateGalaxyRandomizer.Logic
 {
@@ -74,6 +75,27 @@ namespace UltimateGalaxyRandomizer.Logic
             writer.Write(Position);
             writer.Write(Element);
             writer.Skip(2U);
+        }
+
+        public Probability GetPositionProbability()
+        {
+            return new Probability(Positions.Player[Position].MoveProbability);
+        }
+
+        public Probability GetElementProbability()
+        {
+            int[] elementProbability = new int[5] { 15, 15, 15, 15, 15 };
+
+            if (Element == 0)
+            {
+                elementProbability[0] = 40;
+            }
+            else
+            {
+                elementProbability[Element] = 40;
+            }
+
+            return new Probability(elementProbability);
         }
     }
 }

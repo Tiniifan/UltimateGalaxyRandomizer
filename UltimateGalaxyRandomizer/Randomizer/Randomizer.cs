@@ -641,7 +641,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             // Randomize Each Boots
             foreach (Equipment equipment in Equipments.Boots.Values)
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Reset Stat
                     List<string> keys = equipment.BaseStat.Values.Keys.ToList();
@@ -654,21 +654,12 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     equipment.BaseStat.Values["Kick"] = Seed.Next(0, 15) * 5;
                     equipment.BaseStat.Values["Speed"] = Seed.Next(0, 15) * 5;
                 } 
-                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Create Totaly Random  Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
-                    }
-                }
             }
 
             // Randomize Each Gloves
             foreach (Equipment equipment in Equipments.Gloves.Values)
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Reset Stat
                     List<string> keys = equipment.BaseStat.Values.Keys.ToList();
@@ -681,21 +672,12 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     equipment.BaseStat.Values["Catch"] = Seed.Next(0, 15) * 5;
                     equipment.BaseStat.Values["Technique"] = Seed.Next(0, 15) * 5;
                 }
-                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Create Totaly Random  Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
-                    }
-                }
             }
 
             // Randomize Each Bracelets
             foreach (Equipment equipment in Equipments.Bracelets.Values)
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Reset Stat
                     List<string> keys = equipment.BaseStat.Values.Keys.ToList();
@@ -708,21 +690,12 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     equipment.BaseStat.Values["Stamina"] = Seed.Next(0, 15) * 5;
                     equipment.BaseStat.Values["Luck"] = Seed.Next(0, 15) * 5;
                 }
-                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Create Totaly Random  Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
-                    }
-                }
             }
 
             // Randomize Each Pendants
             foreach (Equipment equipment in Equipments.Pendants.Values)
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Swap")
+                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
                 {
                     // Reset Stat
                     List<string> keys = equipment.BaseStat.Values.Keys.ToList();
@@ -734,15 +707,6 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     // Create Random Stat
                     equipment.BaseStat.Values["Dribble"] = Seed.Next(0, 15) * 5;
                     equipment.BaseStat.Values["Block"] = Seed.Next(0, 15) * 5;
-                }
-                else if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Create Totaly Random  Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = Seed.Next(0, 15) * 5;
-                    }
                 }
             }
         }

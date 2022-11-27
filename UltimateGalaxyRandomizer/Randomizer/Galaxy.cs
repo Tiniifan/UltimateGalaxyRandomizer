@@ -533,22 +533,24 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (tryStory.Value != null)
                 {
                     tryStory.Value.Param = new TeamParam(teamParamReader);
-                    ReadSoccer(tryStory.Value);
+
+                    // Temporary fix
+                    if (tryStory.Value.ScriptID != 0x0C)
+                    {
+                        ReadSoccer(tryStory.Value);
+                    }
                 } 
                 else if (tryBattle.Value != null)
                 {
                     tryBattle.Value.Param = new TeamParam(teamParamReader);
-                    ReadSoccer(tryBattle.Value);
                 }
                 else if (tryTaisenRoad.Value != null)
                 {
                     tryTaisenRoad.Value.Param = new TeamParam(teamParamReader);
-                    ReadSoccer(tryTaisenRoad.Value);
                 }
                 else if (tryLegendGate.Value != null)
                 {
                     tryLegendGate.Value.Param = new TeamParam(teamParamReader);
-                    ReadSoccer(tryLegendGate.Value);
                 } 
                 else
                 {

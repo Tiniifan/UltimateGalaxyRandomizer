@@ -55,26 +55,22 @@ namespace UltimateGalaxyRandomizer.Logic
             Freedom = reader.ReadInt16();
         }
 
-        public Param Clone()
+        public Param Clone() => new Param
         {
-            Param cloned = new Param();
-
-            cloned.Offset = Offset;
-            cloned.BaseID = BaseID;
-            cloned.SkillOffset = SkillOffset;
-            cloned.UnknownValue = UnknownValue;
-            cloned.Invoke = Invoke;
-            cloned.BaseStat = BaseStat;
-            cloned.Element = Element;
-            cloned.Position = Position;
-            cloned.GrownStat = GrownStat;
-            cloned.Avatar = Avatar;
-            cloned.ExperienceBar = ExperienceBar;
-            cloned.SkillCount = SkillCount;
-            cloned.Freedom = Freedom;
-
-            return cloned;
-        }
+            Offset = Offset,
+            BaseID = BaseID,
+            SkillOffset = SkillOffset,
+            UnknownValue = UnknownValue,
+            Invoke = Invoke,
+            BaseStat = BaseStat,
+            Element = Element,
+            Position = Position,
+            GrownStat = GrownStat,
+            Avatar = Avatar,
+            ExperienceBar = ExperienceBar,
+            SkillCount = SkillCount,
+            Freedom = Freedom
+        };
 
         public void Swap(Param characterParam)
         {

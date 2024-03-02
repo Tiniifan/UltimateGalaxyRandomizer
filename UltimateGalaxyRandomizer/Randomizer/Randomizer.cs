@@ -9,6 +9,9 @@ using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
+// TODO: randomize skill level
+// TODO: randomize mixi-max
+
 namespace UltimateGalaxyRandomizer.Randomizer
 {
     public static class Randomizer

@@ -50,14 +50,12 @@ namespace UltimateGalaxyRandomizer
             }
         }
 
-        private Option GroupBoxToRandomizerOption(GroupBox groupBox)
-        {
-            Option randomizerOption = new Option(groupBox.Controls.OfType<RadioButton>().OrderBy(x => x.Name).ToList());
-            randomizerOption.CheckBoxes = groupBox.Controls.OfType<CheckBox>().ToDictionary(x => x.Name, x => x);
-            randomizerOption.NumericUpDowns = groupBox.Controls.OfType<NumericUpDown>().ToDictionary(x => x.Name, x => x);
-
-            return randomizerOption;
-        }
+        private Option GroupBoxToRandomizerOption(GroupBox groupBox) =>
+            new Option(groupBox.Controls.OfType<RadioButton>().OrderBy(x => x.Name).ToList())
+            {
+                CheckBoxes = groupBox.Controls.OfType<CheckBox>().ToDictionary(x => x.Name, x => x),
+                NumericUpDowns = groupBox.Controls.OfType<NumericUpDown>().ToDictionary(x => x.Name, x => x)
+            };
 
         private Dictionary<string, Option> TabControlToDictOption(TabControl tabControl)
         {

@@ -9,9 +9,6 @@ using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
-// TODO: randomize mixi-max
-// TODO: randomize avatar level
-
 namespace UltimateGalaxyRandomizer.Randomizer
 {
     public static class Randomizer

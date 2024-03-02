@@ -162,6 +162,6 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x381B0C56, new Totem("Pegasus (Totem)")},
         };
 
-        public static Dictionary<int, uint> Table = new Dictionary<int, uint>();
+        public static Dictionary<int, uint> Table { get; } = new Dictionary<int, uint>();
     }
 }

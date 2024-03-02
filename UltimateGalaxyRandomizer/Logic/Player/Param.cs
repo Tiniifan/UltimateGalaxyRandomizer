@@ -9,9 +9,9 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public long Offset { get; set; }
 
-        public UInt32 BaseID { get; set; }
+        public uint BaseID { get; set; }
 
-        public Int16 SkillOffset { get; set; }
+        public short SkillOffset { get; set; }
 
         public byte UnknownValue { get; set; }
 
@@ -25,13 +25,13 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public Stats GrownStat { get; set; }
 
-        public UInt32 Avatar { get; set; }
+        public uint Avatar { get; set; }
 
         public byte ExperienceBar { get; set; }
 
         public byte SkillCount { get; set; }
 
-        public Int16 Freedom { get; set; }
+        public short Freedom { get; set; }
 
         public Param()
         {
@@ -55,26 +55,22 @@ namespace UltimateGalaxyRandomizer.Logic
             Freedom = reader.ReadInt16();
         }
 
-        public Param Clone()
+        public Param Clone() => new Param
         {
-            Param cloned = new Param();
-
-            cloned.Offset = Offset;
-            cloned.BaseID = BaseID;
-            cloned.SkillOffset = SkillOffset;
-            cloned.UnknownValue = UnknownValue;
-            cloned.Invoke = Invoke;
-            cloned.BaseStat = BaseStat;
-            cloned.Element = Element;
-            cloned.Position = Position;
-            cloned.GrownStat = GrownStat;
-            cloned.Avatar = Avatar;
-            cloned.ExperienceBar = ExperienceBar;
-            cloned.SkillCount = SkillCount;
-            cloned.Freedom = Freedom;
-
-            return cloned;
-        }
+            Offset = Offset,
+            BaseID = BaseID,
+            SkillOffset = SkillOffset,
+            UnknownValue = UnknownValue,
+            Invoke = Invoke,
+            BaseStat = BaseStat,
+            Element = Element,
+            Position = Position,
+            GrownStat = GrownStat,
+            Avatar = Avatar,
+            ExperienceBar = ExperienceBar,
+            SkillCount = SkillCount,
+            Freedom = Freedom
+        };
 
         public void Swap(Param characterParam)
         {

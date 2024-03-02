@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UltimateGalaxyRandomizer.Resources
 {
     public class ScriptSoccer
     {
         public List<int> PlayerIndex { get; set; }
-        public UInt32 RightMove { get; set; }
+        public uint RightMove { get; set; }
 
-        public ScriptSoccer(List<int> playerIndex, UInt32 moveID)
+        public ScriptSoccer(List<int> playerIndex, uint moveId)
         {
             PlayerIndex = playerIndex;
-            RightMove = moveID;
+            RightMove = moveId;
         }
     }
 
     public static class ScriptSoccers
     {
-        public static Dictionary<uint, ScriptSoccer> ScriptSoccerGalaxy = new Dictionary<uint, ScriptSoccer>()
+        public static readonly IReadOnlyDictionary<uint, ScriptSoccer> ScriptSoccerGalaxy = new Dictionary<uint, ScriptSoccer>()
         {
             {0x02, new ScriptSoccer(new List<int>(){8, 9, 10}, 0x5B620610) },
             {0x03, new ScriptSoccer(new List<int>(){7}, 0x656CB642) },

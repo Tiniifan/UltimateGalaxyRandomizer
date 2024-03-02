@@ -6,7 +6,7 @@ namespace UltimateGalaxyRandomizer.Resources
 {
     public class Equipments
     {
-        public static Dictionary<UInt32, Equipment> Boots = new Dictionary<UInt32, Equipment>()
+        public static Dictionary<uint, Equipment> Boots = new Dictionary<uint, Equipment>()
         {
             {0x33D01FA2, new Equipment("Raimon boots")},
             {0xAAD94E18, new Equipment("Black boots")},
@@ -110,7 +110,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x67CC067D, new Equipment("Hunting boots")},
         };
 
-        public static Dictionary<UInt32, Equipment> Gloves = new Dictionary<UInt32, Equipment>()
+        public static Dictionary<uint, Equipment> Gloves = new Dictionary<uint, Equipment>()
         {
             {0xAB975F2F, new Equipment("Raimon gloves")},
             {0x329E0E95, new Equipment("Black gloves")},
@@ -214,7 +214,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0xFF8B46F0, new Equipment("Hunting gloves")},
         };
 
-        public static Dictionary<UInt32, Equipment> Bracelets = new Dictionary<UInt32, Equipment>()
+        public static Dictionary<uint, Equipment> Bracelets = new Dictionary<uint, Equipment>()
         {
             {0x0A0C7C49, new Equipment("Red bracelet")},
             {0x93052DF3, new Equipment("Leather bracelet")},
@@ -243,7 +243,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x3F57DAD2, new Equipment("Demonic bracelet")},
         };
 
-        public static Dictionary<UInt32, Equipment> Pendants = new Dictionary<UInt32, Equipment>()
+        public static Dictionary<uint, Equipment> Pendants = new Dictionary<uint, Equipment>()
         {
             {0xB5446D0C, new Equipment("Drop pendant")},
             {0x2C4D3CB6, new Equipment("Diamond pendant")},

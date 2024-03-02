@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Tools;
-using UltimateGalaxyRandomizer.Randomizer.Utility;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Avatar
 {
     public class Totem
     {
@@ -11,17 +11,17 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public long Offset { get; set; }
 
-        public UInt32 NameID { get; set; }
+        public uint NameId { get; set; }
 
-        public UInt32 DescriptionID { get; set; }
+        public uint DescriptionId { get; set; }
 
-        public Int16 ImageModel { get; set; }
+        public short ImageModel { get; set; }
 
-        public UInt32 MoveID { get; set; }
+        public uint MoveId { get; set; }
 
         public uint[] SkillRoulette { get; set; }
 
-        public Int16 SP { get; set; }
+        public short SP { get; set; }
 
         public byte[] SPUP { get; set; }
 
@@ -37,11 +37,11 @@ namespace UltimateGalaxyRandomizer.Logic
         public void Read(DataReader reader)
         {
             Offset = reader.BaseStream.Position-4;
-            DescriptionID = reader.ReadUInt32();
-            NameID = reader.ReadUInt32();
+            DescriptionId = reader.ReadUInt32();
+            NameId = reader.ReadUInt32();
             ImageModel = reader.ReadInt16();
             reader.Skip(0x16);
-            MoveID = reader.ReadUInt32();
+            MoveId = reader.ReadUInt32();
             SkillRoulette = new uint[6];
             for (int i = 0; i < 6; i++)
             {
@@ -59,11 +59,11 @@ namespace UltimateGalaxyRandomizer.Logic
         public void Write(DataWriter writer)
         {
             writer.Seek((uint)Offset + 4);
-            writer.WriteUInt32(DescriptionID);
-            writer.WriteUInt32(NameID);
+            writer.WriteUInt32(DescriptionId);
+            writer.WriteUInt32(NameId);
             writer.WriteInt16(ImageModel);
             writer.Skip(0x16);
-            writer.WriteUInt32(MoveID);
+            writer.WriteUInt32(MoveId);
             for (int i = 0; i < 6; i++)
             {
                 writer.WriteUInt32(SkillRoulette[i]);
@@ -77,12 +77,9 @@ namespace UltimateGalaxyRandomizer.Logic
             writer.Skip(0x02);
         }
 
-        public Probability GetPositionProbability()
-        {
-            return new Probability(Positions.Player[Position].MoveProbability);
-        }
+        public int[] GetPositionProbability() => Positions.Player[Position].MoveProbability;
 
-        public Probability GetElementProbability()
+        public int[] GetElementProbability()
         {
             int[] elementProbability = new int[5] { 15, 15, 15, 15, 15 };
 
@@ -95,7 +92,7 @@ namespace UltimateGalaxyRandomizer.Logic
                 elementProbability[Element-1] = 40;
             }
 
-            return new Probability(elementProbability);
+            return elementProbability;
         }
     }
 }

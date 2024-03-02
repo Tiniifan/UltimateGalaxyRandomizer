@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using UltimateGalaxyRandomizer.Logic;
-using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
@@ -50,29 +48,26 @@ namespace UltimateGalaxyRandomizer
             }
         }
 
-        private Option GroupBoxToRandomizerOption(GroupBox groupBox)
-        {
-            Option randomizerOption = new Option(groupBox.Controls.OfType<RadioButton>().OrderBy(x => x.Name).ToList());
-            randomizerOption.CheckBoxes = groupBox.Controls.OfType<CheckBox>().ToDictionary(x => x.Name, x => x);
-            randomizerOption.NumericUpDowns = groupBox.Controls.OfType<NumericUpDown>().ToDictionary(x => x.Name, x => x);
-
-            return randomizerOption;
-        }
+        private Option GroupBoxToRandomizerOption(GroupBox groupBox) =>
+            new Option(groupBox.Controls.OfType<RadioButton>().OrderBy(x => x.Name).ToList())
+            {
+                CheckBoxes = groupBox.Controls.OfType<CheckBox>().ToDictionary(x => x.Name, x => x),
+                NumericUpDowns = groupBox.Controls.OfType<NumericUpDown>().ToDictionary(x => x.Name, x => x)
+            };
 
         private Dictionary<string, Option> TabControlToDictOption(TabControl tabControl)
         {
-            Dictionary<string, Option> options = new Dictionary<string, Option>();
+            var options = new Dictionary<string, Option>();
 
             foreach (Control control in tabControl.Controls)
             {
-                if (control is TabPage)
+                if (!(control is TabPage)) continue;
+
+                foreach (Control subControl in control.Controls)
                 {
-                    foreach (Control subControl in control.Controls)
+                    if (subControl is GroupBox box)
                     {
-                        if (subControl is GroupBox)
-                        {
-                            options.Add(subControl.Name, GroupBoxToRandomizerOption(subControl as GroupBox));
-                        }
+                        options.Add(box.Name, GroupBoxToRandomizerOption(box));
                     }
                 }
             }
@@ -93,8 +88,7 @@ namespace UltimateGalaxyRandomizer
 
         private void Option_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton radioButton = sender as RadioButton;
-            GroupBox groupbox = radioButton.Parent as GroupBox;
+            if (!(sender is RadioButton radioButton) || !(radioButton.Parent is GroupBox groupbox)) return;
 
             foreach (NumericUpDown numericUpDown in groupbox.Controls.OfType<NumericUpDown>())
             {
@@ -103,7 +97,7 @@ namespace UltimateGalaxyRandomizer
 
             foreach (CheckBox checkBox in groupbox.Controls.OfType<CheckBox>())
             {
-                if (radioButton.Checked == false)
+                if (!radioButton.Checked)
                 {
                     checkBox.Checked = false;
                 }
@@ -114,11 +108,9 @@ namespace UltimateGalaxyRandomizer
 
         private void InvokerProbabilityChange(object sender, EventArgs e)
         {
-            NumericUpDown numericUpDownFocused = sender as NumericUpDown;
+            if (!(sender is NumericUpDown numericUpDownFocused) || !numericUpDownFocused.Focused) return;
 
-            if (!numericUpDownFocused.Focused) return;        
-
-            List<NumericUpDown> numericUpDowns = new List<NumericUpDown>(){ numericUpDownFightingSpirit, numericUpDownTotem, numericUpDownNoneInvoker };
+            var numericUpDowns = new List<NumericUpDown> { numericUpDownFightingSpirit, numericUpDownTotem, numericUpDownNoneInvoker };
             numericUpDowns.Remove(numericUpDownFocused);
 
             decimal sum = numericUpDownFocused.Value;
@@ -128,12 +120,9 @@ namespace UltimateGalaxyRandomizer
                 {
                     numericUpDowns[i].Value = 100 - sum;
                 } 
-                else if (i == 1)
+                else if (i == 1 && sum + numericUpDowns[i].Value < 100)
                 {
-                    if (sum + numericUpDowns[i].Value < 100)
-                    {
-                        numericUpDowns[i].Value = 100 - sum;
-                    }
+                    numericUpDowns[i].Value = 100 - sum;
                 }
 
                 sum += numericUpDowns[i].Value;

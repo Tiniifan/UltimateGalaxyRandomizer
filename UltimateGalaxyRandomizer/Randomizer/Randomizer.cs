@@ -4,61 +4,59 @@ using System.Linq;
 using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Logic;
+using UltimateGalaxyRandomizer.Logic.Avatar;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
+
+// TODO: randomize mixi-max
+// TODO: randomize avatar level
 
 namespace UltimateGalaxyRandomizer.Randomizer
 {
     public static class Randomizer
     {
-        public static RandomNumber Seed = new RandomNumber();
-
         private static void SwapPlayers(Dictionary<Player, bool> players, Dictionary<string, Option> options)
         {
-            if (options["groupBoxSwapPlayer"].Name == "Random")
+            if (options["groupBoxSwapPlayer"].Name != "Random") return;
+
+            // Create Tempory Player Dic
+            var tempPlayers = players.ToDictionary(x => x.Key.Clone(), x => x.Value);
+
+            foreach (var player in players)
             {
-                // Create Tempory Player Dic
-                Dictionary<Player, bool> tempPlayers = players.ToDictionary(x => x.Key.Clone(), x => x.Value);
+                var possiblePlayers = tempPlayers;
 
-                foreach (KeyValuePair<Player, bool> player in players)
+                // Same Body
+                if (options["groupBoxSwapPlayer"].CheckBoxes["checkBoxSwapSameBody"].Checked)
                 {
-                    Dictionary<Player, bool> possiblePlayers = new Dictionary<Player, bool>();
-
-                    // Same Body
-                    if (options["groupBoxSwapPlayer"].CheckBoxes["checkBoxSwapSameBody"].Checked == true)
-                    {
-                        possiblePlayers = tempPlayers.Where(x => x.Key.Base.Size >> 4 == player.Key.Base.Size >> 4).ToDictionary(x => x.Key, x => x.Value);
-                    }
-                    else
-                    {
-                        possiblePlayers = tempPlayers;
-                    }
-
-                    // Same Position
-                    if (options["groupBoxSwapPlayer"].CheckBoxes["checkBoxSwapSamePosition"].Checked == true)
-                    {
-                        possiblePlayers = possiblePlayers.Where(x => x.Key.Param.Position == player.Key.Param.Position).ToDictionary(x => x.Key, x => x.Value);
-                    }
-
-                    // Important Character -> Important Character and Scout -> Scout
-                    if (options["groupBoxSwapPlayer"].CheckBoxes["checkboxSwapFocus"].Checked == true)
-                    {
-                        possiblePlayers = possiblePlayers.Where(x => x.Value == player.Value).ToDictionary(x => x.Key, x => x.Value);
-                    }
-
-                    Player randomPlayer = possiblePlayers.ElementAt(Seed.Next(0, possiblePlayers.Count)).Key;
-                    player.Key.Base.Swap(randomPlayer.Base);
-                    player.Key.Param.Swap(randomPlayer.Param);
-                    player.Key.Skills = randomPlayer.Skills;
-                    tempPlayers.Remove(randomPlayer);
+                    possiblePlayers = possiblePlayers.Where(x => x.Key.Base.Size >> 4 == player.Key.Base.Size >> 4).ToDictionary(x => x.Key, x => x.Value);
                 }
+
+                // Same Position
+                if (options["groupBoxSwapPlayer"].CheckBoxes["checkBoxSwapSamePosition"].Checked)
+                {
+                    possiblePlayers = possiblePlayers.Where(x => x.Key.Param.Position == player.Key.Param.Position).ToDictionary(x => x.Key, x => x.Value);
+                }
+
+                // Important Character -> Important Character and Scout -> Scout
+                if (options["groupBoxSwapPlayer"].CheckBoxes["checkboxSwapFocus"].Checked)
+                {
+                    possiblePlayers = possiblePlayers.Where(x => x.Value == player.Value).ToDictionary(x => x.Key, x => x.Value);
+                }
+
+                Player randomPlayer = possiblePlayers.Random().Key;
+                player.Key.Base.Swap(randomPlayer.Base);
+                player.Key.Param.Swap(randomPlayer.Param);
+                player.Key.Skills = randomPlayer.Skills;
+                tempPlayers.Remove(randomPlayer);
             }
         }
 
         public static void RandomizePlayers(Dictionary<string, Option> options)
         {
             // Merge Player Dictionaries
-            Dictionary<Player, bool> players = new Dictionary<Player, bool>();
+            var players = new Dictionary<Player, bool>();
             Players.Story.Values.ToList().ForEach(x => players.Add(x, false));
             Players.Normal.Values.ToList().ForEach(x => players.Add(x, false));
             Players.Scout.Values.ToList().ForEach(x => players.Add(x, true));
@@ -67,156 +65,166 @@ namespace UltimateGalaxyRandomizer.Randomizer
             SwapPlayers(players, options);
 
             // Initialise List ID
-            List<UInt32> names = players.Keys.Select(x => x.Base.NameID).ToList();
-            List<UInt32> nicknames = players.Keys.Select(x => x.Base.NicknameID).ToList();
-            List<UInt32> descriptions = players.Keys.Select(x => x.Base.DescriptionID).ToList();
+            var names = players.Keys.Select(x => x.Base.NameID).ToList();
+            var nicknames = players.Keys.Select(x => x.Base.NicknameID).ToList();
+            var descriptions = players.Keys.Select(x => x.Base.DescriptionID).ToList();
 
             // Randomize Each Player
             foreach (Player player in players.Keys)
             {
                 if (options["groupBoxName"].Name == "Random")
                 {
-                    int randomIndex = Seed.Next(0, names.Count);
+                    int randomIndex = names.RandomIndex();
                     player.Base.NameID = names[randomIndex];
                     names.RemoveAt(randomIndex);
                 }
 
                 if (options["groupBoxNickname"].Name == "Random")
                 {
-                    int randomIndex = Seed.Next(0, nicknames.Count);
+                    int randomIndex = nicknames.RandomIndex();
                     player.Base.NicknameID = nicknames[randomIndex];
                     nicknames.RemoveAt(randomIndex);
                 }
 
                 if (options["groupBoxDescription"].Name == "Random")
                 {
-                    int randomIndex = Seed.Next(0, descriptions.Count);
+                    int randomIndex = descriptions.RandomIndex();
                     player.Base.DescriptionID = descriptions[randomIndex];
                     descriptions.RemoveAt(randomIndex);
                 }
 
                 if (options["groupBoxBody"].Name == "Random")
                 {
-                    player.Base.Size = (byte)((Seed.Next(1, 9) << 4) | (player.Base.Size & 0x0F));
+                    player.Base.Size = (byte)((Probability.Generator.Next(1, 9) << 4) | (player.Base.Size & 0x0F));
                 }
 
                 if (options["groupBoxYear"].Name == "Random")
                 {
-                    player.Base.Identity = (byte)((Seed.Next(0, 6) << 4) | (player.Base.Identity & 0x0F));
+                    player.Base.Identity = (byte)((Probability.Generator.Next(0, 6) << 4) | (player.Base.Identity & 0x0F));
                 }
 
                 if (options["groupBoxGender"].Name == "Random")
                 {
-                    player.Base.Identity = (byte)((player.Base.Identity << 4) | (Seed.Next(1, 4) & 0x0F));
+                    player.Base.Identity = (byte)((player.Base.Identity << 4) | (Probability.Generator.Next(1, 4) & 0x0F));
                 }
 
                 if (options["groupBoxStyle"].Name == "Random")
                 {
-                    player.Base.Style = (byte)Seed.Next(0, 6);
+                    player.Base.Style = (byte)Probability.Generator.Next(0, 6);
                 }
 
                 if (options["groupBoxElement"].Name == "Random")
                 {
-                    player.Param.Element = (byte)Seed.Next(1, 5 + Convert.ToInt32(options["groupBoxElement"].CheckBoxes["checkBoxElementAllowVoid"].Checked));
+                    player.Param.Element = (byte)Probability.Generator.Next(1, 5 + Convert.ToInt32(options["groupBoxElement"].CheckBoxes["checkBoxElementAllowVoid"].Checked));
                 }
 
                 if (options["groupBoxPosition"].Name == "Random")
                 {
-                    player.Param.Position = (byte)Seed.Next(1, 4);
+                    player.Param.Position = (byte)Probability.Generator.Next(1, 4);
                 }
 
-                if (options["groupBoxBaseStats"].Name == "Swap")
+                switch (options["groupBoxBaseStats"].Name)
                 {
-                    // Shuffle
-                    List<int> tempStat = player.Param.BaseStat.Values.Select(x => x.Value).ToList();
-                    for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
+                    case "Swap":
                     {
-                        int getRandomIndex = Seed.Next(0, tempStat.Count);
-                        player.Param.BaseStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = tempStat[getRandomIndex];
+                        // Shuffle
+                        List<int> tempStat = player.Param.BaseStat.Values.Select(x => x.Value).ToList();
+                        for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
+                        {
+                            player.Param.BaseStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = tempStat.Random();
+                        }
+
+                        break;
                     }
-                }
-                else if (options["groupBoxBaseStats"].Name == "Random")
-                {
-                    // Generate Random Base Stat
-                    Position playerPosition = Positions.Player[player.Param.Position];
-                    Element playerElement = Elements.Values[player.Param.Element];
-                    Gender playerGender = Identity.Genders[(byte)(player.Base.Identity & 0x0F)];
-
-                    for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
+                    case "Random":
                     {
-                        int baseStat = Seed.Next(24, 45);
-                        int finalStat = (playerPosition.StatBuff[s] * baseStat / 100) + (playerElement.StatBuff[s] * baseStat / 100) + (playerGender.StatBuff[s] * baseStat / 100) + baseStat;
-                        player.Param.BaseStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = finalStat;
+                        // Generate Random Base Stat
+                        Position playerPosition = Positions.Player[player.Param.Position];
+                        Element playerElement = Elements.Values[player.Param.Element];
+                        Gender playerGender = Identity.Genders[(byte)(player.Base.Identity & 0x0F)];
+
+                        for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
+                        {
+                            int baseStat = Probability.Generator.Next(24, 45);
+                            int finalStat = (playerPosition.StatBuff[s] * baseStat / 100) + (playerElement.StatBuff[s] * baseStat / 100) + (playerGender.StatBuff[s] * baseStat / 100) + baseStat;
+                            player.Param.BaseStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = finalStat;
+                        }
+
+                        break;
                     }
                 }
 
                 if (options["groupBoxGrownStats"].Name == "Random")
                 {
-                    int[] grownStats = new int[5] { 0, 1, 2, 254, 255 };
+                    var grownStats = new[] { 0, 1, 2, 254, 255 };
                     for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
                     {
-                        player.Param.GrownStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = grownStats[Seed.Next(0, grownStats.Count())];
+                        player.Param.GrownStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = grownStats.Random();
                     }
                 }
 
                 if (options["groupBoxFreedom"].Name == "Random")
                 {
-                    player.Param.Freedom = Convert.ToInt16(Seed.Next(20, 41) * 10);
+                    player.Param.Freedom = Convert.ToInt16(Probability.Generator.Next(20, 41) * 10);
                 }
 
                 if (options["groupBoxMoveset"].Name == "Random")
                 {
-                    // Get Position and Element Type Probability
-                    List<UInt32> moveset = player.GetRandomMoveset(player.Param.SkillCount);
-
-                    for (int s = 0; s < player.Param.SkillCount; s++)
+                    if (options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillNumber"].Checked)
                     {
-                        player.Skills[s].SkillID = moveset[s];
+                        player.Param.SkillCount = Convert.ToByte(Probability.Generator.Next(4, 7));
                     }
+
+                    // Get Position and Element Type Probability
+                    var moveset = player.GetRandomMoveset(player.Param.SkillCount);
+                    
+                    bool randomLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
+                    player.Skills = moveset.Select((id, i) => new SkillTable
+                    {
+                        SkillId = id,
+                        SkillLevel = Convert.ToByte(randomLevel ? Probability.Generator.Next(1, 7) : 1),
+                        SkillNumber = Convert.ToInt16(i),
+                        LearnAtLevel = Convert.ToByte(player.Skills.Length > i ? player.Skills[i].LearnAtLevel : 0)
+                    }).ToArray();
                 }
 
+                // keep CanInvoke status, randomize Spirit and Totems
                 if (options["groupBoxAvatar"].Name == "Random")
                 {
                     Invoke invoke = Invokes.Values[player.Param.Invoke];
 
-                    UInt32 avatarID = 0x00;
+                    uint avatarId = 0x00;
 
-                    if (invoke.CanInvoke == true)
+                    if (invoke.CanInvoke)
                     {
-                        int[] invokerProbability = new int[3] {
-                        Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownFightingSpirit"].Value),
-                        Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownTotem"].Value),
-                        Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownNoneInvoker"].Value)
-                        };
-
-                        int invokerStatus = new Probability(invokerProbability).GetRandomIndex();
+                        int invokerStatus = Probability.IndexFromProbabilities(
+                            Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownFightingSpirit"].Value),
+                            Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownTotem"].Value),
+                            Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownNoneInvoker"].Value));
                         switch (invokerStatus)
                         {
                             case 0:
-                                avatarID = player.GetRandomFightingSpirit();
+                                avatarId = player.GetRandomFightingSpirit();
                                 break;
                             case 1:
-                                avatarID = player.GetRandomTotem();
+                                avatarId = player.GetRandomTotem();
                                 break;
                             case 2:
-                                avatarID = 0x00;
+                                avatarId = 0x00;
                                 break;
                         }
                     }
 
-                    player.Param.Avatar = avatarID;
+                    player.Param.Avatar = avatarId;
                 }
-
+                
+                // randomize Spirit and Totems completely
                 if (options["groupBoxInvokerUser"].Name == "Random")
                 {
-                    int[] invokerProbability = new int[3] {
+                    int invokerStatus = Probability.IndexFromProbabilities(
                         Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownFightingSpirit"].Value),
                         Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownTotem"].Value),
-                        Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownNoneInvoker"].Value)
-                    };
-
-                    // Get random invoker status according to user invoker probability
-                    int invokerStatus = new Probability(invokerProbability).GetRandomIndex();
+                        Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownNoneInvoker"].Value));
                     switch (invokerStatus)
                     {
                         case 0:
@@ -234,258 +242,231 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
                 }
 
-                if (options["groupBoxArmoufiedUser"].Name == "Random")
+                if (options["groupBoxArmoufiedUser"].Name == "Random" && Invokes.Values[player.Param.Invoke].CanInvoke)
                 {
-                    Invoke invoke = Invokes.Values[player.Param.Invoke];
-
-                    if (invoke.CanInvoke == true && invoke.IsFightingSpirit == false)
-                    {
-                        int armourflyPercentage = Convert.ToInt32(options["groupBoxArmoufiedUser"].NumericUpDowns["numericUpDownArmoufly"].Value);
-                        Probability armoufly = new Probability(new int[2] { 100 - armourflyPercentage, armourflyPercentage });
-                        switch (armoufly.GetRandomIndex())
-                        {
-                            case 0:
-                                player.Param.Invoke = 0x04;
-                                break;
-                            case 1:
-                                player.Param.Invoke = 0x0C;
-                                break;
-                        }
-                    }
+                    int armorifyPercentage = Convert.ToInt32(options["groupBoxArmoufiedUser"].NumericUpDowns["numericUpDownArmoufly"].Value);
+                    player.Param.Invoke = player.Param.Invoke.ChangeArmorify(Probability.FromPercentage(armorifyPercentage));
                 }
 
                 if (options["groupBoxExperienceBar"].Name == "Random")
                 {
-                    player.Param.ExperienceBar = Convert.ToByte(Seed.Next(1, 8));
+                    player.Param.ExperienceBar = Convert.ToByte(Probability.Generator.Next(1, 8));
                 }
             }
         }
 
         public static void RandomizeMoves(Dictionary<string, Option> options)
         {
-            // Randomize Each Player Moves
-            foreach (Move move in Moves.PlayerMoves.Values)
+            // Randomize Each Player Moves -- Exclude Skill
+            foreach (var move in Moves.PlayerMoves.Values.Where(move => move.Position != 15))
             {
-                // Exclude Skill
-                if (move.Position != 15)
+                if (options["groupBoxMoveEvolution"].Name == "Random")
                 {
-                    if (options["groupBoxMoveEvolution"].Name == "Random")
+                    move.Evolution = Convert.ToByte(Probability.Generator.Next(1, 9));
+                }
+
+                if (options["groupBoxMoveElement"].Name == "Random")
+                {
+                    move.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
+                }
+
+                if (options["groupBoxMoveEffect"].Name == "Random")
+                {
+                    if (Probability.FromPercentage(70) || move.Position == 0x02)
                     {
-                        move.Evolution = Convert.ToByte(Seed.Next(1, 9));
+                        move.Effect = 0x00;
+                    }
+                    else
+                    {
+                        move.Effect = Effects.Values.Where(x => x.Value.Position == move.Position).Select(x => x.Key).Random();
+                    }
+                }
+
+                if (options["groupBoxMovePower"].Name == "Random")
+                {
+                    int power = Probability.Generator.Next(3, 21) * 10;
+
+                    if (move.Effect != 0x0)
+                    {
+                        power -= 10;
                     }
 
-                    if (options["groupBoxMoveElement"].Name == "Random")
+                    move.Power = Convert.ToByte(power / 2);
+                }
+
+                if (options["groupBoxMoveTP"].Name == "Random")
+                {
+                    int tpCost = Convert.ToInt32(move.Power * 0.8);
+                    tpCost -= tpCost % 5;
+
+                    if (tpCost > 85)
                     {
-                        move.Element = Convert.ToByte(Seed.Next(1, 6));
+                        tpCost = 85;
                     }
 
-                    if (options["groupBoxMoveEffect"].Name == "Random")
-                    {
-                        int effectProbability = new Probability(new int[2] { 70, 30 }).GetRandomIndex();
+                    move.TP = Convert.ToByte(tpCost);
+                }
 
-                        if (effectProbability == 0 || move.Position == 0x02)
-                        {
-                            move.Effect = 0x00;
-                        }
-                        else
-                        {
-                            List<byte> effects = Effects.Values.Where(x => x.Value.Position == move.Position).Select(x => x.Key).ToList();
-                            move.Effect = effects[Seed.Next(0, effects.Count)];
-                        }
+                if (options["groupBoxMoveDifficulty"].Name == "Random")
+                {
+                    int difficulty = Convert.ToInt32(move.Power);
+                    difficulty -= difficulty % 10;
+                    difficulty *= move.Partner;
+
+                    move.Technique = Convert.ToInt16(difficulty);
+                }
+
+                if (options["groupBoxMoveStunDamage"].Name == "Random")
+                {
+                    int damage = Probability.Generator.Next(0, 11);
+
+                    if (move.Position == 0x04)
+                    {
+                        damage *= -10;
+                    }
+                    else
+                    {
+                        damage *= 10;
                     }
 
-                    if (options["groupBoxMovePower"].Name == "Random")
+                    move.Damage = Convert.ToSByte(damage);
+                }
+
+                if (options["groupBoxMoveFoulRate"].Name == "Random")
+                {
+#pragma warning disable S1066
+                    if (move.Position == 0x02 || move.Position == 0x03)
+#pragma warning restore S1066
                     {
-                        int power = Seed.Next(3, 21) * 10;
-
-                        if (move.Effect != 0x0)
-                        {
-                            power -= 10;
-                        }
-
-                        move.Power = Convert.ToByte(power / 2);
-                    }
-
-                    if (options["groupBoxMoveTP"].Name == "Random")
-                    {
-                        int tpCost = Convert.ToInt32(move.Power * 0.8);
-                        tpCost -= tpCost % 5;
-
-                        if (tpCost > 85)
-                        {
-                            tpCost = 85;
-                        }
-
-                        move.TP = Convert.ToByte(tpCost);
-                    }
-
-                    if (options["groupBoxMoveDifficulty"].Name == "Random")
-                    {
-                        int difficulty = Convert.ToInt32(move.Power);
-                        difficulty -= difficulty % 10;
-                        difficulty *= move.Partner;
-
-                        move.Technique = Convert.ToInt16(difficulty);
-                    }
-
-                    if (options["groupBoxMoveStunDamage"].Name == "Random")
-                    {
-                        int damage = Seed.Next(0, 11);
-
-                        if (move.Position == 0x04)
-                        {
-                            damage *= -10;
-                        }
-                        else
-                        {
-                            damage *= 10;
-                        }
-
-                        move.Damage = Convert.ToSByte(damage);
-                    }
-
-                    if (options["groupBoxMoveFoulRate"].Name == "Random")
-                    {
-                        if (move.Position == 0x02 || move.Position == 0x03)
-                        {
-                            move.FoulRate = Convert.ToByte(Seed.Next(0, 5) * 10);
-                        }
+                        move.FoulRate = Convert.ToByte(Probability.Generator.Next(0, 5) * 10);
                     }
                 }
             }
 
             // Randomize Each Fighting Spirit Moves
-            foreach (Move move in Moves.FightingSpiritMoves.Values)
+            foreach (var move in Moves.FightingSpiritMoves.Values.Where(move => move.Position != 15))
             {
-                if (move.Position != 15)
+                if (options["groupBoxMoveElement"].Name == "Random")
                 {
-                    if (options["groupBoxMoveElement"].Name == "Random")
+                    move.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
+                }
+
+                if (options["groupBoxMovePower"].Name == "Random")
+                {
+                    int power = Probability.Generator.Next(22, 36) * 10;
+
+                    move.Power = Convert.ToByte(power / 2);
+                }
+
+                if (options["groupBoxMoveTP"].Name == "Random")
+                {
+                    int tpCost = Convert.ToInt32(move.Power / 2);
+
+                    if (move.Power > 145)
                     {
-                        move.Element = Convert.ToByte(Seed.Next(1, 6));
+                        tpCost += (move.Power - 145) * 2;
                     }
 
-                    if (options["groupBoxMovePower"].Name == "Random")
+                    if (move.Position != 0x01)
                     {
-                        int power = Seed.Next(22, 36) * 10;
-
-                        move.Power = Convert.ToByte(power / 2);
+                        tpCost = Convert.ToInt32(tpCost / 1.5);
                     }
 
-                    if (options["groupBoxMoveTP"].Name == "Random")
+                    tpCost -= tpCost % 5;
+                    move.TP = Convert.ToByte(tpCost);
+                }
+
+                if (options["groupBoxMoveStunDamage"].Name == "Random")
+                {
+                    int damage = Probability.Generator.Next(0, 11);
+
+                    if (move.Position == 0x04)
                     {
-                        int tpCost = Convert.ToInt32(move.Power / 2); ;
-
-                        if (move.Power > 145)
-                        {
-                            tpCost += (move.Power - 145) * 2;
-                        }
-
-                        if (move.Position != 0x01)
-                        {
-                            tpCost = Convert.ToInt32(tpCost / 1.5);
-                        }
-
-                        tpCost -= tpCost % 5;
-                        move.TP = Convert.ToByte(tpCost);
+                        damage *= -10;
+                    }
+                    else
+                    {
+                        damage *= 10;
                     }
 
-                    if (options["groupBoxMoveStunDamage"].Name == "Random")
-                    {
-                        int damage = Seed.Next(0, 11);
-
-                        if (move.Position == 0x04)
-                        {
-                            damage *= -10;
-                        }
-                        else
-                        {
-                            damage *= 10;
-                        }
-
-                        move.Damage = Convert.ToSByte(damage);
-                    }
+                    move.Damage = Convert.ToSByte(damage);
                 }
             }
 
-            foreach (Move move in Moves.TotemMoves.Values)
+            foreach (var move in Moves.TotemMoves.Values.Where(move => move.Position != 15))
             {
-                if (move.Position != 15)
+                if (options["groupBoxMovePower"].Name == "Random")
                 {
-                    if (options["groupBoxMovePower"].Name == "Random")
+                    int power = 0;
+
+                    // Totem Move are as strong as Fighting Spirit
+                    if (options["groupBoxMoveMiscellaneous"].Name == "Random")
                     {
-                        int power = 0;
-
-                        // Totem Move are as strong as Fighting Spirit
-                        if (options["groupBoxMoveMiscellaneous"].Name == "Random")
-                        {
-                            power = Seed.Next(30, 41) * 10;
-                        }
-                        else
-                        {
-                            List<int> possiblePower = new List<int>() { 250, 300 };
-                            power = possiblePower[Seed.Next(0, possiblePower.Count)];
-                        }
-
-                        move.Power = Convert.ToByte(power / 2);
+                        power = Probability.Generator.Next(30, 41) * 10;
+                    }
+                    else
+                    {
+                        List<int> possiblePower = new List<int>() { 250, 300 };
+                        power = possiblePower[Probability.Generator.Next(0, possiblePower.Count)];
                     }
 
-                    if (options["groupBoxMoveTP"].Name == "Random")
+                    move.Power = Convert.ToByte(power / 2);
+                }
+
+                if (options["groupBoxMoveTP"].Name == "Random")
+                {
+                    // Totem Move are as strong as Fighting Spirit
+                    if (options["groupBoxMoveMiscellaneous"].Name == "Random")
                     {
-                        // Totem Move are as strong as Fighting Spirit
-                        if (options["groupBoxMoveMiscellaneous"].Name == "Random")
-                        {
-                            int tpCost = 40 + (move.Power - 150);
-                            move.TP = Convert.ToByte(tpCost);
-                        }
-                        else
-                        {
-                            List<int> tpCost = new List<int>() { 40, 50, 70 };
-                            move.TP = Convert.ToByte(tpCost[Seed.Next(0, tpCost.Count)]);
-                        }
+                        int tpCost = 40 + (move.Power - 150);
+                        move.TP = Convert.ToByte(tpCost);
+                    }
+                    else
+                    {
+                        List<int> tpCost = new List<int>() { 40, 50, 70 };
+                        move.TP = Convert.ToByte(tpCost[Probability.Generator.Next(0, tpCost.Count)]);
+                    }
+                }
+
+                if (options["groupBoxMoveStunDamage"].Name == "Random")
+                {
+                    int damage = 0;
+
+                    // Totem Move are as strong as Fighting Spirit
+                    if (options["groupBoxMoveMiscellaneous"].Name == "Random")
+                    {
+                        damage = Probability.Generator.Next(0, 11);
+                    }
+                    else
+                    {
+                        damage = Probability.Generator.Next(0, 4);
                     }
 
-                    if (options["groupBoxMoveStunDamage"].Name == "Random")
+                    if (move.Position == 0x04)
                     {
-                        int damage = 0;
-
-                        // Totem Move are as strong as Fighting Spirit
-                        if (options["groupBoxMoveMiscellaneous"].Name == "Random")
-                        {
-                            damage = Seed.Next(0, 11);
-                        }
-                        else
-                        {
-                            damage = Seed.Next(0, 4);
-                        }
-
-                        if (move.Position == 0x04)
-                        {
-                            damage *= -10;
-                        }
-                        else
-                        {
-                            damage *= 10;
-                        }
-
-                        move.Damage = Convert.ToSByte(damage);
+                        damage *= -10;
                     }
+                    else
+                    {
+                        damage *= 10;
+                    }
+
+                    move.Damage = Convert.ToSByte(damage);
                 }
             }
 
             // Randomize Each Ultimate Moves
-            for (int i = 0; i < Moves.MovesUltimate.Count; i++)
+            foreach (var move in Moves.MovesUltimate)
             {
-                MoveUltimate move = Moves.MovesUltimate[i];
-
                 if (options["groupBoxUltimatePower"].Name == "Random")
                 {
-                    move.Power = Convert.ToInt16(Seed.Next(28, 33) * 10);
+                    move.Power = Convert.ToInt16(Probability.Generator.Next(28, 33) * 10);
                 }
 
                 if (options["groupBoxUltimateTP"].Name == "Random")
                 {
                     List<int> tpCost = new List<int>() { 85, 99 };
-                    move.TP = Convert.ToByte(tpCost[Seed.Next(0, tpCost.Count)]);
+                    move.TP = Convert.ToByte(tpCost[Probability.Generator.Next(0, tpCost.Count)]);
                 }
 
                 if (options["groupBoxUltimateDifficulty"].Name == "Random")
@@ -495,7 +476,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxUltimateStunDamage"].Name == "Random")
                 {
-                    int damage = Seed.Next(0, 11);
+                    int damage = Probability.Generator.Next(0, 11);
 
                     if (move.Damage < 0)
                     {
@@ -518,27 +499,21 @@ namespace UltimateGalaxyRandomizer.Randomizer
             {
                 if (options["groupBoxSpiritElement"].Name == "Random")
                 {
-                    avatar.Element = Convert.ToByte(Seed.Next(1, 6));
+                    avatar.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
                 }
 
                 if (options["groupBoxSpiritMove"].Name == "Random")
                 {
-                    Dictionary<UInt32, Move> possibleMoves = new Dictionary<UInt32, Move>();
-
-                    // Create a list of moves according to avatar probability
-                    Probability samePlayerPosition = avatar.GetPositionProbability();
-                    Probability samePlayerElement = avatar.GetElementProbability();
-
-                    int movePosition = samePlayerPosition.GetRandomIndex();
+                    int movePosition = avatar.GetPositionProbability().RandomIndex();
                     while (movePosition == 4)
                     {
                         // Exclude Skill Probability
-                        movePosition = samePlayerPosition.GetRandomIndex();
+                        movePosition = avatar.GetPositionProbability().RandomIndex();
                     }
-                    possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
+                    var possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
 
                     // Create a list of moves according to player element probability
-                    int moveElement = samePlayerElement.GetRandomIndex();
+                    int moveElement =avatar.GetElementProbability().RandomIndex();
                     possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
 
                     // Only in an extreme case
@@ -547,38 +522,38 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
                     }
 
-                    avatar.MoveID = possibleMoves.ElementAt(Seed.Next(0, possibleMoves.Count)).Key;
+                    avatar.MoveID = possibleMoves.ElementAt(Probability.Generator.Next(0, possibleMoves.Count)).Key;
                 }
 
                 if (options["groupBoxSpiritSkill"].Name == "Random")
                 {
-                    Dictionary<UInt32, Move> possibleSkills = Moves.FightingSpiritMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
-                    avatar.SkillID = possibleSkills.ElementAt(Seed.Next(0, possibleSkills.Count)).Key;
+                    var possibleSkills = Moves.FightingSpiritMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    avatar.SkillID = possibleSkills.ElementAt(Probability.Generator.Next(0, possibleSkills.Count)).Key;
                 }
 
                 if (options["groupBoxSpiritPoint"].Name == "Random")
                 {
-                    avatar.FS = Convert.ToInt16(Seed.Next(8, 21) * 10);
+                    avatar.FS = Convert.ToInt16(Probability.Generator.Next(8, 21) * 10);
                 }
 
                 if (options["groupBoxSpiritPointUp"].Name == "Random")
                 {
                     for (int s = 0; s < avatar.FSPUP.Length; s++)
                     {
-                        avatar.FSPUP[s] = Seed.Next(0, 11) * 5;
+                        avatar.FSPUP[s] = Probability.Generator.Next(0, 11) * 5;
                     }
                 }
 
                 if (options["groupBoxSpiritPower"].Name == "Random")
                 {
-                    avatar.Attack = Convert.ToByte(Seed.Next(2, 16) * 10);
+                    avatar.Attack = Convert.ToByte(Probability.Generator.Next(2, 16) * 10);
                 }
 
                 if (options["groupBoxSpiritPowerUp"].Name == "Random")
                 {
                     for (int s = 0; s < avatar.FSPUP.Length; s++)
                     {
-                        avatar.AttackUP[s] = Seed.Next(0, 11) * 5;
+                        avatar.AttackUP[s] = Probability.Generator.Next(0, 11) * 5;
                     }
                 }
             }
@@ -588,33 +563,33 @@ namespace UltimateGalaxyRandomizer.Randomizer
             {
                 if (options["groupBoxTotemElement"].Name == "Random")
                 {
-                    avatar.Element = Convert.ToByte(Seed.Next(1, 6));
+                    avatar.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
                 }
 
                 if (options["groupBoxTotemMove"].Name == "Random")
                 {
-                    Dictionary<UInt32, Move> possibleMoves = Moves.TotemMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
-                    avatar.MoveID = possibleMoves.ElementAt(Seed.Next(0, possibleMoves.Count)).Key;
+                    var possibleMoves = Moves.TotemMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
+                    avatar.MoveId = possibleMoves.ElementAt(Probability.Generator.Next(0, possibleMoves.Count)).Key;
                 }
 
                 if (options["groupBoxTotemRoulette"].Name == "Random")
                 {
                     // Create Temp Skill List
-                    Dictionary<UInt32, Move> tempSkills = Moves.TotemMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    var tempSkills = Moves.TotemMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
 
                     // Remove Miss
-                    if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoMiss"].Checked == true)
+                    if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoMiss"].Checked)
                     {
                         tempSkills.Remove(0x9A1F8583);
                     }
 
                     for (int s = 0; s < avatar.SkillRoulette.Length; s++)
                     {
-                        KeyValuePair<UInt32, Move> randomSkill = tempSkills.ElementAt(Seed.Next(0, tempSkills.Count));
+                        var randomSkill = tempSkills.ElementAt(Probability.Generator.Next(0, tempSkills.Count));
                         avatar.SkillRoulette[s] = randomSkill.Key;
 
                         // Remove Move to avoid duplication
-                        if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoDuplicate"].Checked == true)
+                        if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoDuplicate"].Checked)
                         {
                             tempSkills.Remove(randomSkill.Key);
                         }
@@ -623,14 +598,14 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxTotemPoint"].Name == "Random")
                 {
-                    avatar.SP = Convert.ToInt16(Seed.Next(8, 13) * 10);
+                    avatar.SP = Convert.ToInt16(Probability.Generator.Next(8, 13) * 10);
                 }
 
                 if (options["groupBoxTotemPointUp"].Name == "Random")
                 {
                     for (int s = 0; s < avatar.SPUP.Length; s++)
                     {
-                        avatar.SPUP[s] = Convert.ToByte(Seed.Next(1, 8) * 10);
+                        avatar.SPUP[s] = Convert.ToByte(Probability.Generator.Next(1, 8) * 10);
                     }
                 }
             }
@@ -638,83 +613,42 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
         public static void RandomizeEquipments(Dictionary<string, Option> options)
         {
-            // Randomize Each Boots
-            foreach (Equipment equipment in Equipments.Boots.Values)
-            {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Reset Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = 0;
-                    }
+            if (options["groupBoxMiscellaneousEquipment"].Name != "Random") return;
+            var max = Convert.ToInt32(options["groupBoxMiscellaneousEquipment"].NumericUpDowns["numericUpDownMaxStatIncrease"].Value) + 1;
 
-                    // Create Random Stat
-                    equipment.BaseStat.Values["Kick"] = Seed.Next(0, 15) * 5;
-                    equipment.BaseStat.Values["Speed"] = Seed.Next(0, 15) * 5;
-                } 
+            // Randomize Each Boots
+            foreach (var equipmentStats in Equipments.Boots.Values.Select(eq => eq.BaseStat.Values))
+            {
+                equipmentStats["Kick"] = Probability.Generator.Next(0, max);
+                equipmentStats["Speed"] = Probability.Generator.Next(0, max);
             }
 
             // Randomize Each Gloves
-            foreach (Equipment equipment in Equipments.Gloves.Values)
+            foreach (var equipmentStats in Equipments.Gloves.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Reset Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = 0;
-                    }
-
-                    // Create Random Stat
-                    equipment.BaseStat.Values["Catch"] = Seed.Next(0, 15) * 5;
-                    equipment.BaseStat.Values["Technique"] = Seed.Next(0, 15) * 5;
-                }
+                equipmentStats["Catch"] = Probability.Generator.Next(0, max);
+                equipmentStats["Technique"] = Probability.Generator.Next(0, max);
             }
 
             // Randomize Each Bracelets
-            foreach (Equipment equipment in Equipments.Bracelets.Values)
+            foreach (var equipmentStats in Equipments.Bracelets.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Reset Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = 0;
-                    }
-
-                    // Create Random Stat
-                    equipment.BaseStat.Values["Stamina"] = Seed.Next(0, 15) * 5;
-                    equipment.BaseStat.Values["Luck"] = Seed.Next(0, 15) * 5;
-                }
+                equipmentStats["Stamina"] = Probability.Generator.Next(0, max);
+                equipmentStats["Luck"] = Probability.Generator.Next(0, max);
             }
 
             // Randomize Each Pendants
-            foreach (Equipment equipment in Equipments.Pendants.Values)
+            foreach (var equipmentStats in Equipments.Pendants.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name == "Random")
-                {
-                    // Reset Stat
-                    List<string> keys = equipment.BaseStat.Values.Keys.ToList();
-                    for (int i = 0; i < keys.Count; i++)
-                    {
-                        equipment.BaseStat.Values[keys[i]] = 0;
-                    }
-
-                    // Create Random Stat
-                    equipment.BaseStat.Values["Dribble"] = Seed.Next(0, 15) * 5;
-                    equipment.BaseStat.Values["Block"] = Seed.Next(0, 15) * 5;
-                }
+                equipmentStats["Dribble"] = Probability.Generator.Next(0, max);
+                equipmentStats["Block"] = Probability.Generator.Next(0, max);
             }
         }
 
         public static void RandomizeTeams(Dictionary<string, Option> options)
         {
             // Merge Teams Dictionaries to one
-            Dictionary<UInt32, Team> teams = new Dictionary<UInt32, Team>();
+            var teams = new Dictionary<uint, Team>();
             Teams.Story.ToList().ForEach(x => teams.Add(x.Key, x.Value));
             Teams.Battle.ToList().ForEach(x => teams.Add(x.Key, x.Value));
             Teams.TaisenRoad.ToList().ForEach(x => teams.Add(x.Key, x.Value));
@@ -723,7 +657,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             // Randomize Each Team
             foreach (Team team in teams.Values)
             {
-                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMiniMatchize"].Checked == true)
+                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMiniMatchize"].Checked)
                 {
                     team.IsMatchField = false;
                     team.MiniMatchValue = 0x04;
@@ -732,7 +666,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxTeamsTimer"].Name == "Random")
                 {
-                    if (team.IsMatchField == true)
+                    if (team.IsMatchField)
                     {
                         team.Timer = (byte)options["groupBoxTeamsTimer"].NumericUpDowns["numericUpDownTeamsTimerMatch"].Value;
                     }
@@ -742,9 +676,9 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
                 }
 
-                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsDisableScript"].Checked == true)
+                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsDisableScript"].Checked)
                 {
-                    if (team.IsMatchField == true)
+                    if (team.IsMatchField)
                     {
                         team.ScriptID = 0x000009D3;
                         team.ScriptID2 = 0x00000019;
@@ -759,98 +693,106 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
                 }
 
-                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMaxDifficulty"].Checked == true)
+                if (options["groupBoxTeamsMiscellaneous"].CheckBoxes["checkBoxTeamsMaxDifficulty"].Checked)
                 {
-                    if (team.IsMatchField == true)
+                    team.ArtificialIntelligenceID = team.IsMatchField ? 0xF26795E4 : 0xF36795E4;
+                }
+
+                if (team.Param == null) continue;
+
+                if (options["groupBoxTeamsCoach"].Name == "Random")
+                {
+                    team.Param.Coach = Items.Coaches.ElementAt(Probability.Generator.Next(0, Items.Coaches.Count)).Key;
+                }
+
+                if (options["groupBoxTeamsFormation"].Name == "Random")
+                {
+                    team.Param.Formation = team.IsMatchField ? Items.FormationMatches.ElementAt(Probability.Generator.Next(0, Items.FormationMatches.Count)).Key : Items.FormationMiniMatches.ElementAt(Probability.Generator.Next(0, Items.FormationMiniMatches.Count)).Key;
+                }
+
+                if (options["groupBoxTeamsTactic"].Name == "Random")
+                {
+                    team.Param.Tactic = team.IsMatchField ? Items.Tactics.ElementAt(Probability.Generator.Next(0, Items.Tactics.Count)).Key : 0x00;
+                }
+
+                if (options["groupBoxTeamsDrop"].Name == "Random")
+                {
+                    for (int d = 0; d < team.Param.Drop.Length; d++)
                     {
-                        team.ArtificialIntelligenceID = 0xF26795E4;
-                    } else
-                    {
-                        team.ArtificialIntelligenceID = 0xF36795E4;
+                        if (Items.PotentialDrop.ContainsKey(team.Param.Drop[d]))
+                        {
+                            team.Param.Drop[d] = Items.PotentialDrop.ElementAt(Probability.Generator.Next(0, Items.PotentialDrop.Count)).Key;
+                        }
                     }
                 }
 
-                if (team.Param != null)
+                if (options["groupBoxTeamsKit"].Name == "Random")
                 {
-                    if (options["groupBoxTeamsCoach"].Name == "Random")
-                    {
-                        team.Param.Coach = Items.Coaches.ElementAt(Seed.Next(0, Items.Coaches.Count)).Key;
-                    }
+                    team.Param.Kit = Items.Kits.ElementAt(Probability.Generator.Next(0, Items.Kits.Count)).Key;
+                }
 
-                    if (options["groupBoxTeamsFormation"].Name == "Random")
-                    {
-                        if (team.IsMatchField == true)
-                        {
-                            team.Param.Formation = Items.FormationMatches.ElementAt(Seed.Next(0, Items.FormationMatches.Count)).Key;
-                        }
-                        else
-                        {
-                            team.Param.Formation = Items.FormationMiniMatches.ElementAt(Seed.Next(0, Items.FormationMiniMatches.Count)).Key;
-                        }
-                    }
+                if (options["groupBoxTeamsEquipment"].Name == "Random")
+                {
+                    team.Param.Equipments[0] = Equipments.Boots.Random().Key;
+                    team.Param.Equipments[1] = Equipments.Gloves.Random().Key;
+                    team.Param.Equipments[2] = Equipments.Bracelets.Random().Key;
+                    team.Param.Equipments[3] = Equipments.Pendants.Random().Key;
+                }
 
-                    if (options["groupBoxTeamsTactic"].Name == "Random")
-                    {
-                        if (team.IsMatchField == true)
-                        {
-                            team.Param.Tactic = Items.Tactics.ElementAt(Seed.Next(0, Items.Tactics.Count)).Key;
-                        }
-                        else
-                        {
-                            team.Param.Tactic = 0x00;
-                        }
-                    }
+                if (options["groupBoxTeamsLevel"].Name == "Random")
+                {
+                    team.Param.Level += (byte)(Convert.ToInt32(options["groupBoxTeamsLevel"].NumericUpDowns["numericUpDownTeamsLevel"].Value) * team.Param.Level / 100);
+                }
 
-                    if (options["groupBoxTeamsDrop"].Name == "Random")
+                if (options["groupBoxTeamsExperience"].Name == "Random")
+                {
+                    team.Param.Experience += (byte)(Convert.ToInt32(options["groupBoxTeamsExperience"].NumericUpDowns["numericUpDownTeamsExperience"].Value) * team.Param.Experience / 100);
+                }
+
+                if (options["groupBoxTeamsPrestige"].Name == "Random")
+                {
+                    team.Param.Prestige += (byte)(Convert.ToInt32(options["groupBoxTeamsPrestige"].NumericUpDowns["numericUpDownTeamsPrestige"].Value) * team.Param.Prestige / 100);
+                }
+
+                if (options["groupBoxTeamsFreedom"].Name == "Random")
+                {
+                    if (options["groupBoxTeamsFreedom"].CheckBoxes["checkBoxTeamsFreedomAll"].Checked)
                     {
-                        for (int d = 0; d < team.Param.Drop.Length; d++)
+                        team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
+                    }
+                    else if (team.Param.Freedom > 0)
+                    {
+                        team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
+                    }
+                }
+
+                if (options["groupBoxTeamSpiritLevel"].Name == "Random" && team.SoccerChara != null)
+                {
+                    team.SoccerChara.Players.Where(p => p.Avatar != null).ToList().ForEach(p =>
+                    {
+                        p.Avatar.Level = Convert.ToByte(Probability.Generator.Next(1, 7));
+                    });
+                }
+
+                if (options["groupBoxMixiMax"].Name == "Random" && team.SoccerChara != null)
+                {
+                    team.SoccerChara.Players.ForEach(p =>
+                    {
+                        var haveMixiMax = Probability.FromPercentage(Convert.ToInt32(options["groupBoxMixiMax"].NumericUpDowns["numericUpDownMixiMaxChance"].Value));
+                        if (haveMixiMax)
                         {
-                            if (Items.PotentialDrop.ContainsKey(team.Param.Drop[d]))
+                            var mixiPlayer = Players.All.Values.Except(new[] { p.Player }).Random();
+                            var mixiMoves = mixiPlayer.Skills.Random(2).Select(s => new SoccerMove(Moves.PlayerMoves[s.SkillId], s.SkillLevel));
+                            p.MixiMax = new SoccerPlayer(mixiPlayer, mixiMoves.ToArray())
                             {
-                                team.Param.Drop[d] = Items.PotentialDrop.ElementAt(Seed.Next(0, Items.PotentialDrop.Count)).Key;
-                            }
+                                Avatar = SoccerCharaConfig.GetAvatar(mixiPlayer.Param.Avatar, Convert.ToByte(Probability.Generator.Next(1, 7)))
+                            };
                         }
-                    }
-
-                    if (options["groupBoxTeamsKit"].Name == "Random")
-                    {
-                        team.Param.Kit = Items.Kits.ElementAt(Seed.Next(0, Items.Kits.Count)).Key;
-                    }
-
-                    if (options["groupBoxTeamsEquipment"].Name == "Random")
-                    {
-                        team.Param.Equipments[0] = Equipments.Boots.ElementAt(Seed.Next(0, Equipments.Boots.Count)).Key;
-                        team.Param.Equipments[1] = Equipments.Gloves.ElementAt(Seed.Next(0, Equipments.Gloves.Count)).Key;
-                        team.Param.Equipments[2] = Equipments.Bracelets.ElementAt(Seed.Next(0, Equipments.Bracelets.Count)).Key;
-                        team.Param.Equipments[3] = Equipments.Pendants.ElementAt(Seed.Next(0, Equipments.Pendants.Count)).Key;
-                    }
-
-                    if (options["groupBoxTeamsLevel"].Name == "Random")
-                    {
-                        team.Param.Level += (byte)(Convert.ToInt32(options["groupBoxTeamsLevel"].NumericUpDowns["numericUpDownTeamsLevel"].Value) * team.Param.Level / 100);
-                    }
-
-                    if (options["groupBoxTeamsExperience"].Name == "Random")
-                    {
-                        team.Param.Experience += (byte)(Convert.ToInt32(options["groupBoxTeamsExperience"].NumericUpDowns["numericUpDownTeamsExperience"].Value) * team.Param.Experience / 100);
-                    }
-
-                    if (options["groupBoxTeamsPrestige"].Name == "Random")
-                    {
-                        team.Param.Prestige += (byte)(Convert.ToInt32(options["groupBoxTeamsPrestige"].NumericUpDowns["numericUpDownTeamsPrestige"].Value) * team.Param.Prestige / 100);
-                    }
-
-                    if (options["groupBoxTeamsFreedom"].Name == "Random")
-                    {
-                        if (options["groupBoxTeamsFreedom"].CheckBoxes["checkBoxTeamsFreedomAll"].Checked == true)
+                        else
                         {
-                            team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
+                            p.MixiMax = null;
                         }
-                        else if (team.Param.Freedom > 0)
-                        {
-                            team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
-                        }
-                    }
+                    });
                 }
             }
         }
@@ -860,7 +802,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             DataReader shopReader = new DataReader(File.ReadAllBytes(filename));
             DataWriter shopWriter = new DataWriter(filename);
 
-            UInt32 takeUInt32 = shopReader.ReadUInt32();
+            var takeUInt32 = shopReader.ReadUInt32();
             while (shopReader.BaseStream.Position < shopReader.Length)
             {
                 // Shop Data Found
@@ -874,10 +816,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         shopReader.Skip(0x08);
                         shopWriter.Seek((uint)shopReader.BaseStream.Position);
 
-                        UInt32 itemID = shopReader.ReadUInt32();
-                        if (Items.PotentialShop.ContainsKey(itemID))
+                        var itemId = shopReader.ReadUInt32();
+                        if (Items.PotentialShop.ContainsKey(itemId))
                         {
-                            shopWriter.WriteUInt32(Items.PotentialShop.ElementAt(Seed.Next(0, Items.PotentialShop.Count)).Key);
+                            shopWriter.WriteUInt32(Items.PotentialShop.Random().Key);
                         }
 
                         shopReader.Skip(0x04);
@@ -899,7 +841,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             DataWriter treasureBoxWriter = new DataWriter(filename);
 
             // Find Start Byte
-            treasureBoxReader.Seek(0x3C); ;
+            treasureBoxReader.Seek(0x3C);
             int boxCount = treasureBoxReader.ReadInt32();
 
             // Randomize Treasure Box
@@ -908,13 +850,13 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 treasureBoxReader.Skip(0x14);
                 treasureBoxWriter.Seek((uint)treasureBoxReader.BaseStream.Position);
 
-                UInt32 itemID_one = treasureBoxReader.ReadUInt32();
-                UInt32 itemID_two = treasureBoxReader.ReadUInt32();
+                var itemIdOne = treasureBoxReader.ReadUInt32();
+                var itemIdTwo = treasureBoxReader.ReadUInt32();
 
                 // Check If It's a valid Treasure Box
-                if (itemID_one == itemID_two && Items.PotentialDrop.ContainsKey(itemID_one))
+                if (itemIdOne == itemIdTwo && Items.PotentialDrop.ContainsKey(itemIdOne))
                 {
-                    UInt32 randomItem = Items.PotentialDrop.ElementAt(Seed.Next(0, Items.PotentialDrop.Count)).Key;
+                    var randomItem = Items.PotentialDrop.Random().Key;
                     treasureBoxWriter.WriteUInt32(randomItem);
                     treasureBoxWriter.WriteUInt32(randomItem);
                 }

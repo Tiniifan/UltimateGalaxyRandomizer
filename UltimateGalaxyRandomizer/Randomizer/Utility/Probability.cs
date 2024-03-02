@@ -1,37 +1,44 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace UltimateGalaxyRandomizer.Randomizer.Utility
 {
-	public class Probability
-	{
-		private List<double> Pool { get; set; }
-
-		public Probability(int[] itemsProbability)
-		{
-			Pool = itemsProbability.Select(x => x / 100.0).ToList();
-		}
-
-		private double Next()
-		{
-			double u = Pool.Sum(p => p);
-			double r = Randomizer.Seed.NextDouble() * u;
-
-			double sum = 0;
-			foreach (double n in Pool)
-			{
-				if (r <= (sum = sum + n))
-				{
-					return n;
-				}
-			}
-
-			return 0.0;
-		}
-
-		public int GetRandomIndex()
+	public static class Probability
+    {
+        public static readonly System.Random Generator = new System.Random();
+        
+        public static int RandomIndex<T>(this IEnumerable<T> enumerable) => Generator.Next(0, enumerable.Count());
+        public static T Random<T>(this IEnumerable<T> enumerable)
         {
-			return Pool.IndexOf(Next());
+            var list = enumerable.ToList();
+            return list[list.RandomIndex()];
+        }        
+        public static IEnumerable<T> Random<T>(this IEnumerable<T> enumerable, int number)
+        {
+            var list = enumerable.ToList();
+            var selected = new List<T>();
+            while (selected.Count < number && list.Except(selected).Any())
+            {
+                selected.Add(list.Except(selected).Random());
+            }
+            return selected;
         }
-	}
+
+        public static bool FromPercentage(int value) => Generator.Next(0, 100) < value;
+
+        public static int IndexFromProbabilities(params int[] probabilities)
+        {
+            var total = probabilities.Sum();
+            var random = Generator.Next(0, total);
+            for (var i = 0; i < probabilities.Length; i++)
+            {
+                if (random < probabilities[i]) return i;
+                random -= probabilities[i];
+            }
+
+            return probabilities.Length - 1;
+        }
+
+        public static int RandomAsProbabilities(this int[] probabilities) => IndexFromProbabilities(probabilities);
+    }
 }

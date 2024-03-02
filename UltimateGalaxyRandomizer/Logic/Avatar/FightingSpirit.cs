@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
@@ -11,23 +12,23 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public long Offset { get; set; }
 
-        public UInt32 NameID { get; set; }
+        public uint NameID { get; set; }
 
-        public UInt32 DescriptionID { get; set; }
+        public uint DescriptionID { get; set; }
 
-        public Int16 ImageModel { get; set; }
+        public short ImageModel { get; set; }
 
         public byte Position { get; set; }
 
         public byte Element { get; set; }
 
-        public UInt32 MoveID { get; set; }
+        public uint MoveID { get; set; }
 
-        public UInt32 SkillID { get; set; }
+        public uint SkillID { get; set; }
 
-        public Int16 FS { get; set; }
+        public short FS { get; set; }
 
-        public Int16 Attack { get; set; }
+        public short Attack { get; set; }
 
         public int[] FSPUP { get; set; }
 
@@ -69,19 +70,16 @@ namespace UltimateGalaxyRandomizer.Logic
             writer.Skip(0x0C);
             writer.WriteInt16(FS);
             writer.WriteInt16(Attack);
-            writer.Write(FSPUP.Select(x => Convert.ToByte(x)).ToArray());
-            writer.Write(AttackUP.Select(x => Convert.ToByte(x)).ToArray());
+            writer.Write(FSPUP.Select(Convert.ToByte).ToArray());
+            writer.Write(AttackUP.Select(Convert.ToByte).ToArray());
             writer.Write(Position);
             writer.Write(Element);
             writer.Skip(0x04);
         }
 
-        public Probability GetPositionProbability()
-        {
-            return new Probability(Positions.Player[Position].MoveProbability);
-        }
+        public int[] GetPositionProbability() => Positions.Player[Position].MoveProbability;
 
-        public Probability GetElementProbability()
+        public int[] GetElementProbability()
         {
             int[] elementProbability = new int[5] { 15, 15, 15, 15, 15 };
 
@@ -94,7 +92,7 @@ namespace UltimateGalaxyRandomizer.Logic
                 elementProbability[Element-1] = 40;
             }
 
-            return new Probability(elementProbability);
+            return elementProbability;
         }
     }
 }

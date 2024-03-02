@@ -6,7 +6,7 @@ namespace UltimateGalaxyRandomizer.Resources
 {
     public class Teams
     {
-        public static Dictionary<UInt32, Team> Story = new Dictionary<UInt32, Team>()
+        public static Dictionary<uint, Team> Story = new Dictionary<uint, Team>()
         {
             {0x17EC7CD1, new Team("Royal Academy (Story)")},
             {0x8EE52D6B, new Team("Fire Dragon (Story)")},
@@ -41,7 +41,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x162E16E6, new Team("6BC2B027")},
         };
 
-        public static Dictionary<UInt32, Team> Battle = new Dictionary<UInt32, Team>()
+        public static Dictionary<uint, Team> Battle = new Dictionary<uint, Team>()
         {
             {0x8F27475C, new Team("Battle 1")},
             {0xF82077CA, new Team("47A3BEC9")},
@@ -218,7 +218,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x2BA472DA, new Team("82FA5E6E")},
         };
 
-        public static Dictionary<UInt32, Team> TaisenRoad = new Dictionary<UInt32, Team>()
+        public static Dictionary<uint, Team> TaisenRoad = new Dictionary<uint, Team>()
         {
             {0xAE927183, new Team("20 000 lieus")},
             {0x379B2039, new Team("A1FC67E8")},
@@ -475,7 +475,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x4068812B, new Team("B35D949F")},
         };
 
-        public static Dictionary<UInt32, Team> LegendGate = new Dictionary<UInt32, Team>()
+        public static Dictionary<uint, Team> LegendGate = new Dictionary<uint, Team>()
         {
             {0x988EEB86, new Team("1E377247")},
             {0x0187BA3C, new Team("A4667BDE")},

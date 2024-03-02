@@ -7,29 +7,29 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public long Offset { get; set; }
 
-        public UInt32 TeamParamID { get; set; }
+        public uint TeamParamID { get; set; }
 
-        public UInt32 TeamBaseID { get; set; }
+        public uint TeamBaseID { get; set; }
 
         public Int32 Prestige { get; set; }
 
         public Int32 Experience { get; set; }
 
-        public UInt32[] Equipments { get; set; }
+        public uint[] Equipments { get; set; }
 
-        public UInt32[] Drop { get; set; }
+        public uint[] Drop { get; set; }
 
-        public UInt32 Kit { get; set; }
+        public uint Kit { get; set; }
 
         public byte[] DropRate { get; set; }
 
-        public UInt32 Formation { get; set; }
+        public uint Formation { get; set; }
 
         public byte Level { get; set; }
 
-        public UInt32 Coach { get; set; }
+        public uint Coach { get; set; }
 
-        public UInt32 Tactic { get; set; }
+        public uint Tactic { get; set; }
 
         public Int32 Freedom { get; set; }
 
@@ -43,13 +43,13 @@ namespace UltimateGalaxyRandomizer.Logic
             Prestige = reader.ReadInt32();
             Experience = reader.ReadInt32();
 
-            Equipments = new UInt32[4];
+            Equipments = new uint[4];
             for (int i = 0; i < 4; i++)
             {
                 Equipments[i] = reader.ReadUInt32();
             }
 
-            Drop = new UInt32[6];
+            Drop = new uint[6];
             for (int i = 0; i < 5; i++)
             {
                 Drop[i] = reader.ReadUInt32();

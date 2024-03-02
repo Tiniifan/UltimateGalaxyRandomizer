@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
@@ -21,23 +22,15 @@ namespace UltimateGalaxyRandomizer.Logic
             Name = name;
         }
 
-        public Player Clone()
+        public Player Clone() => new Player(Name)
         {
-            Player cloned = new Player(Name);
+            Param = Param.Clone(),
+            Base = Base.Clone(),
+            Skills = Skills.Select(x => x.Clone()).ToArray()
+        };
 
-            cloned.Param = Param.Clone();
-            cloned.Base = Base.Clone();
-            cloned.Skills = Skills.Select(x => x.Clone()).ToArray();
-
-            return cloned;
-        }
-
-        public Probability GetPositionProbability()
-        {
-            return new Probability(Positions.Player[Param.Position].MoveProbability);
-        }
-
-        public Probability GetElementProbability()
+        public int[] GetPositionProbability() => Positions.Player[Param.Position].MoveProbability;
+        public int[] GetElementProbability()
         {
             int[] elementProbability = new int[5] { 15, 15, 15, 15, 15 };
 
@@ -47,44 +40,43 @@ namespace UltimateGalaxyRandomizer.Logic
             }
             else
             {
-                elementProbability[Param.Element-1] = 40;
+                elementProbability[Param.Element - 1] = 40;
             }
 
-            return new Probability(elementProbability);
+            return elementProbability;
         }
 
-        public List<UInt32> GetRandomMoveset(int count)
+        public List<uint> GetRandomMoveset(int count)
         {
-            Probability samePosition = GetPositionProbability();
-            Probability sameElement = GetPositionProbability();
-
             int skillCount = 0;
 
-            List<UInt32> moveset = new List<UInt32>();
+            var moveset = new List<uint>();
 
             for (int s = 0; s < count; s++)
             {
-                Dictionary<UInt32, Move> possibleMoves = new Dictionary<UInt32, Move>();
+                Dictionary<uint, Move> possibleMoves;
 
                 // Get a random Move Type according to player position probability
-                int movePosition = samePosition.GetRandomIndex();
+                int movePosition = GetPositionProbability().RandomAsProbabilities();
+#pragma warning disable S2583
                 if (skillCount > 2)
+#pragma warning restore S2583
                 {
                     // Avoids having more than 2 skills
                     while (movePosition == 4)
                     {
-                        movePosition = samePosition.GetRandomIndex();
+                        movePosition = GetPositionProbability().RandomAsProbabilities();
                     }
                 }
 
-                // Check If the Move Type is a skill;
+                // Check if the Move Type is a skill
                 if (movePosition < 4)
                 {
                     // Create a list of moves according to player position probability
                     possibleMoves = Moves.PlayerMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
 
                     // Create a list of moves according to player element probability
-                    int moveElement = sameElement.GetRandomIndex();
+                    int moveElement = GetElementProbability().RandomAsProbabilities();
                     possibleMoves = possibleMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
                 }
                 else
@@ -99,58 +91,40 @@ namespace UltimateGalaxyRandomizer.Logic
                     possibleMoves = Moves.PlayerMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
                 }
 
-                moveset.Add(possibleMoves.ElementAt(Randomizer.Randomizer.Seed.Next(0, possibleMoves.Count)).Key);
+                moveset.Add(possibleMoves.Random().Key);
             }
 
             return moveset;
         }
 
-        public UInt32 GetRandomFightingSpirit()
+        public uint GetRandomFightingSpirit()
         {
-            Probability samePlayerPosition = GetPositionProbability();
-            Probability samePlayerElement = GetElementProbability();
-
-            Dictionary<UInt32, FightingSpirit> possibleAvatars = new Dictionary<UInt32, FightingSpirit>();
-
-            // Create a list of Avatars according to the position probability
-            int movePosition = samePlayerPosition.GetRandomIndex() + 1;
-            possibleAvatars = Avatars.FightingSpirits.Where(x => x.Value.Position == movePosition).ToDictionary(x => x.Key, x => x.Value);
-
-            // Create a list of moves according to the element probability
-            int moveElement = samePlayerElement.GetRandomIndex();
-            possibleAvatars = possibleAvatars.Where(x => x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
+            int movePosition = GetPositionProbability().RandomAsProbabilities() + 1;
+            int moveElement = GetElementProbability().RandomAsProbabilities();
+            var possibleAvatars = Avatars.FightingSpirits
+                .Where(x => x.Value.Position == movePosition)
+                .Where(x => x.Value.Element == moveElement + 1)
+                .ToDictionary(x => x.Key, x => x.Value);
 
             // Only in an extreme case
-            if (possibleAvatars.Count == 0)
-            {
-                possibleAvatars = Avatars.FightingSpirits;
-            }
+            if (!possibleAvatars.Any()) possibleAvatars = Avatars.FightingSpirits.ToDictionary(x => x.Key, x => x.Value);
 
-            return possibleAvatars.ElementAt(Randomizer.Randomizer.Seed.Next(0, possibleAvatars.Count)).Key;
+            return possibleAvatars.Random().Key;
         }
 
-        public UInt32 GetRandomTotem()
+        public uint GetRandomTotem()
         {
-            Probability samePlayerPosition = GetPositionProbability();
-            Probability samePlayerElement = GetElementProbability();
-
-            Dictionary<UInt32, Totem> possibleTotems = new Dictionary<UInt32, Totem>();
-
-            // Create a list of Avatars according to the position probability
-            int movePosition = samePlayerPosition.GetRandomIndex() + 1;
-            possibleTotems = Avatars.Totems.Where(x => x.Value.Position == movePosition).ToDictionary(x => x.Key, x => x.Value);
-
-            // Create a list of moves according to the element probability
-            int moveElement = samePlayerElement.GetRandomIndex();
-            possibleTotems = possibleTotems.Where(x => x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
+            int movePosition = GetPositionProbability().RandomAsProbabilities() + 1;
+            int moveElement = GetElementProbability().RandomAsProbabilities();
+            var possibleTotems = Avatars.Totems
+                .Where(x => x.Value.Position == movePosition)
+                .Where(x => x.Value.Element == moveElement + 1)
+                .ToDictionary(pair => pair.Key, x => x.Value);
 
             // Only in an extreme case
-            if (possibleTotems.Count == 0)
-            {
-                possibleTotems = Avatars.Totems;
-            }
+            if (!possibleTotems.Any()) possibleTotems = Avatars.Totems.ToDictionary(x => x.Key, x => x.Value);
 
-            return possibleTotems.ElementAt(Randomizer.Randomizer.Seed.Next(0, possibleTotems.Count)).Key;
+            return possibleTotems.Random().Key;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace UltimateGalaxyRandomizer.Tools
 
         }
 
-        public override Int16 ReadInt16()
+        public override short ReadInt16()
         {
             return BitConverter.ToInt16(Reverse(base.ReadBytes(2)), 0);
         }
@@ -29,7 +29,7 @@ namespace UltimateGalaxyRandomizer.Tools
             return BitConverter.ToInt32(Reverse(base.ReadBytes(4)), 0);
         }
 
-        public override UInt32 ReadUInt32()
+        public override uint ReadUInt32()
         {
             return BitConverter.ToUInt32(Reverse(base.ReadBytes(4)), 0);
         }

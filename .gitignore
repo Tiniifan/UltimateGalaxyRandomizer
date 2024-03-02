@@ -396,3 +396,14 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/UltimateGalaxyRandomizer/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+/UltimateGalaxyRandomizer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/UltimateGalaxyRandomizer/obj/Debug/UltimateGalaxyRandomizer.csproj.AssemblyReference.cache
+/UltimateGalaxyRandomizer/obj/Debug/UltimateGalaxyRandomizer.csproj.CoreCompileInputs.cache
+/UltimateGalaxyRandomizer/obj/Debug/UltimateGalaxyRandomizer.csproj.FileListAbsolute.txt
+/UltimateGalaxyRandomizer/obj/Debug/UltimateGalaxyRandomizer.csproj.GenerateResource.cache
+/UltimateGalaxyRandomizer/obj/Debug/UltimateGalaxyRandomizer.exe
+/UltimateGalaxyRandomizer/obj/Debug/UltimateGalaxyRandomizer.pdb
+/UltimateGalaxyRandomizer/bin/Debug/UltimateGalaxyRandomizer.exe
+/UltimateGalaxyRandomizer/bin/Debug/UltimateGalaxyRandomizer.pdb
+/UltimateGalaxyRandomizer/obj/Release/UltimateGalaxyRandomizer.csproj.AssemblyReference.cache

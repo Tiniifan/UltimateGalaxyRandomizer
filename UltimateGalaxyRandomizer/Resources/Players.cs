@@ -6,7 +6,7 @@ namespace UltimateGalaxyRandomizer.Resources
 {
     public class Players
     {
-        public static Dictionary<UInt32, Player> Story = new Dictionary<UInt32, Player>()
+        public static Dictionary<uint, Player> Story = new Dictionary<uint, Player>()
         {
             {0x960E2CA3, new Player("Jean-Pierre Lapin")},
             {0xE8BF501E, new Player("Arion Sherwind")},
@@ -28,7 +28,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x14CC4756, new Player("Falco Flasman (Obscur)")},
         };
 
-        public static Dictionary<UInt32, Player> Normal = new Dictionary<UInt32, Player>()
+        public static Dictionary<uint, Player> Normal = new Dictionary<uint, Player>()
         {
             {0x9163E8BA, new Player("Samgunk Han")},
             {0x086AB900, new Player("Subaru Honda")},
@@ -1037,7 +1037,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x9F6C8949, new Player("Globulus Ava (Jeune)")},
         };
 
-        public static Dictionary<UInt32, Player> Scout = new Dictionary<UInt32, Player>()
+        public static Dictionary<uint, Player> Scout = new Dictionary<uint, Player>()
         {
             {0x29DF8FDF, new Player("Icarus Damselfly")},
             {0xB0D6DE65, new Player("Casey Moth")},

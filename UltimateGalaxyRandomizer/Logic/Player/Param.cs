@@ -9,9 +9,9 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public long Offset { get; set; }
 
-        public UInt32 BaseID { get; set; }
+        public uint BaseID { get; set; }
 
-        public Int16 SkillOffset { get; set; }
+        public short SkillOffset { get; set; }
 
         public byte UnknownValue { get; set; }
 
@@ -25,13 +25,13 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public Stats GrownStat { get; set; }
 
-        public UInt32 Avatar { get; set; }
+        public uint Avatar { get; set; }
 
         public byte ExperienceBar { get; set; }
 
         public byte SkillCount { get; set; }
 
-        public Int16 Freedom { get; set; }
+        public short Freedom { get; set; }
 
         public Param()
         {

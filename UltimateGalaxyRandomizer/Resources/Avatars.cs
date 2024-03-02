@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Logic;
+using UltimateGalaxyRandomizer.Logic.Avatar;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
 namespace UltimateGalaxyRandomizer.Resources
 {
     public class Avatars
     {
-        public static Dictionary<UInt32, FightingSpirit> FightingSpirits = new Dictionary<UInt32, FightingSpirit>()
+        public static Dictionary<uint, FightingSpirit> FightingSpirits = new Dictionary<uint, FightingSpirit>()
         {
             {0x8B98B1F3, new FightingSpirit("Pegasus")},
             {0x1291E049, new FightingSpirit("Lancelot")},
@@ -104,7 +105,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x54818288, new FightingSpirit("Arch Pegasus Red")},
         };
 
-        public static Dictionary<UInt32, Totem> Totems = new Dictionary<UInt32, Totem>()
+        public static Dictionary<uint, Totem> Totems = new Dictionary<uint, Totem>()
         {
             {0xDB086DB0, new Totem("Horse")},
             {0x42013C0A, new Totem("Wolf")},
@@ -164,7 +165,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x381B0C56, new Totem("Pegasus (Totem)")},
         };
 
-        public static Dictionary<int, UInt32> Table = new Dictionary<int, UInt32>
+        public static Dictionary<int, uint> Table = new Dictionary<int, uint>
         {
 
         };

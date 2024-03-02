@@ -76,7 +76,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             charaParamReader.Close();
             skillTableReader.Close();
         }
-        private void FixPlayer(KeyValuePair<UInt32, Player> player)
+        private void FixPlayer(KeyValuePair<uint, Player> player)
         {
             // Jean Pierre Lapin
             if (player.Key == 0x960E2CA3)
@@ -85,7 +85,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             }
             else if (player.Key == 0xE8BF501E)
             {
-                player.Value.Skills[0].SkillID = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 2).Select(x => x.Key).FirstOrDefault();
+                player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 2).Select(x => x.Key).FirstOrDefault();
                 player.Value.Skills[0].LearnAtLevel = 0x00;
                 player.Value.Skills[3].LearnAtLevel = 0x64;
             }
@@ -95,7 +95,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             }
             else if (player.Key == 0xFF7FE96D)
             {
-                player.Value.Skills[0].SkillID = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 1).Select(x => x.Key).FirstOrDefault();
+                player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 1).Select(x => x.Key).FirstOrDefault();
                 player.Value.Skills[0].LearnAtLevel = 0x00;
                 player.Value.Skills[3].LearnAtLevel = 0x64;
             }
@@ -149,13 +149,13 @@ namespace UltimateGalaxyRandomizer.Randomizer
             DataWriter skilltableWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat");
 
             // Merge Player Dictionaries to one
-            Dictionary<UInt32, Player> players = new Dictionary<UInt32, Player>();
+            Dictionary<uint, Player> players = new Dictionary<uint, Player>();
             Players.Story.ToList().ForEach(x => players.Add(x.Key, x.Value));
             Players.Normal.ToList().ForEach(x => players.Add(x.Key, x.Value));
             Players.Scout.ToList().ForEach(x => players.Add(x.Key, x.Value));
 
             // Write Player Data
-            foreach(KeyValuePair<UInt32, Player> player in players)
+            foreach(KeyValuePair<uint, Player> player in players)
             {
                 player.Value.Base.Write(charabaseWriter);
                 player.Value.Param.Write(charaparamWriter);
@@ -356,7 +356,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             itemConfigReader.Seek(0x30);
             for (int i = 0; i < equipmentCount; i++)
             {
-                UInt32 equipmentId = itemConfigReader.ReadUInt32();
+                uint equipmentId = itemConfigReader.ReadUInt32();
 
                 if (Equipments.Boots.ContainsKey(equipmentId))
                 {
@@ -431,7 +431,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     // Learn skill
                     if (player.Player.Skills[m].LearnAtLevel < team.Param.Level)
                     {
-                        player.Moves[m] = new SoccerMove(Moves.PlayerMoves[player.Player.Skills[m].SkillID], 1);
+                        player.Moves[m] = new SoccerMove(Moves.PlayerMoves[player.Player.Skills[m].SkillId], 1);
                     } else
                     {
                         player.Moves[m] = null;
@@ -465,7 +465,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             for (int i = 0; i < teamCount; i++)
             {
                 soccerConfigReader.Skip(0x0C);
-                UInt32 teamID = soccerConfigReader.ReadUInt32();
+                uint teamID = soccerConfigReader.ReadUInt32();
 
                 if (Teams.Story.ContainsKey(teamID))
                 {
@@ -497,7 +497,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 long tempPosition = teamParamReader.BaseStream.Position;
 
                 teamParamReader.Skip(0x10);
-                UInt32 teamId = teamParamReader.ReadUInt32();
+                uint teamId = teamParamReader.ReadUInt32();
 
                 // Search if Team Param ID exists 
                 var tryStory = Teams.Story.FirstOrDefault(x => x.Value.TeamParamID == teamId);

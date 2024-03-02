@@ -89,7 +89,6 @@
     <Compile Include="Randomizer\Randomizer.cs" />
     <Compile Include="Randomizer\Utility\Option.cs" />
     <Compile Include="Randomizer\Utility\Probability.cs" />
-    <Compile Include="Randomizer\Utility\RandomNumber.cs" />
     <Compile Include="Tools\DataReader.cs" />
     <Compile Include="Tools\DataWriter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

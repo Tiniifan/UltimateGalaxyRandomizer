@@ -6,7 +6,7 @@ namespace UltimateGalaxyRandomizer.Resources
 {
     public static class Moves
     {
-        public static Dictionary<UInt32, Move> PlayerMoves = new Dictionary<UInt32, Move>()
+        public static Dictionary<uint, Move> PlayerMoves = new Dictionary<uint, Move>()
         {
             {0xB4AE0D0B, new Move("Fire Tornado")},
             {0x2DA75CB1, new Move("Eternal Blizzard")},
@@ -414,7 +414,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0xD2B458E6, new Move("E658B4D2")},
         };
 
-        public static Dictionary<UInt32, Move> FightingSpiritMoves = new Dictionary<UInt32, Move>()
+        public static Dictionary<uint, Move> FightingSpiritMoves = new Dictionary<uint, Move>()
         {
             {0x323A7FA5, new Move("Fireball Storm")},
             {0xAB332E1F, new Move("1F2E33AB")},
@@ -543,7 +543,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x53AA567C, new Move("7C56AA53")},
         };
 
-        public static Dictionary<UInt32, Move> TotemMoves = new Dictionary<UInt32, Move>()
+        public static Dictionary<uint, Move> TotemMoves = new Dictionary<uint, Move>()
         {
             {0xDDBFFF53, new Move("Totem Strike: Falcon")},
             {0x44B6AEE9, new Move("Totem Strike: Wolf")},

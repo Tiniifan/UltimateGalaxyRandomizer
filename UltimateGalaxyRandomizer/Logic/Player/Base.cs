@@ -7,17 +7,17 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public long Offset { get; set; }
 
-        public UInt32 BaseID { get; set; }
+        public uint BaseID { get; set; }
 
-        public UInt32 NameID { get; set; }
+        public uint NameID { get; set; }
 
-        public UInt32 NicknameID { get; set; }
+        public uint NicknameID { get; set; }
 
-        public UInt32 DescriptionID { get; set; }
+        public uint DescriptionID { get; set; }
 
-        public Int16 HeadID { get; set; }
+        public short HeadID { get; set; }
 
-        public Int16 HeadIDSwap { get; set; }
+        public short HeadIDSwap { get; set; }
 
         public byte Style { get; set; }
 
@@ -47,22 +47,18 @@ namespace UltimateGalaxyRandomizer.Logic
             reader.Skip(0x04);
         }
 
-        public Base Clone()
+        public Base Clone() => new Base
         {
-            Base cloned = new Base();
-
-            cloned.Offset = Offset;
-            cloned.BaseID = BaseID;
-            cloned.NameID = NameID;
-            cloned.NicknameID = NicknameID;
-            cloned.DescriptionID = DescriptionID;
-            cloned.HeadID = HeadID;
-            cloned.Style = Style;
-            cloned.Size = Size;
-            cloned.Identity = Identity;
-
-            return cloned;
-        }
+            Offset = Offset,
+            BaseID = BaseID,
+            NameID = NameID,
+            NicknameID = NicknameID,
+            DescriptionID = DescriptionID,
+            HeadID = HeadID,
+            Style = Style,
+            Size = Size,
+            Identity = Identity
+        };
 
         public void Swap(Base characterBase)
         {

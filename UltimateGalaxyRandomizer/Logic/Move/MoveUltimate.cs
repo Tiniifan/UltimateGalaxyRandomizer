@@ -9,11 +9,11 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public long Offset { get; set; }
 
-        public Int16 Power { get; set; }
+        public short Power { get; set; }
 
         public byte TP { get; set; }
 
-        public Int16 Technique { get; set; }
+        public short Technique { get; set; }
 
         public sbyte Damage { get; set; }
 

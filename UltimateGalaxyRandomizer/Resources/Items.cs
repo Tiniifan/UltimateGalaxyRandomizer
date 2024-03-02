@@ -5,7 +5,7 @@ namespace UltimateGalaxyRandomizer.Resources
 {
     public class Items
     {
-        public static Dictionary<UInt32, string> PotentialShop = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> PotentialShop = new Dictionary<uint, string>
         {
             {0x33D01FA2, " "},
             {0xAAD94E18, " "},
@@ -716,7 +716,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0xE555BF75, " "},
         };
 
-        public static Dictionary<UInt32, string> PotentialDrop = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> PotentialDrop = new Dictionary<uint, string>
         {
             {0x33D01FA2, " "},
             {0xAAD94E18, " "},
@@ -1740,7 +1740,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0xF4C211C3, " "},
         };
 
-        public static Dictionary<UInt32, string> Kits = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> Kits = new Dictionary<uint, string>
         {
             {0x00001770, " "},
             {0x00049BB0, " "},
@@ -1912,7 +1912,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x000003EA, " "},
         };
 
-        public static Dictionary<UInt32, string> Coaches = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> Coaches = new Dictionary<uint, string>
         {
             {0x7EA0B5EB, " "},
             {0x228AD6BE, " "},
@@ -1960,7 +1960,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x00000000, " "},
         };
 
-        public static Dictionary<UInt32, string> Tactics = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> Tactics = new Dictionary<uint, string>
         {
             {0x62149236, " "},
             {0xD75D5456, " "},
@@ -1989,7 +1989,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x00000000, " "},
         };
 
-        public static Dictionary<UInt32, string> FormationMatches = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> FormationMatches = new Dictionary<uint, string>
         {
             {0x3D01DAA9, " "},
             {0xB00EBA98, " "},
@@ -2047,7 +2047,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x66467DE5, " "},
         };
 
-        public static Dictionary<UInt32, string> FormationMiniMatches = new Dictionary<UInt32, string>
+        public static Dictionary<uint, string> FormationMiniMatches = new Dictionary<uint, string>
         {
             {0xFC1C6EAC, " "},
             {0x7B63CA4E, " "},

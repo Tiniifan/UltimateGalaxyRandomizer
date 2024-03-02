@@ -7,9 +7,9 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public long Offset { get; set; }
 
-        public UInt32 SkillID { get; set; }
+        public uint SkillId { get; set; }
 
-        public Int16 SkillNumber { get; set; }
+        public short SkillNumber { get; set; }
 
         public byte LearnAtLevel { get; set; }
 
@@ -23,28 +23,24 @@ namespace UltimateGalaxyRandomizer.Logic
         public SkillTable(DataReader reader)
         {
             Offset = reader.BaseStream.Position;
-            SkillID = reader.ReadUInt32();
+            SkillId = reader.ReadUInt32();
             SkillNumber = reader.ReadInt16();
             LearnAtLevel = reader.ReadByte();
             SkillLevel = reader.ReadByte();
         }
 
-        public SkillTable Clone()
+        public SkillTable Clone() => new SkillTable
         {
-            SkillTable cloned = new SkillTable();
-
-            cloned.Offset = Offset;
-            cloned.SkillID = SkillID;
-            cloned.SkillNumber = SkillNumber;
-            cloned.LearnAtLevel = LearnAtLevel;
-            cloned.SkillLevel = SkillLevel;
-
-            return cloned;
-        }
+            Offset = Offset,
+            SkillId = SkillId,
+            SkillNumber = SkillNumber,
+            LearnAtLevel = LearnAtLevel,
+            SkillLevel = SkillLevel
+        };
 
         public void Write(DataWriter writer)
         {
-            writer.WriteUInt32(SkillID);
+            writer.WriteUInt32(SkillId);
             writer.WriteInt16(SkillNumber);
             writer.Write(LearnAtLevel);
             writer.Write(SkillLevel);

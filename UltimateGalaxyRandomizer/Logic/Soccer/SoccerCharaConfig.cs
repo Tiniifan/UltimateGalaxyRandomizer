@@ -11,7 +11,7 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public List<SoccerPlayer> Players = new List<SoccerPlayer>();
 
-        private SoccerPlayer GetPlayer(UInt32 charaparamID)
+        private SoccerPlayer GetPlayer(uint charaparamID)
         {
             if (Resources.Players.Story.ContainsKey(charaparamID))
             {
@@ -29,7 +29,7 @@ namespace UltimateGalaxyRandomizer.Logic
                 return null;
             }
         }
-        private UInt32 GetPlayerKey(SoccerPlayer player)
+        private uint GetPlayerKey(SoccerPlayer player)
         {
             if (Resources.Players.Story.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
             {
@@ -49,7 +49,7 @@ namespace UltimateGalaxyRandomizer.Logic
             }
         }
 
-        private SoccerAvatar GetAvatar(UInt32 avatarID, byte avatarLevel)
+        private SoccerAvatar GetAvatar(uint avatarID, byte avatarLevel)
         {
             if (Avatars.FightingSpirits.ContainsKey(avatarID))
             {
@@ -65,7 +65,7 @@ namespace UltimateGalaxyRandomizer.Logic
             }
         }
 
-        private UInt32 GetAvatarKey(SoccerAvatar avatar)
+        private uint GetAvatarKey(SoccerAvatar avatar)
         {
             if (Avatars.FightingSpirits.FirstOrDefault(x => x.Value == avatar.Avatar).Key != 0x00)
             {
@@ -91,14 +91,14 @@ namespace UltimateGalaxyRandomizer.Logic
             {
                 reader.Skip(0x08);
 
-                UInt32 charaparamID = reader.ReadUInt32();
+                uint charaparamID = reader.ReadUInt32();
                 Players.Add(GetPlayer(charaparamID));
                 reader.Skip(0x14);
 
                 SoccerMove[] moves = new SoccerMove[6];
                 for (int s = 0; s < 6; s++)
                 {
-                    UInt32 moveID = reader.ReadUInt32();
+                    uint moveID = reader.ReadUInt32();
                     byte moveLevel = reader.ReadByte();
                     reader.Skip(0x03);
 
@@ -117,14 +117,14 @@ namespace UltimateGalaxyRandomizer.Logic
                     Players[i].Moves = moves;
                 }
                 
-                UInt32 takeFourBytes = reader.ReadUInt32();
+                uint takeFourBytes = reader.ReadUInt32();
                 while (takeFourBytes != 0xEEA96EEA && takeFourBytes != 0x18CCE768)
                 {
                     // Avatar Entry
                     if (takeFourBytes == 0x7499DA26)
                     {
                         reader.Skip(0x04);
-                        UInt32 avatarID = reader.ReadUInt32();
+                        uint avatarID = reader.ReadUInt32();
                         byte avatarLevel = reader.ReadByte();
                         reader.Skip(0x03);
 
@@ -140,11 +140,11 @@ namespace UltimateGalaxyRandomizer.Logic
                     if (takeFourBytes == 0xE912CEED)
                     {
                         reader.Skip(0x08);
-                        UInt32 miximaxID = reader.ReadUInt32();
+                        uint miximaxID = reader.ReadUInt32();
                         SoccerMove[] miximaxMoves = new SoccerMove[2];
                         for (int s = 0; s < 2; s++)
                         {
-                            UInt32 moveID = reader.ReadUInt32();
+                            uint moveID = reader.ReadUInt32();
                             byte moveLevel = reader.ReadByte();
                             reader.Skip(0x03);
 

@@ -9,23 +9,23 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public long Offset { get; set; }
 
-        public UInt32 TeamParamID { get; set; }
+        public uint TeamParamID { get; set; }
 
         public bool IsMatchField { get; set; }
 
         public byte MiniMatchValue { get; set; }
 
-        public UInt32 ScriptID { get; set; }
+        public uint ScriptID { get; set; }
 
         public byte Timer { get; set; }
 
-        public UInt32 ArtificialIntelligenceID { get; set; }
+        public uint ArtificialIntelligenceID { get; set; }
 
-        public UInt32 ScriptID2 { get; set; }
+        public uint ScriptID2 { get; set; }
 
-        public UInt32 RestrictionID { get; set; }
+        public uint RestrictionID { get; set; }
 
-        public UInt32 RestrictionID2 { get; set; }
+        public uint RestrictionID2 { get; set; }
 
         public TeamParam Param { get; set; }
 

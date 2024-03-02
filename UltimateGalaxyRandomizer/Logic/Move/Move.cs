@@ -9,9 +9,9 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public long Offset { get; set; }
 
-        public UInt32 NameID { get; set; }
+        public uint NameID { get; set; }
 
-        public UInt32 DescriptionID { get; set; }
+        public uint DescriptionID { get; set; }
 
         public byte Effect { get; set; }
 
@@ -31,7 +31,7 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public byte Power { get; set; }
 
-        public Int16 Technique { get; set; }
+        public short Technique { get; set; }
 
         public sbyte Damage { get; set; }
 

@@ -11,58 +11,58 @@ namespace UltimateGalaxyRandomizer.Logic
     {
         public List<SoccerPlayer> Players = new List<SoccerPlayer>();
 
-        private SoccerPlayer GetPlayer(uint charaparamID)
+        private static SoccerPlayer GetPlayer(uint charaParamId)
         {
-            if (Resources.Players.Story.ContainsKey(charaparamID))
+            if (Resources.Players.Story.TryGetValue(charaParamId, out var player))
             {
-                return new SoccerPlayer(Resources.Players.Story[charaparamID]);
+                return new SoccerPlayer(player);
             }
-            else if (Resources.Players.Normal.ContainsKey(charaparamID))
+
+            if (Resources.Players.Normal.TryGetValue(charaParamId, out player))
             {
-                return new SoccerPlayer(Resources.Players.Normal[charaparamID]);
+                return new SoccerPlayer(player);
             }
-            else if (Resources.Players.Scout.ContainsKey(charaparamID))
+
+            if (Resources.Players.Scout.TryGetValue(charaParamId, out player))
             {
-                return new SoccerPlayer(Resources.Players.Scout[charaparamID]);
-            } else
-            {
-                return null;
+                return new SoccerPlayer(player);
             }
+
+            return null;
         }
-        private uint GetPlayerKey(SoccerPlayer player)
+        private static uint GetPlayerKey(SoccerPlayer player)
         {
             if (Resources.Players.Story.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
             {
                 return Resources.Players.Story.FirstOrDefault(x => x.Value == player.Player).Key;
             }
-            else if (Resources.Players.Normal.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
+
+            if (Resources.Players.Normal.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
             {
                 return Resources.Players.Normal.FirstOrDefault(x => x.Value == player.Player).Key;
             }
-            else if (Resources.Players.Scout.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
+
+            if (Resources.Players.Scout.FirstOrDefault(x => x.Value == player.Player).Key != 0x00)
             {
                 return Resources.Players.Scout.FirstOrDefault(x => x.Value == player.Player).Key;
             }
-            else
-            {
-                return 0x00;
-            }
+
+            return 0x00;
         }
 
-        private SoccerAvatar GetAvatar(uint avatarID, byte avatarLevel)
+        public static SoccerAvatar GetAvatar(uint avatarId, byte avatarLevel)
         {
-            if (Avatars.FightingSpirits.ContainsKey(avatarID))
+            if (Avatars.FightingSpirits.ContainsKey(avatarId))
             {
-                return new SoccerAvatar(Avatars.FightingSpirits[avatarID], avatarLevel);
+                return new SoccerAvatar(Avatars.FightingSpirits[avatarId], avatarLevel);
             }
-            else if (Avatars.Totems.ContainsKey(avatarID))
+
+            if (Avatars.Totems.ContainsKey(avatarId))
             {
-                return new SoccerAvatar(Avatars.Totems[avatarID], 1);
+                return new SoccerAvatar(Avatars.Totems[avatarId], 1);
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         private uint GetAvatarKey(SoccerAvatar avatar)

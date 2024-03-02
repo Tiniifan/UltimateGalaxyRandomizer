@@ -78,68 +78,53 @@ namespace UltimateGalaxyRandomizer.Randomizer
         }
         private void FixPlayer(KeyValuePair<uint, Player> player)
         {
-            // Jean Pierre Lapin
-            if (player.Key == 0x960E2CA3)
+            switch (player.Key)
             {
-                player.Value.Skills[3].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0xE8BF501E)
-            {
-                player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 2).Select(x => x.Key).FirstOrDefault();
-                player.Value.Skills[0].LearnAtLevel = 0x00;
-                player.Value.Skills[3].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x9FB86088)
-            {
-                player.Value.Skills[3].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0xFF7FE96D)
-            {
-                player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 1).Select(x => x.Key).FirstOrDefault();
-                player.Value.Skills[0].LearnAtLevel = 0x00;
-                player.Value.Skills[3].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x83D64754)
-            {
-                player.Value.Skills[1].LearnAtLevel = 0x64;
-                player.Value.Skills[2].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x1ADF16EE)
-            {
-                player.Value.Skills[2].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x6DD82678)
-            {
-                player.Value.Skills[2].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0xF3BCB3DB)
-            {
-                player.Value.Skills[2].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x84BB834D)
-            {
-                player.Value.Skills[2].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x1DB2D2F7)
-            {
-                player.Value.Skills[2].LearnAtLevel = 0x64;
-            }
-            else if (player.Key == 0x9ACD7615)
-            {
-                player.Value.Skills[1].LearnAtLevel = 0x64;
-                player.Value.Skills[3].LearnAtLevel = 0x64;
-            } 
-            else
-            {
-                for (int s = 0; s < player.Value.Param.SkillCount; s++)
+                // Jean Pierre Lapin
+                case 0x960E2CA3:
+                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                    break;
+                case 0xE8BF501E:
+                    player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 2).Random().Key;
+                    player.Value.Skills[0].LearnAtLevel = 0x00;
+                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                    break;
+                case 0x9FB86088:
+                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                    break;
+                case 0xFF7FE96D:
+                    player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 1).Random().Key;
+                    player.Value.Skills[0].LearnAtLevel = 0x00;
+                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                    break;
+                case 0x83D64754:
+                    player.Value.Skills[1].LearnAtLevel = 0x64;
+                    player.Value.Skills[2].LearnAtLevel = 0x64;
+                    break;
+                case 0x1ADF16EE:
+                case 0x6DD82678:
+                case 0xF3BCB3DB:
+                case 0x84BB834D:
+                case 0x1DB2D2F7:
+                    player.Value.Skills[2].LearnAtLevel = 0x64;
+                    break;
+                case 0x9ACD7615:
+                    player.Value.Skills[1].LearnAtLevel = 0x64;
+                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                    break;
+                default:
                 {
-                    if (player.Value.Skills[s].LearnAtLevel == 0x64)
+                    for (int s = 0; s < player.Value.Param.SkillCount; s++)
                     {
-                        player.Value.Skills[s].LearnAtLevel = 0x1E;
+                        if (player.Value.Skills[s].LearnAtLevel == 0x64)
+                        {
+                            player.Value.Skills[s].LearnAtLevel = 0x1E;
+                        }
                     }
+
+                    break;
                 }
             }
-
         }
         private void WritePlayers()
         {

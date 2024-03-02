@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using UltimateGalaxyRandomizer.Logic;
-using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 

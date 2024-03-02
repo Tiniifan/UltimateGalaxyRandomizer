@@ -12,6 +12,16 @@ namespace UltimateGalaxyRandomizer.Randomizer.Utility
         {
             var list = enumerable.ToList();
             return list[list.RandomIndex()];
+        }        
+        public static IEnumerable<T> Random<T>(this IEnumerable<T> enumerable, int number)
+        {
+            var list = enumerable.ToList();
+            var selected = new List<T>();
+            while (selected.Count < number && list.Except(selected).Any())
+            {
+                selected.Add(list.Except(selected).Random());
+            }
+            return selected;
         }
 
         public static bool FromPercentage(int value) => Generator.Next(0, 100) < value;

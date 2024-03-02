@@ -9,8 +9,8 @@ using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
-// TODO: randomize skill level
 // TODO: randomize mixi-max
+// TODO: randomize avatar level
 
 namespace UltimateGalaxyRandomizer.Randomizer
 {
@@ -170,10 +170,22 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxMoveset"].Name == "Random")
                 {
+                    if (options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillNumber"].Checked)
+                    {
+                        player.Param.SkillCount = Convert.ToByte(Probability.Generator.Next(4, 7));
+                    }
+
                     // Get Position and Element Type Probability
                     var moveset = player.GetRandomMoveset(player.Param.SkillCount);
-
-                    for (int s = 0; s < player.Param.SkillCount; s++) player.Skills[s].SkillId = moveset[s];
+                    
+                    bool randomLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
+                    player.Skills = moveset.Select((id, i) => new SkillTable
+                    {
+                        SkillId = id,
+                        SkillLevel = Convert.ToByte(randomLevel ? Probability.Generator.Next(1, 7) : 1),
+                        SkillNumber = Convert.ToInt16(i),
+                        LearnAtLevel = Convert.ToByte(player.Skills.Length > i ? player.Skills[i].LearnAtLevel : 0)
+                    }).ToArray();
                 }
 
                 // keep CanInvoke status, randomize Spirit and Totems
@@ -601,49 +613,35 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
         public static void RandomizeEquipments(Dictionary<string, Option> options)
         {
+            if (options["groupBoxMiscellaneousEquipment"].Name != "Random") return;
+            var max = Convert.ToInt32(options["groupBoxMiscellaneousEquipment"].NumericUpDowns["numericUpDownMaxStatIncrease"].Value) + 1;
+
             // Randomize Each Boots
             foreach (var equipmentStats in Equipments.Boots.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name != "Random") continue;
-
-                // Reset Stat
-                foreach (var t in equipmentStats.Keys) equipmentStats[t] = 0;
-
-                equipmentStats["Kick"] = Probability.Generator.Next(0, 15) * 5;
-                equipmentStats["Speed"] = Probability.Generator.Next(0, 15) * 5;
+                equipmentStats["Kick"] = Probability.Generator.Next(0, max);
+                equipmentStats["Speed"] = Probability.Generator.Next(0, max);
             }
 
             // Randomize Each Gloves
             foreach (var equipmentStats in Equipments.Gloves.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name != "Random") continue;
-
-                foreach (var t in  equipmentStats.Keys) equipmentStats[t] = 0;
-
-                equipmentStats["Catch"] = Probability.Generator.Next(0, 15) * 5;
-                equipmentStats["Technique"] = Probability.Generator.Next(0, 15) * 5;
+                equipmentStats["Catch"] = Probability.Generator.Next(0, max);
+                equipmentStats["Technique"] = Probability.Generator.Next(0, max);
             }
 
             // Randomize Each Bracelets
             foreach (var equipmentStats in Equipments.Bracelets.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name != "Random") continue;
-
-                foreach (var t in equipmentStats.Keys) equipmentStats[t] = 0;
-
-                equipmentStats["Stamina"] = Probability.Generator.Next(0, 15) * 5;
-                equipmentStats["Luck"] = Probability.Generator.Next(0, 15) * 5;
+                equipmentStats["Stamina"] = Probability.Generator.Next(0, max);
+                equipmentStats["Luck"] = Probability.Generator.Next(0, max);
             }
 
             // Randomize Each Pendants
             foreach (var equipmentStats in Equipments.Pendants.Values.Select(eq => eq.BaseStat.Values))
             {
-                if (options["groupBoxMiscellaneousEquipment"].Name != "Random") continue;
-
-                foreach (var t in equipmentStats.Keys) equipmentStats[t] = 0;
-
-                equipmentStats["Dribble"] = Probability.Generator.Next(0, 15) * 5;
-                equipmentStats["Block"] = Probability.Generator.Next(0, 15) * 5;
+                equipmentStats["Dribble"] = Probability.Generator.Next(0, max);
+                equipmentStats["Block"] = Probability.Generator.Next(0, max);
             }
         }
 
@@ -735,10 +733,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxTeamsEquipment"].Name == "Random")
                 {
-                    team.Param.Equipments[0] = Equipments.Boots.ElementAt(Probability.Generator.Next(0, Equipments.Boots.Count)).Key;
-                    team.Param.Equipments[1] = Equipments.Gloves.ElementAt(Probability.Generator.Next(0, Equipments.Gloves.Count)).Key;
-                    team.Param.Equipments[2] = Equipments.Bracelets.ElementAt(Probability.Generator.Next(0, Equipments.Bracelets.Count)).Key;
-                    team.Param.Equipments[3] = Equipments.Pendants.ElementAt(Probability.Generator.Next(0, Equipments.Pendants.Count)).Key;
+                    team.Param.Equipments[0] = Equipments.Boots.Random().Key;
+                    team.Param.Equipments[1] = Equipments.Gloves.Random().Key;
+                    team.Param.Equipments[2] = Equipments.Bracelets.Random().Key;
+                    team.Param.Equipments[3] = Equipments.Pendants.Random().Key;
                 }
 
                 if (options["groupBoxTeamsLevel"].Name == "Random")
@@ -767,6 +765,35 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         team.Param.Freedom = (byte)options["groupBoxTeamsFreedom"].NumericUpDowns["numericUpDownTeamsFreedom"].Value;
                     }
                 }
+
+                if (options["groupBoxTeamSpiritLevel"].Name == "Random" && team.SoccerChara != null)
+                {
+                    team.SoccerChara.Players.Where(p => p.Avatar != null).ToList().ForEach(p =>
+                    {
+                        p.Avatar.Level = Convert.ToByte(Probability.Generator.Next(1, 7));
+                    });
+                }
+
+                if (options["groupBoxMixiMax"].Name == "Random" && team.SoccerChara != null)
+                {
+                    team.SoccerChara.Players.ForEach(p =>
+                    {
+                        var haveMixiMax = Probability.FromPercentage(Convert.ToInt32(options["groupBoxMixiMax"].NumericUpDowns["numericUpDownMixiMaxChance"].Value));
+                        if (haveMixiMax)
+                        {
+                            var mixiPlayer = Players.All.Values.Except(new[] { p.Player }).Random();
+                            var mixiMoves = mixiPlayer.Skills.Random(2).Select(s => new SoccerMove(Moves.PlayerMoves[s.SkillId], s.SkillLevel));
+                            p.MixiMax = new SoccerPlayer(mixiPlayer, mixiMoves.ToArray())
+                            {
+                                Avatar = SoccerCharaConfig.GetAvatar(mixiPlayer.Param.Avatar, Convert.ToByte(Probability.Generator.Next(1, 7)))
+                            };
+                        }
+                        else
+                        {
+                            p.MixiMax = null;
+                        }
+                    });
+                }
             }
         }
 
@@ -792,7 +819,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         var itemId = shopReader.ReadUInt32();
                         if (Items.PotentialShop.ContainsKey(itemId))
                         {
-                            shopWriter.WriteUInt32(Items.PotentialShop.ElementAt(Probability.Generator.Next(0, Items.PotentialShop.Count)).Key);
+                            shopWriter.WriteUInt32(Items.PotentialShop.Random().Key);
                         }
 
                         shopReader.Skip(0x04);
@@ -829,7 +856,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 // Check If It's a valid Treasure Box
                 if (itemIdOne == itemIdTwo && Items.PotentialDrop.ContainsKey(itemIdOne))
                 {
-                    var randomItem = Items.PotentialDrop.ElementAt(Probability.Generator.Next(0, Items.PotentialDrop.Count)).Key;
+                    var randomItem = Items.PotentialDrop.Random().Key;
                     treasureBoxWriter.WriteUInt32(randomItem);
                     treasureBoxWriter.WriteUInt32(randomItem);
                 }

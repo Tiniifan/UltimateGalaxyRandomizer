@@ -107,7 +107,7 @@ namespace UltimateGalaxyRandomizer.Logic
                 .ToDictionary(x => x.Key, x => x.Value);
 
             // Only in an extreme case
-            if (!possibleAvatars.Any()) possibleAvatars = Avatars.FightingSpirits;
+            if (!possibleAvatars.Any()) possibleAvatars = Avatars.FightingSpirits.ToDictionary(x => x.Key, x => x.Value);
 
             return possibleAvatars.Random().Key;
         }
@@ -122,7 +122,7 @@ namespace UltimateGalaxyRandomizer.Logic
                 .ToDictionary(pair => pair.Key, x => x.Value);
 
             // Only in an extreme case
-            if (!possibleTotems.Any()) possibleTotems = Avatars.Totems;
+            if (!possibleTotems.Any()) possibleTotems = Avatars.Totems.ToDictionary(x => x.Key, x => x.Value);
 
             return possibleTotems.Random().Key;
         }

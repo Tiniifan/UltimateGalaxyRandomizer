@@ -1,12 +1,9 @@
-﻿using System;
-using UltimateGalaxyRandomizer.Tools;
+﻿using UltimateGalaxyRandomizer.Tools;
 
 namespace UltimateGalaxyRandomizer.Logic
 {
     public class SkillTable
     {
-        public long Offset { get; set; }
-
         public uint SkillId { get; set; }
 
         public short SkillNumber { get; set; }
@@ -22,7 +19,6 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public SkillTable(DataReader reader)
         {
-            Offset = reader.BaseStream.Position;
             SkillId = reader.ReadUInt32();
             SkillNumber = reader.ReadInt16();
             LearnAtLevel = reader.ReadByte();
@@ -31,7 +27,6 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public SkillTable Clone() => new SkillTable
         {
-            Offset = Offset,
             SkillId = SkillId,
             SkillNumber = SkillNumber,
             LearnAtLevel = LearnAtLevel,

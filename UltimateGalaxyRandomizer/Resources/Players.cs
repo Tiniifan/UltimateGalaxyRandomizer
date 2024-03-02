@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UltimateGalaxyRandomizer.Logic;
 
 namespace UltimateGalaxyRandomizer.Resources
@@ -2043,5 +2044,7 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x98014D50, new Player("Daxgun Verview")},
             {0xEF067DC6, new Player("Daxgun Vorview")},
         };
+
+        public static Dictionary<uint, Player> All = Story.Concat(Normal).Concat(Scout).ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 }

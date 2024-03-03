@@ -40,6 +40,8 @@ namespace UltimateGalaxyRandomizer.Logic
             Name = name;
         }
 
+        public bool IsSkill => Position == 15;
+
         public void Read(DataReader reader)
         {
             Offset = reader.BaseStream.Position-4;

@@ -177,7 +177,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     
                     if (options["groupBoxMoveset"].CheckBoxes["checkBoxOrderByMovePower"].Checked)
                     {
-                        moveset = moveset.OrderBy(pair => pair.Value.Power).ToList();
+                        moveset = moveset.OrderBy(pair => pair.Value.IsSkill ? Probability.Generator.Next(1, 80) : pair.Value.Power).ToList();
                         if (moveset.Count > 4)
                         {
                             // move weaker moves to the last 2 positions as they are the ones with no requirements
@@ -533,7 +533,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     // Only in an extreme case
                     if (possibleMoves.Count == 0)
                     {
-                        possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
+                        possibleMoves = Moves.FightingSpiritMoves.Where(x => !x.Value.IsSkill).ToDictionary(x => x.Key, x => x.Value);
                     }
 
                     avatar.MoveID = possibleMoves.ElementAt(Probability.Generator.Next(0, possibleMoves.Count)).Key;
@@ -541,7 +541,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxSpiritSkill"].Name == "Random")
                 {
-                    var possibleSkills = Moves.FightingSpiritMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    var possibleSkills = Moves.FightingSpiritMoves.Where(x => x.Value.IsSkill).ToDictionary(x => x.Key, x => x.Value);
                     avatar.SkillID = possibleSkills.ElementAt(Probability.Generator.Next(0, possibleSkills.Count)).Key;
                 }
 
@@ -582,14 +582,14 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxTotemMove"].Name == "Random")
                 {
-                    var possibleMoves = Moves.TotemMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
+                    var possibleMoves = Moves.TotemMoves.Where(x => !x.Value.IsSkill).ToDictionary(x => x.Key, x => x.Value);
                     avatar.MoveId = possibleMoves.ElementAt(Probability.Generator.Next(0, possibleMoves.Count)).Key;
                 }
 
                 if (options["groupBoxTotemRoulette"].Name == "Random")
                 {
                     // Create Temp Skill List
-                    var tempSkills = Moves.TotemMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    var tempSkills = Moves.TotemMoves.Where(x => x.Value.IsSkill).ToDictionary(x => x.Key, x => x.Value);
 
                     // Remove Miss
                     if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoMiss"].Checked)

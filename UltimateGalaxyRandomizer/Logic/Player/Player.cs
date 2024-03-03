@@ -81,7 +81,7 @@ namespace UltimateGalaxyRandomizer.Logic
                 }
                 else
                 {
-                    possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.IsSkill).ToDictionary(x => x.Key, x => x.Value);
                     skillCount += 1;
                 }
 

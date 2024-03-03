@@ -46,11 +46,11 @@ namespace UltimateGalaxyRandomizer.Logic
             return elementProbability;
         }
 
-        public List<uint> GetRandomMoveset(int count)
+        public Dictionary<uint, Move> GetRandomMoveset(int count)
         {
             int skillCount = 0;
 
-            var moveset = new List<uint>();
+            var moveset = new Dictionary<uint, Move>();
 
             for (int s = 0; s < count; s++)
             {
@@ -73,25 +73,26 @@ namespace UltimateGalaxyRandomizer.Logic
                 if (movePosition < 4)
                 {
                     // Create a list of moves according to player position probability
-                    possibleMoves = Moves.PlayerMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
+                    possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
 
                     // Create a list of moves according to player element probability
                     int moveElement = GetElementProbability().RandomAsProbabilities();
-                    possibleMoves = possibleMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
+                    possibleMoves = possibleMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
                 }
                 else
                 {
-                    possibleMoves = Moves.PlayerMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
                     skillCount += 1;
                 }
 
                 // Only in an extreme case
                 if (possibleMoves.Count == 0)
                 {
-                    possibleMoves = Moves.PlayerMoves.Where(x => moveset.IndexOf(x.Key) == -1 && x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
+                    possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
                 }
 
-                moveset.Add(possibleMoves.Random().Key);
+                var move = possibleMoves.Random();
+                moveset.Add(move.Key, move.Value);
             }
 
             return moveset;

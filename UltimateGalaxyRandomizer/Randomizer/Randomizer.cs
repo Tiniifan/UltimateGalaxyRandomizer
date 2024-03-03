@@ -173,15 +173,32 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
 
                     // Get Position and Element Type Probability
-                    var moveset = player.GetRandomMoveset(player.Param.SkillCount);
+                    var moveset = player.GetRandomMoveset(player.Param.SkillCount).OrderBy(pair => pair.Value.Power).ToList();
+                    
+                    if (options["groupBoxMoveset"].CheckBoxes["checkBoxOrderByMovePower"].Checked)
+                    {
+                        moveset = moveset.OrderBy(pair => pair.Value.Power).ToList();
+                        if (moveset.Count > 4)
+                        {
+                            // move weaker moves to the last 2 positions as they are the ones with no requirements
+                            for (int times = 0; times < moveset.Count - 4; times++)
+                            {
+                                var first = moveset[0];
+                                for (int i = 0; i < moveset.Count - 1; i++) moveset[i] = moveset[i + 1];
+                                moveset[moveset.Count - 1] = first;
+                            }
+                        }
+                    }
                     
                     bool randomLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
-                    player.Skills = moveset.Select((id, i) => new SkillTable
+                    var baseLearnLevel = Probability.Generator.Next(1, 15);
+                    player.Skills = moveset.Select((pair, i) => new SkillTable
                     {
-                        SkillId = id,
+                        SkillId = pair.Key,
                         SkillLevel = Convert.ToByte(randomLevel ? Probability.Generator.Next(1, 7) : 1),
-                        SkillNumber = Convert.ToInt16(i),
-                        LearnAtLevel = Convert.ToByte(player.Skills.Length > i ? player.Skills[i].LearnAtLevel : 0)
+                        LearnAtLevel = Convert.ToByte(i < 4
+                            ? Probability.Generator.Next(baseLearnLevel + 15 * i, baseLearnLevel + 15 * (i + 1))
+                            : 1)
                     }).ToArray();
                 }
 

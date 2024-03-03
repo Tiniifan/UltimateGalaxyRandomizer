@@ -129,33 +129,34 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void WritePlayers()
         {
             // Initialise Data Writer
-            DataWriter charabaseWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_base_0.02.cfg.bin.nat");
-            DataWriter charaparamWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat");
-            DataWriter skilltableWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat");
+            DataWriter charaBaseWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_base_0.02.cfg.bin.nat");
+            DataWriter charaParamWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat");
+            DataWriter skillTableWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat");
 
             // Merge Player Dictionaries to one
             Dictionary<uint, Player> players = new Dictionary<uint, Player>();
             Players.Story.ToList().ForEach(x => players.Add(x.Key, x.Value));
             Players.Normal.ToList().ForEach(x => players.Add(x.Key, x.Value));
             Players.Scout.ToList().ForEach(x => players.Add(x.Key, x.Value));
+            short skillNUmber = 0;
 
             // Write Player Data
             foreach(KeyValuePair<uint, Player> player in players)
             {
-                player.Value.Base.Write(charabaseWriter);
-                player.Value.Param.Write(charaparamWriter);
-                skilltableWriter.Seek((uint)(4 + player.Value.Param.SkillOffset * 8));
+                player.Value.Base.Write(charaBaseWriter);
+                player.Value.Param.Write(charaParamWriter);
+                skillTableWriter.Seek((uint)(4 + player.Value.Param.SkillOffset * 8));
                 FixPlayer(player);
                 for (int s = 0; s < player.Value.Param.SkillCount; s++)
                 {
-                    player.Value.Skills[s].Write(skilltableWriter);
+                    player.Value.Skills[s].Write(skillTableWriter, ref skillNUmber);
                 }
             }
 
             // Close Stream
-            charabaseWriter.Close();
-            charaparamWriter.Close();
-            skilltableWriter.Close();
+            charaBaseWriter.Close();
+            charaParamWriter.Close();
+            skillTableWriter.Close();
         }
         public void RandomizePlayers(Dictionary<string, Option> options)
         {

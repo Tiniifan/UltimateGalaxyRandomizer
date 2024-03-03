@@ -9,7 +9,6 @@ using UltimateGalaxyRandomizer.Logic.Player;
 using UltimateGalaxyRandomizer.Logic.Soccer;
 using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Resources;
-using UltimateGalaxyRandomizer.Randomizer;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 
 namespace UltimateGalaxyRandomizer.Randomizer
@@ -89,6 +88,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     break;
                 case 0xE8BF501E: //Arion Sherwind
                     player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Type == MoveType.Dribble).Random().Key;
+                    player.Value.Skills[0].SkillLevel = 1;
                     player.Value.Skills[0].LearnAtLevel = 0;
                     player.Value.Skills[3].LearnAtLevel = 100;
                     break;
@@ -97,6 +97,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     break;
                 case 0xFF7FE96D: //Victor Blade
                     player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Type == MoveType.Shoot).Random().Key;
+                    player.Value.Skills[0].SkillLevel = 1;
                     player.Value.Skills[0].LearnAtLevel = 0;
                     player.Value.Skills[3].LearnAtLevel = 100;
                     break;

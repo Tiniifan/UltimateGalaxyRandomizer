@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Tools;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Equipment
 {
     public class Equipment
     {

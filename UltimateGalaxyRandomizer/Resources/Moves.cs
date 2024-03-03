@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Logic;
+using UltimateGalaxyRandomizer.Logic.Move;
 
 namespace UltimateGalaxyRandomizer.Resources
 {

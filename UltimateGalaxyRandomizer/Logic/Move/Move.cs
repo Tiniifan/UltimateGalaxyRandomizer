@@ -1,8 +1,18 @@
 ﻿using System;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Tools;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Move
 {
+    public enum MoveType
+    {
+        Shoot = 1,
+        Dribble = 2,
+        Block = 3,
+        Save = 4,
+        Skill = 15
+    }
+
     public class Move
     {
         public string Name { get; set; }
@@ -19,9 +29,9 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public byte Evolution { get; set; }
 
-        public byte Element { get; set; }
+        public Element Element { get; set; }
 
-        public byte Position { get; set; }
+        public MoveType Type { get; set; }
 
         public byte TP { get; set; }
 
@@ -40,8 +50,6 @@ namespace UltimateGalaxyRandomizer.Logic
             Name = name;
         }
 
-        public bool IsSkill => Position == 15;
-
         public void Read(DataReader reader)
         {
             Offset = reader.BaseStream.Position-4;
@@ -50,10 +58,10 @@ namespace UltimateGalaxyRandomizer.Logic
             reader.Skip(0x08);
             Effect = reader.ReadByte();
             reader.Skip(0x06);
-            Element = reader.ReadByte();
+            Element = (Element)reader.ReadByte();
             LearnSpeed = reader.ReadByte();
             Evolution = reader.ReadByte();
-            Position = reader.ReadByte();
+            Type = (MoveType)reader.ReadByte();
             TP = reader.ReadByte();
             Partner = reader.ReadByte();
             reader.Skip(0x01);
@@ -73,10 +81,10 @@ namespace UltimateGalaxyRandomizer.Logic
             writer.Skip(0x08);
             writer.Write(Effect);
             writer.Skip(0x06);
-            writer.Write(Element);
+            writer.Write(Convert.ToByte(Element));
             writer.Write(LearnSpeed);
             writer.Write(Evolution);
-            writer.Write(Position);
+            writer.Write(Convert.ToByte(Type));
             writer.Write(TP);
             writer.Write(Partner);
             writer.Skip(0x01);

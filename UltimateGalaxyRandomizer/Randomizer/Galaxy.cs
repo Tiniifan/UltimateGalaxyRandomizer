@@ -3,6 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Logic;
+using UltimateGalaxyRandomizer.Logic.Equipment;
+using UltimateGalaxyRandomizer.Logic.Move;
+using UltimateGalaxyRandomizer.Logic.Player;
+using UltimateGalaxyRandomizer.Logic.Soccer;
 using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer;
@@ -76,49 +80,48 @@ namespace UltimateGalaxyRandomizer.Randomizer
             charaParamReader.Close();
             skillTableReader.Close();
         }
-        private void FixPlayer(KeyValuePair<uint, Player> player)
+        private static void FixPlayer(KeyValuePair<uint, Player> player)
         {
             switch (player.Key)
             {
-                // Jean Pierre Lapin
-                case 0x960E2CA3:
-                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                case 0x960E2CA3: // Jean Pierre Lapin
+                    player.Value.Skills[3].LearnAtLevel = 100;
                     break;
-                case 0xE8BF501E:
-                    player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 2).Random().Key;
-                    player.Value.Skills[0].LearnAtLevel = 0x00;
-                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                case 0xE8BF501E: //Arion Sherwind
+                    player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Type == MoveType.Dribble).Random().Key;
+                    player.Value.Skills[0].LearnAtLevel = 0;
+                    player.Value.Skills[3].LearnAtLevel = 100;
                     break;
-                case 0x9FB86088:
-                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                case 0x9FB86088: //Riccardo Di Rigo
+                    player.Value.Skills[3].LearnAtLevel = 100;
                     break;
-                case 0xFF7FE96D:
-                    player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Position == 1).Random().Key;
-                    player.Value.Skills[0].LearnAtLevel = 0x00;
-                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                case 0xFF7FE96D: //Victor Blade
+                    player.Value.Skills[0].SkillId = Moves.PlayerMoves.Where(x => x.Value.TP < 30 && x.Value.Type == MoveType.Shoot).Random().Key;
+                    player.Value.Skills[0].LearnAtLevel = 0;
+                    player.Value.Skills[3].LearnAtLevel = 100;
                     break;
-                case 0x83D64754:
-                    player.Value.Skills[1].LearnAtLevel = 0x64;
-                    player.Value.Skills[2].LearnAtLevel = 0x64;
+                case 0x83D64754: //Terry Archibald
+                    player.Value.Skills[1].LearnAtLevel = 100;
+                    player.Value.Skills[2].LearnAtLevel = 100;
                     break;
-                case 0x1ADF16EE:
-                case 0x6DD82678:
-                case 0xF3BCB3DB:
-                case 0x84BB834D:
-                case 0x1DB2D2F7:
-                    player.Value.Skills[2].LearnAtLevel = 0x64;
+                case 0x1ADF16EE: //Trina Verdure
+                case 0x6DD82678: //Keenan Sharpe
+                case 0xF3BCB3DB: //Zippy Lerner
+                case 0x84BB834D: //Frank Foreman
+                case 0x1DB2D2F7: //Buddy Fury
+                    player.Value.Skills[2].LearnAtLevel = 100;
                     break;
-                case 0x9ACD7615:
-                    player.Value.Skills[1].LearnAtLevel = 0x64;
-                    player.Value.Skills[3].LearnAtLevel = 0x64;
+                case 0x9ACD7615: //Falco Flashman
+                    player.Value.Skills[1].LearnAtLevel = 100;
+                    player.Value.Skills[3].LearnAtLevel = 100;
                     break;
                 default:
                 {
                     for (int s = 0; s < player.Value.Param.SkillCount; s++)
                     {
-                        if (player.Value.Skills[s].LearnAtLevel == 0x64)
+                        if (player.Value.Skills[s].LearnAtLevel == 100)
                         {
-                            player.Value.Skills[s].LearnAtLevel = 0x1E;
+                            player.Value.Skills[s].LearnAtLevel = 30;
                         }
                     }
 

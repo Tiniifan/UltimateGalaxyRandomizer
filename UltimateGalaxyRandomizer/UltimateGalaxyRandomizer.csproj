@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Avatar\Avatar.cs" />
     <Compile Include="Resources\Equipments.cs" />
     <Compile Include="Resources\Items.cs" />
     <Compile Include="Resources\Moves.cs" />

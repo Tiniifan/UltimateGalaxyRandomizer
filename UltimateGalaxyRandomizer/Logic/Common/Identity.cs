@@ -1,49 +1,74 @@
 ﻿using System.Collections.Generic;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Common
 {
-    public class Gender
+    public enum Gender
     {
-        public string Name { get; set; }
-
-        public int[] StatBuff { get; set; }
-
-        public Gender(string name, int[] statBuff)
-        {
-            Name = name;
-
-            // Order GP -> TP -> Kick -> Dribble -> Technique -> Block -> Speed -> Stamina ->  Catch -> Luck
-            StatBuff = statBuff;
-        }
+        Boy = 1,
+        Girl = 2,
+        Undefined = 3
+    }
+    public enum Year
+    {
+        Unknown = 0,
+        First = 1,
+        Second = 2,
+        Third = 3,
+        Adult = 4,
+        Child = 5
     }
 
-    public class Identity
+    public static class Genders
     {
-        public string Year { get; set; }
-
-        public Gender Gender { get; set; }
-
-        public static Dictionary<byte, string> Years = new Dictionary<byte, string>()
+        public static Dictionary<Stat, int> GetStatBuffs(this Gender gender)
         {
-            {0x00, "?"},
-            {0x01, "1"},
-            {0x02, "2"},
-            {0x03, "3"},
-            {0x04, "Adult"},
-            {0x05, "Child"},
-        };
-
-        public static Dictionary<byte, Gender> Genders = new Dictionary<byte, Gender>()
-        {
-            {0x01, new Gender("Boy", new int[10] {75, 25, 0, 0, 0, 0, 0, 0, 0, 0 })},
-            {0x02, new Gender("Girl", new int[10] {25, 75, 0, 0, 0, 0, 0, 0, 0, 0 })},
-            {0x03, new Gender("Undefined", new int[10] { 50, 50, 0, 0, 0, 0, 0, 0, 0, 0 })},
-        };
-
-        public Identity(byte x)
-        {
-            Year = Years[(byte)(x & 0x0F)];
-            Gender = Genders[(byte)(x & 0x0F)];
+            // Order GP -> TP -> Kick -> Dribble -> Technique -> Block -> Speed -> Stamina ->  Catch -> Luck
+            switch (gender)
+            {
+                case Gender.Boy:
+                    return new Dictionary<Stat, int>
+                    {
+                        { Stat.GP, 75 },
+                        { Stat.TP, 25 },
+                        { Stat.Kick, 0 },
+                        { Stat.Dribble, 0 },
+                        { Stat.Technique, 0 },
+                        { Stat.Block, 0 },
+                        { Stat.Speed, 0 },
+                        { Stat.Stamina, 0 },
+                        { Stat.Catch, 0 },
+                        { Stat.Luck, 0 }
+                    };
+                case Gender.Girl:
+                    return new Dictionary<Stat, int>
+                    {
+                        { Stat.GP, 25 },
+                        { Stat.TP, 75 },
+                        { Stat.Kick, 0 },
+                        { Stat.Dribble,0 },
+                        { Stat.Technique, 0 },
+                        { Stat.Block, 0 },
+                        { Stat.Speed, 0 },
+                        { Stat.Stamina, 0 },
+                        { Stat.Catch, 0 },
+                        { Stat.Luck, 0 }
+                    };
+                case Gender.Undefined:
+                default:
+                    return new Dictionary<Stat, int>
+                    {
+                        { Stat.GP, 50 },
+                        { Stat.TP, 50 },
+                        { Stat.Kick, 0 },
+                        { Stat.Dribble, 0 },
+                        { Stat.Technique, 0 },
+                        { Stat.Block, 0 },
+                        { Stat.Speed, 0 },
+                        { Stat.Stamina, 0 },
+                        { Stat.Catch, 0 },
+                        { Stat.Luck, 0 }
+                    };
+            }
         }
     }
 }

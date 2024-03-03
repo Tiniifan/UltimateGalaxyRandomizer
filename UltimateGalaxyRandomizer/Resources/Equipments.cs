@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Logic;
+using UltimateGalaxyRandomizer.Logic.Equipment;
 
 namespace UltimateGalaxyRandomizer.Resources
 {

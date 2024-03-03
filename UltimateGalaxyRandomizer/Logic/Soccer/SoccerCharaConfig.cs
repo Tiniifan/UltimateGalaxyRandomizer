@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.IO;
 using System.Collections.Generic;
-using UltimateGalaxyRandomizer.Tools;
+using System.IO;
+using System.Linq;
 using UltimateGalaxyRandomizer.Resources;
+using UltimateGalaxyRandomizer.Tools;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Soccer
 {
     public class SoccerCharaConfig
     {

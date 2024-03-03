@@ -2,6 +2,7 @@
 using System.Linq;
 using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Resources;
+using UltimateGalaxyRandomizer.Logic.Common;
 
 namespace UltimateGalaxyRandomizer.Logic
 {
@@ -19,9 +20,9 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public Stats BaseStat { get; set; }
 
-        public byte Element { get; set; }
+        public Element Element { get; set; }
 
-        public byte Position { get; set; }
+        public Position Position { get; set; }
 
         public Stats GrownStat { get; set; }
 
@@ -46,8 +47,8 @@ namespace UltimateGalaxyRandomizer.Logic
             UnknownValue = reader.ReadByte();
             Invoke = reader.ReadByte();
             BaseStat = new Stats(reader.ReadBytes(0xA).Select(x => (int)x).ToArray());
-            Element = reader.ReadByte();
-            Position = reader.ReadByte();
+            Element = (Element)reader.ReadByte();
+            Position = (Position)reader.ReadByte();
             GrownStat = new Stats(reader.ReadBytes(0xA).Select(x => (int)x).ToArray());
             Avatar = Avatars.Table[reader.ReadInt16()];
             ExperienceBar = reader.ReadByte();
@@ -95,8 +96,8 @@ namespace UltimateGalaxyRandomizer.Logic
             writer.Write(UnknownValue);
             writer.Write(Invoke);
             writer.Write(BaseStat.Values.Values.Select(x => Convert.ToByte(x)).ToArray());
-            writer.Write(Element);
-            writer.Write(Position);
+            writer.Write(Convert.ToByte(Element));
+            writer.Write(Convert.ToByte(Position));
             writer.Write(GrownStat.Values.Values.Select(x => Convert.ToByte(x)).ToArray());
             writer.WriteInt16(Avatars.Table.FirstOrDefault(x => x.Value == Avatar).Key);
             writer.Write(ExperienceBar);

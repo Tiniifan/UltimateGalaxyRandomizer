@@ -169,10 +169,6 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxMoveset"].Name == "Random")
                 {
-                    if (options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillNumber"].Checked)
-                    {
-                        player.Param.SkillCount = Convert.ToByte(Probability.Generator.Next(4, 7));
-                    }
 
                     var maxSkills = Convert.ToInt32(options["groupBoxMoveset"].NumericUpDowns["numericUpDownNumberOfSkills"].Value);
 
@@ -181,7 +177,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     
                     if (options["groupBoxMoveset"].CheckBoxes["checkBoxOrderByMovePower"].Checked)
                     {
-                        moveset = moveset.OrderBy(pair => pair.Value.Type == MoveType.Skill ? Probability.Generator.Next(1, 80) : pair.Value.Power).ToList();
+                        moveset = moveset.OrderBy(pair => pair.Value.Type == MoveType.Skill ? Probability.Generator.Next(1, 100) : pair.Value.Power).ToList();
                         if (moveset.Count > 4)
                         {
                             // move weaker moves to the last 2 positions as they are the ones with no requirements
@@ -193,16 +189,20 @@ namespace UltimateGalaxyRandomizer.Randomizer
                             }
                         }
                     }
-                    
-                    bool randomLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
+
+                    bool randomLearnLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeLearnLevel"].Checked;
+                    bool randomSkillLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
                     var baseLearnLevel = Probability.Generator.Next(1, 15);
-                    player.Skills = moveset.Select((pair, i) => new SkillTable
+                    player.Skills = moveset.Select((pair, i) =>
                     {
-                        SkillId = pair.Key,
-                        SkillLevel = Convert.ToByte(randomLevel ? Probability.Generator.Next(1, 7) : 1),
-                        LearnAtLevel = Convert.ToByte(i < 4
-                            ? Probability.Generator.Next(baseLearnLevel + 15 * i, baseLearnLevel + 15 * (i + 1))
-                            : 1)
+                        var randomLevel = Probability.Generator.Next(baseLearnLevel + 15 * i, baseLearnLevel + 15 * (i + 1));
+                        var learnLevel = Convert.ToByte(i < 4 ? randomLevel : 1);
+                        return new SkillTable
+                        {
+                            Skill = pair.Value,
+                            SkillLevel = Convert.ToByte(randomSkillLevel ? Probability.Generator.Next(1, 7) : 1),
+                            LearnAtLevel = randomLearnLevel ? learnLevel : player.Skills[i].LearnAtLevel
+                        };
                     }).ToArray();
                 }
 
@@ -759,7 +759,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         if (haveMixiMax)
                         {
                             var mixiPlayer = Players.All.Values.Except(new[] { p.Player }).Random();
-                            var mixiMoves = mixiPlayer.Skills.Random(2).Select(s => new SoccerMove(Moves.PlayerMoves[s.SkillId], s.SkillLevel));
+                            var mixiMoves = mixiPlayer.Skills.Random(2).Select(s => new SoccerMove(s.Skill, s.SkillLevel));
                             p.MixiMax = new SoccerPlayer(mixiPlayer, mixiMoves.ToArray())
                             {
                                 Avatar = SoccerCharaConfig.GetAvatar(mixiPlayer.Param.Avatar, Convert.ToByte(Probability.Generator.Next(1, 7)))

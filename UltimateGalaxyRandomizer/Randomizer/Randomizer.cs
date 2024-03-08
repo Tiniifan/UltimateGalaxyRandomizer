@@ -490,7 +490,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     var possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Type == avatar.Position).ToDictionary(x => x.Key, x => x.Value);
 
                     // Create a list of moves according to player element probability
-                    var moveElement =avatar.Element.GetElementProbability().Random();
+                    var moveElement =avatar.Element.GetElementProbability().RandomWithProbability();
                     possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
 
                     // Only in an extreme case

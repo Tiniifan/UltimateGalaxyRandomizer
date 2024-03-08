@@ -36,13 +36,13 @@ namespace UltimateGalaxyRandomizer.Logic.Player
             for (int s = 0; s < count; s++)
             {
                 // Get a random Move Type according to player position probability
-                var moveType = Param.Position.GetMoveProbabilities().Random();
+                var moveType = Param.Position.GetMoveProbabilities().RandomWithProbability();
                 if (moveset.Count(pair => pair.Value.Type == MoveType.Skill) >= maxSkills)
                 {
                     // Avoids having more than [maxSkills] skills
                     while (moveType == MoveType.Skill)
                     {
-                        moveType = Param.Position.GetMoveProbabilities().Random();
+                        moveType = Param.Position.GetMoveProbabilities().RandomWithProbability();
                     }
                 }
 
@@ -52,7 +52,7 @@ namespace UltimateGalaxyRandomizer.Logic.Player
                 if (moveType != MoveType.Skill)
                 {
                     // Create a list of moves according to player element probability
-                    var moveElement = Param.Element.GetElementProbability().Random();
+                    var moveElement = Param.Element.GetElementProbability().RandomWithProbability();
                     possibleMoves = possibleMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
                 }
 
@@ -71,8 +71,8 @@ namespace UltimateGalaxyRandomizer.Logic.Player
 
         public uint GetRandomFightingSpirit()
         {
-            var moveType = Param.Position.GetMoveProbabilities().Random();
-            var moveElement =  Param.Element.GetElementProbability().Random();
+            var moveType = Param.Position.GetMoveProbabilities().Where(pair => pair.Key != MoveType.Skill).RandomWithProbability();
+            var moveElement =  Param.Element.GetElementProbability().RandomWithProbability();
             var possibleAvatars = Avatars.FightingSpirits
                 .Where(x => x.Value.Position == moveType)
                 .Where(x => x.Value.Element == moveElement)
@@ -86,8 +86,8 @@ namespace UltimateGalaxyRandomizer.Logic.Player
 
         public uint GetRandomTotem()
         {
-            var moveType = Param.Position.GetMoveProbabilities().Random();
-            var moveElement =  Param.Element.GetElementProbability().Random();
+            var moveType = Param.Position.GetMoveProbabilities().Where(pair => pair.Key != MoveType.Skill).RandomWithProbability();
+            var moveElement =  Param.Element.GetElementProbability().RandomWithProbability();
             var possibleTotems = Avatars.Totems
                 .Where(x => x.Value.Position == moveType)
                 .Where(x => x.Value.Element == moveElement)

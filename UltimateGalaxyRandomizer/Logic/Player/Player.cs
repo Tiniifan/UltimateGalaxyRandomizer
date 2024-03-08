@@ -36,15 +36,9 @@ namespace UltimateGalaxyRandomizer.Logic.Player
             for (int s = 0; s < count; s++)
             {
                 // Get a random Move Type according to player position probability
-                var moveType = Param.Position.GetMoveProbabilities().RandomWithProbability();
-                if (moveset.Count(pair => pair.Value.Type == MoveType.Skill) >= maxSkills)
-                {
-                    // Avoids having more than [maxSkills] skills
-                    while (moveType == MoveType.Skill)
-                    {
-                        moveType = Param.Position.GetMoveProbabilities().RandomWithProbability();
-                    }
-                }
+                var moveType = moveset.Count(pair => pair.Value.Type == MoveType.Skill) >= maxSkills ? 
+                    Param.Position.GetMoveProbabilities().Where(pair => pair.Key != MoveType.Skill).RandomWithProbability() : 
+                    Param.Position.GetMoveProbabilities().RandomWithProbability();
 
                 // Create a list of moves according to player position probability
                 var possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Type == moveType).ToDictionary(x => x.Key, x => x.Value);
@@ -57,10 +51,7 @@ namespace UltimateGalaxyRandomizer.Logic.Player
                 }
 
                 // Only in an extreme case
-                if (possibleMoves.Count == 0)
-                {
-                    possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Type == moveType).ToDictionary(x => x.Key, x => x.Value);
-                }
+                if (!possibleMoves.Any()) possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Type == moveType).ToDictionary(x => x.Key, x => x.Value);
 
                 var move = possibleMoves.Random();
                 moveset.Add(move.Key, move.Value);
@@ -74,8 +65,7 @@ namespace UltimateGalaxyRandomizer.Logic.Player
             var moveType = Param.Position.GetMoveProbabilities().Where(pair => pair.Key != MoveType.Skill).RandomWithProbability();
             var moveElement =  Param.Element.GetElementProbability().RandomWithProbability();
             var possibleAvatars = Avatars.FightingSpirits
-                .Where(x => x.Value.Position == moveType)
-                .Where(x => x.Value.Element == moveElement)
+                .Where(x => x.Value.Position == moveType && x.Value.Element == moveElement)
                 .ToDictionary(x => x.Key, x => x.Value);
 
             // Only in an extreme case
@@ -89,8 +79,7 @@ namespace UltimateGalaxyRandomizer.Logic.Player
             var moveType = Param.Position.GetMoveProbabilities().Where(pair => pair.Key != MoveType.Skill).RandomWithProbability();
             var moveElement =  Param.Element.GetElementProbability().RandomWithProbability();
             var possibleTotems = Avatars.Totems
-                .Where(x => x.Value.Position == moveType)
-                .Where(x => x.Value.Element == moveElement)
+                .Where(x => x.Value.Position == moveType && x.Value.Element == moveElement)
                 .ToDictionary(pair => pair.Key, x => x.Value);
 
             // Only in an extreme case

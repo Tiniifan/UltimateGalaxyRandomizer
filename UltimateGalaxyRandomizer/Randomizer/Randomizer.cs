@@ -192,11 +192,11 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                     bool randomLearnLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeLearnLevel"].Checked;
                     bool randomSkillLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
-                    var baseLearnLevel = Probability.Generator.Next(1, 15);
+                    var lastLearnLevel = 0;
                     player.Skills = moveset.Select((pair, i) =>
                     {
-                        var randomLevel = Probability.Generator.Next(baseLearnLevel + 15 * i, baseLearnLevel + 15 * (i + 1));
-                        var learnLevel = Convert.ToByte(i < 4 ? randomLevel : 1);
+                        lastLearnLevel = Probability.Generator.Next(lastLearnLevel + 1, i == 0 ? 15 : (i + 1) * 20);
+                        var learnLevel = Convert.ToByte(i < 4 ? lastLearnLevel : 1);
                         return new SkillTable
                         {
                             Skill = pair.Value,

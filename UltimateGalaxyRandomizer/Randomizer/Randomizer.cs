@@ -311,6 +311,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                     move.Power = Convert.ToByte(power / 2);
                 }
+                if (options["groupBoxMovePower"].CheckBoxes["checkBoxScaleMovePower"].Checked)
+                {
+                    move.Power = Convert.ToByte(move.Power * options["groupBoxMovePower"].NumericUpDowns["numericUpDownMovePowerScale"].Value);
+                }
 
                 if (options["groupBoxMoveTP"].Name == "Random")
                 {
@@ -323,6 +327,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
 
                     move.TP = Convert.ToByte(tpCost);
+                }
+                if (options["groupBoxMoveTP"].CheckBoxes["checkBoxScaleMoveTP"].Checked)
+                {
+                    move.TP = Convert.ToByte(move.TP * options["groupBoxMoveTP"].NumericUpDowns["numericUpDownMoveTPScale"].Value);
                 }
 
                 if (options["groupBoxMoveDifficulty"].Name == "Random")

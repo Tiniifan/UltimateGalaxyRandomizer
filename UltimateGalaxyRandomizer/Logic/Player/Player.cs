@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Logic.Move;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
@@ -47,7 +48,11 @@ namespace UltimateGalaxyRandomizer.Logic.Player
                 {
                     // Create a list of moves according to player element probability
                     var moveElement = Param.Element.GetElementProbability().RandomWithProbability();
-                    possibleMoves = possibleMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
+                    possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
+
+                    //limit by position. Weaker moves on first positions, more powerful moves on higher positions.
+                    //most expensive move costs 85 TP
+                    possibleMoves = possibleMoves.Where(m => s > 3 || m.Value.TP <= (s + 1) * 22).ToDictionary(x => x.Key, x => x.Value);
                 }
 
                 // Only in an extreme case

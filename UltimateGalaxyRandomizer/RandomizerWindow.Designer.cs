@@ -269,6 +269,10 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMiscellaneousShop = new System.Windows.Forms.GroupBox();
             this.radioButtonMiscellaneousShop2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMiscellaneousShop1 = new System.Windows.Forms.RadioButton();
+            this.checkBoxScaleMoveTP = new System.Windows.Forms.CheckBox();
+            this.numericUpDownMoveTPScale = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownMovePowerScale = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxScaleMovePower = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabControl4.SuspendLayout();
@@ -364,6 +368,8 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMiscellaneousRecruitment.SuspendLayout();
             this.groupBoxMiscellaneousTreasureBox.SuspendLayout();
             this.groupBoxMiscellaneousShop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMoveTPScale)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMovePowerScale)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -1090,6 +1096,8 @@ namespace UltimateGalaxyRandomizer
             // 
             // groupBoxMoveTP
             // 
+            this.groupBoxMoveTP.Controls.Add(this.numericUpDownMoveTPScale);
+            this.groupBoxMoveTP.Controls.Add(this.checkBoxScaleMoveTP);
             this.groupBoxMoveTP.Controls.Add(this.radioButtonMoveTP2);
             this.groupBoxMoveTP.Controls.Add(this.radioButtonMoveTP1);
             this.groupBoxMoveTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1162,6 +1170,8 @@ namespace UltimateGalaxyRandomizer
             // 
             // groupBoxMovePower
             // 
+            this.groupBoxMovePower.Controls.Add(this.numericUpDownMovePowerScale);
+            this.groupBoxMovePower.Controls.Add(this.checkBoxScaleMovePower);
             this.groupBoxMovePower.Controls.Add(this.radioButtonMovePower2);
             this.groupBoxMovePower.Controls.Add(this.radioButtonMovePower1);
             this.groupBoxMovePower.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -3348,6 +3358,86 @@ namespace UltimateGalaxyRandomizer
             this.radioButtonMiscellaneousShop1.Text = "Unchanged";
             this.radioButtonMiscellaneousShop1.UseVisualStyleBackColor = true;
             // 
+            // checkBoxScaleMoveTP
+            // 
+            this.checkBoxScaleMoveTP.AutoSize = true;
+            this.checkBoxScaleMoveTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxScaleMoveTP.Location = new System.Drawing.Point(23, 74);
+            this.checkBoxScaleMoveTP.Name = "checkBoxScaleMoveTP";
+            this.checkBoxScaleMoveTP.Size = new System.Drawing.Size(53, 17);
+            this.checkBoxScaleMoveTP.TabIndex = 10;
+            this.checkBoxScaleMoveTP.Text = "Scale";
+            this.checkBoxScaleMoveTP.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDownMoveTPScale
+            // 
+            this.numericUpDownMoveTPScale.DecimalPlaces = 1;
+            this.numericUpDownMoveTPScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownMoveTPScale.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMoveTPScale.Location = new System.Drawing.Point(139, 73);
+            this.numericUpDownMoveTPScale.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMoveTPScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMoveTPScale.Name = "numericUpDownMoveTPScale";
+            this.numericUpDownMoveTPScale.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownMoveTPScale.TabIndex = 11;
+            this.numericUpDownMoveTPScale.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownMovePowerScale
+            // 
+            this.numericUpDownMovePowerScale.DecimalPlaces = 1;
+            this.numericUpDownMovePowerScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownMovePowerScale.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMovePowerScale.Location = new System.Drawing.Point(134, 72);
+            this.numericUpDownMovePowerScale.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMovePowerScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMovePowerScale.Name = "numericUpDownMovePowerScale";
+            this.numericUpDownMovePowerScale.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownMovePowerScale.TabIndex = 13;
+            this.numericUpDownMovePowerScale.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxScaleMovePower
+            // 
+            this.checkBoxScaleMovePower.AutoSize = true;
+            this.checkBoxScaleMovePower.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxScaleMovePower.Location = new System.Drawing.Point(18, 73);
+            this.checkBoxScaleMovePower.Name = "checkBoxScaleMovePower";
+            this.checkBoxScaleMovePower.Size = new System.Drawing.Size(53, 17);
+            this.checkBoxScaleMovePower.TabIndex = 12;
+            this.checkBoxScaleMovePower.Text = "Scale";
+            this.checkBoxScaleMovePower.UseVisualStyleBackColor = true;
+            // 
             // RandomizerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3515,6 +3605,8 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMiscellaneousTreasureBox.PerformLayout();
             this.groupBoxMiscellaneousShop.ResumeLayout(false);
             this.groupBoxMiscellaneousShop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMoveTPScale)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMovePowerScale)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3762,6 +3854,10 @@ namespace UltimateGalaxyRandomizer
         private System.Windows.Forms.CheckBox checkBoxRandomizeSkillLevel;
         private System.Windows.Forms.RadioButton radioButtonMoveset2;
         private System.Windows.Forms.RadioButton radioButtonMoveset1;
+        private System.Windows.Forms.NumericUpDown numericUpDownMoveTPScale;
+        private System.Windows.Forms.CheckBox checkBoxScaleMoveTP;
+        private System.Windows.Forms.NumericUpDown numericUpDownMovePowerScale;
+        private System.Windows.Forms.CheckBox checkBoxScaleMovePower;
     }
 }
 

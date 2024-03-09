@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using UltimateGalaxyRandomizer.Logic;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Logic.Equipment;
 using UltimateGalaxyRandomizer.Logic.Move;
 using UltimateGalaxyRandomizer.Logic.Player;

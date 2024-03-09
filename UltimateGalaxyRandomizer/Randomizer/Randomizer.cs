@@ -275,7 +275,6 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
         public static void RandomizeMoves(Dictionary<string, Option> options)
         {
-            // Randomize Each Player Moves -- Exclude Skill
             foreach (var move in Moves.PlayerMoves.Values.Where(move => move.Type != MoveType.Skill))
             {
                 if (options["groupBoxMoveEvolution"].Name == "Random")
@@ -285,26 +284,19 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxMoveElement"].Name == "Random")
                 {
-                    move.Element = (Element)Probability.Generator.Next(1, 6);
+                    move.Element = Enum.GetValues(typeof(Element)).Cast<Element>().Where(e => e != Element.None).Random();
                 }
 
                 if (options["groupBoxMoveEffect"].Name == "Random")
                 {
-                    if (Probability.FromPercentage(70) || move.Type == MoveType.Dribble)
-                    {
-                        move.Effect = 0x00;
-                    }
-                    else
-                    {
-                        move.Effect = Effects.Values.Where(x => x.Value.Position == move.Type).Select(x => x.Key).Random();
-                    }
+                    move.Effect = Probability.FromPercentage(70) ? Effect.Normal : move.Type.GetCompatibleEffects().Random();
                 }
 
                 if (options["groupBoxMovePower"].Name == "Random")
                 {
                     int power = Probability.Generator.Next(3, 21) * 10;
 
-                    if (move.Effect != 0x0)
+                    if (move.Effect != Effect.Normal)
                     {
                         power -= 10;
                     }

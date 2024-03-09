@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using UltimateGalaxyRandomizer.Logic.Common;
-using UltimateGalaxyRandomizer.Logic.Move;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
 using UltimateGalaxyRandomizer.Resources;
 
 namespace UltimateGalaxyRandomizer.Logic.Player
 {
-    public class Player
+    public class Player(string name)
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = name;
 
         public Param Param { get; set; }
 
@@ -18,12 +16,7 @@ namespace UltimateGalaxyRandomizer.Logic.Player
 
         public SkillTable[] Skills { get; set; }
 
-        public Player(string name)
-        {
-            Name = name;
-        }
-
-        public Player Clone() => new Player(Name)
+        public Player Clone() => new(Name)
         {
             Param = Param.Clone(),
             Base = Base.Clone(),
@@ -46,17 +39,21 @@ namespace UltimateGalaxyRandomizer.Logic.Player
 
                 if (moveType != MoveType.Skill)
                 {
+                    // Create a list of moves according to player move effects probability
+                    var effect = Param.Position.GetEffectProbabilities(moveType).RandomWithProbability();
+                    if(possibleMoves.Values.Any(m => m.Effect == effect))
+                        possibleMoves = possibleMoves.Where(x => x.Value.Effect == effect).ToDictionary(x => x.Key, x => x.Value);
+                    
                     // Create a list of moves according to player element probability
                     var moveElement = Param.Element.GetElementProbability().RandomWithProbability();
-                    possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
+                    if(possibleMoves.Values.Any(m => m.Element == moveElement))
+                        possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
 
-                    //limit by position. Weaker moves on first positions, more powerful moves on higher positions.
+                    //limit by position. Cheaper moves on first positions, expensive moves on higher positions.
                     //most expensive move costs 85 TP
-                    possibleMoves = possibleMoves.Where(m => s > 3 || m.Value.TP <= (s + 1) * 22).ToDictionary(x => x.Key, x => x.Value);
+                    if(possibleMoves.Values.Any(m => s > 3 || (m.TP >= s * 20 && m.TP <= (s + 1) * 22)))
+                        possibleMoves = possibleMoves.Where(m => s > 3 || (m.Value.TP >= s * 20 && m.Value.TP <= (s + 1) * 22)).ToDictionary(x => x.Key, x => x.Value);
                 }
-
-                // Only in an extreme case
-                if (!possibleMoves.Any()) possibleMoves = Moves.PlayerMoves.Where(x => !moveset.ContainsKey(x.Key) && x.Value.Type == moveType).ToDictionary(x => x.Key, x => x.Value);
 
                 var move = possibleMoves.Random();
                 moveset.Add(move.Key, move.Value);
@@ -74,7 +71,10 @@ namespace UltimateGalaxyRandomizer.Logic.Player
                 .ToDictionary(x => x.Key, x => x.Value);
 
             // Only in an extreme case
-            if (!possibleAvatars.Any()) possibleAvatars = Avatars.FightingSpirits.ToDictionary(x => x.Key, x => x.Value);
+            if (!possibleAvatars.Any())
+                possibleAvatars = Avatars.FightingSpirits
+                    .Where(x => x.Value.Position == moveType)
+                    .ToDictionary(x => x.Key, x => x.Value);
 
             return possibleAvatars.Random().Key;
         }
@@ -88,7 +88,10 @@ namespace UltimateGalaxyRandomizer.Logic.Player
                 .ToDictionary(pair => pair.Key, x => x.Value);
 
             // Only in an extreme case
-            if (!possibleTotems.Any()) possibleTotems = Avatars.Totems.ToDictionary(x => x.Key, x => x.Value);
+            if (!possibleTotems.Any())
+                possibleTotems = Avatars.Totems
+                    .Where(x => x.Value.Position == moveType)
+                    .ToDictionary(x => x.Key, x => x.Value);
 
             return possibleTotems.Random().Key;
         }

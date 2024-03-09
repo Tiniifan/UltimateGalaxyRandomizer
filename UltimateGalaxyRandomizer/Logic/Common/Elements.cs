@@ -111,15 +111,14 @@ namespace UltimateGalaxyRandomizer.Logic.Common
         {
             var elementProbability = new Dictionary<Element, int>
             {
-                { Element.None, 15 },
-                { Element.Wind, 15 },
-                { Element.Wood, 15 },
-                { Element.Fire, 15 },
-                { Element.Earth, 15 },
-                { Element.Void, 15 },
+                { Element.Wind, 10 },
+                { Element.Wood, 10 },
+                { Element.Fire, 10 },
+                { Element.Earth, 10 },
+                { Element.Void, 10 },
             };
 
-            elementProbability[element] = 40;
+            elementProbability[element] = 60;
             return elementProbability;
         }
     }

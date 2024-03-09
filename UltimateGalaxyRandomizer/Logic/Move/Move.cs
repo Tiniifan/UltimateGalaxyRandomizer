@@ -4,26 +4,17 @@ using UltimateGalaxyRandomizer.Tools;
 
 namespace UltimateGalaxyRandomizer.Logic.Move
 {
-    public enum MoveType
-    {
-        Shoot = 1,
-        Dribble = 2,
-        Block = 3,
-        Save = 4,
-        Skill = 15
-    }
-
     public class Move
     {
         public string Name { get; set; }
 
         public long Offset { get; set; }
 
-        public uint NameID { get; set; }
+        public uint NameId { get; set; }
 
-        public uint DescriptionID { get; set; }
+        public uint DescriptionId { get; set; }
 
-        public byte Effect { get; set; }
+        public Effect Effect { get; set; }
 
         public byte LearnSpeed { get; set; }
 
@@ -53,10 +44,10 @@ namespace UltimateGalaxyRandomizer.Logic.Move
         public void Read(DataReader reader)
         {
             Offset = reader.BaseStream.Position-4;
-            NameID = reader.ReadUInt32();
-            DescriptionID = reader.ReadUInt32();
+            NameId = reader.ReadUInt32();
+            DescriptionId = reader.ReadUInt32();
             reader.Skip(0x08);
-            Effect = reader.ReadByte();
+            Effect = (Effect)reader.ReadByte();
             reader.Skip(0x06);
             Element = (Element)reader.ReadByte();
             LearnSpeed = reader.ReadByte();
@@ -76,10 +67,10 @@ namespace UltimateGalaxyRandomizer.Logic.Move
         public void Write(DataWriter writer)
         {
             writer.Seek((uint) Offset + 4);
-            writer.WriteUInt32(NameID);
-            writer.WriteUInt32(DescriptionID);
+            writer.WriteUInt32(NameId);
+            writer.WriteUInt32(DescriptionId);
             writer.Skip(0x08);
-            writer.Write(Effect);
+            writer.Write(Convert.ToByte(Effect));
             writer.Skip(0x06);
             writer.Write(Convert.ToByte(Element));
             writer.Write(LearnSpeed);

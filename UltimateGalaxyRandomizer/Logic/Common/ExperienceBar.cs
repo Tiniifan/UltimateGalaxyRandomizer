@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Common
 {
-    public class ExperienceBar
+    public static class ExperienceBar
     {
         // Experience bar 1 -> player level  up faster
         // Experience bar 7 -> player level up slower
-        public static Dictionary<byte, string> Values = new Dictionary<byte, string>()
+        public static readonly IReadOnlyDictionary<byte, string> Values = new Dictionary<byte, string>()
         {
             {1, "Experience Bar 4" },
             {2, "Experience Bar 3" },

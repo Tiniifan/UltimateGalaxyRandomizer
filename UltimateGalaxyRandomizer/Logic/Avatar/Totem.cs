@@ -6,17 +6,13 @@ using UltimateGalaxyRandomizer.Tools;
 
 namespace UltimateGalaxyRandomizer.Logic.Avatar
 {
-    public class Totem : Avatar
+    public class Totem(string name) : Avatar(name)
     {
         public uint[] SkillRoulette { get; set; }
 
         public short SP { get; set; }
 
         public byte[] SPUP { get; set; }
-
-        public Totem(string name) : base(name)
-        {
-        }
 
         public void Read(DataReader reader)
         {

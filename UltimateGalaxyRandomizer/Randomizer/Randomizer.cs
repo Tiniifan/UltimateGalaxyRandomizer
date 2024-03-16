@@ -110,7 +110,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxStyle"].Name == "Random")
                 {
-                    player.Base.Style = (byte)Probability.Generator.Next(0, 6);
+                    player.Base.Style = Styles.Values.Keys.Random();
                 }
 
                 if (options["groupBoxElement"].Name == "Random")
@@ -155,7 +155,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxGrownStats"].Name == "Random")
                 {
-                    var grownStats = new[] { 0, 1, 2, 254, 255 };
+                    int[] grownStats = [0, 1, 2, 254, 255];
                     for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
                     {
                         player.Param.GrownStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = grownStats.Random();
@@ -200,7 +200,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         return new SkillTable
                         {
                             Skill = pair.Value,
-                            SkillLevel = Convert.ToByte(randomSkillLevel ? Probability.Generator.Next(1, 7) : 1),
+                            SkillLevel = randomSkillLevel ? Evolutions.Technique.Keys.Random() : (byte)1,
                             LearnAtLevel = randomLearnLevel ? learnLevel : player.Skills[i].LearnAtLevel
                         };
                     }).ToArray();
@@ -262,7 +262,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxExperienceBar"].Name == "Random")
                 {
-                    player.Param.ExperienceBar = Convert.ToByte(Probability.Generator.Next(1, 8));
+                    player.Param.ExperienceBar = ExperienceBar.Values.Keys.Random();
                 }
             }
         }
@@ -701,9 +701,9 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxTeamSpiritLevel"].Name == "Random" && team.SoccerChara != null)
                 {
-                    team.SoccerChara.Players.Where(p => p.Avatar != null).ToList().ForEach(p =>
+                    team.SoccerChara.Players.Where(p => p.Avatar is { Avatar: FightingSpirit }).ToList().ForEach(p =>
                     {
-                        p.Avatar.Level = Convert.ToByte(Probability.Generator.Next(1, 7));
+                        p.Avatar.Level = Evolutions.FightingSpirit.Keys.Random();
                     });
                 }
 

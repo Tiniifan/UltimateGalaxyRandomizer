@@ -3,9 +3,9 @@ using UltimateGalaxyRandomizer.Logic.Move;
 
 namespace UltimateGalaxyRandomizer.Logic.Avatar
 {
-    public abstract class Avatar
+    public abstract class Avatar(string name)
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = name;
 
         public long Offset { get; set; }
 
@@ -20,10 +20,5 @@ namespace UltimateGalaxyRandomizer.Logic.Avatar
         public Element Element { get; set; }
 
         public uint MoveId { get; set; }
-
-        protected Avatar(string name)
-        {
-            Name = name;
-        }
     }
 }

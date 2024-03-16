@@ -6,7 +6,7 @@ using UltimateGalaxyRandomizer.Tools;
 
 namespace UltimateGalaxyRandomizer.Logic.Avatar
 {
-    public class FightingSpirit : Avatar
+    public class FightingSpirit(string name) : Avatar(name)
     {
         public uint SkillId { get; set; }
 
@@ -17,10 +17,6 @@ namespace UltimateGalaxyRandomizer.Logic.Avatar
         public int[] FSPUP { get; set; }
 
         public int[] AttackUP { get; set; }
-
-        public FightingSpirit(string name): base(name)
-        {
-        }
 
         public void Read(DataReader reader)
         {

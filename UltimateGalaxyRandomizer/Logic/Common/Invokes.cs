@@ -2,26 +2,17 @@
 
 namespace UltimateGalaxyRandomizer.Logic.Common
 {
-    public class Invoke
+    public class Invoke(bool canInvoke, bool isFightingSpirit, bool canArmorify, bool isLocked, bool isStory)
     {
-        public bool CanInvoke { get; set; }
+        public bool CanInvoke { get; set; } = canInvoke;
 
-        public bool IsFightingSpirit { get; set; }
+        public bool IsFightingSpirit { get; set; } = isFightingSpirit;
 
-        public bool CanArmorify { get; set; }
+        public bool CanArmorify { get; set; } = canArmorify;
 
-        public bool IsLocked { get; set; }
+        public bool IsLocked { get; set; } = isLocked;
 
-        public bool IsStory { get; set; }
-
-        public Invoke(bool canInvoke, bool isFightingSpirit, bool canArmorify, bool isLocked, bool isStory)
-        {
-            CanInvoke = canInvoke;
-            IsFightingSpirit = isFightingSpirit;
-            CanArmorify = canArmorify;
-            IsLocked = isLocked;
-            IsStory = isStory;
-        }
+        public bool IsStory { get; set; } = isStory;
     }
 
     public static class Invokes

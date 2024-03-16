@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Common
 {
-    public class Styles
+    public static class Styles
     {
-        public static Dictionary<byte, string> Values = new Dictionary<byte, string>()
+        public static readonly IReadOnlyDictionary<byte, string> Values = new Dictionary<byte, string>()
         {
             {0, "All" },
             {1, "Lively" },

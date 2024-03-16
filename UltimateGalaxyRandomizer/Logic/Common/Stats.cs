@@ -19,7 +19,7 @@ namespace UltimateGalaxyRandomizer.Logic.Common
 
     public class Stats
     {
-        public Dictionary<Stat, int> Values { get; set; } = new Dictionary<Stat, int>
+        public Dictionary<Stat, int> Values { get; set; } = new()
         {
             { Stat.GP, 0 },
             { Stat.TP, 0 },
@@ -33,7 +33,7 @@ namespace UltimateGalaxyRandomizer.Logic.Common
             { Stat.Luck, 0 },
         };
 
-        public Stats(int[] stats)
+        public Stats(IReadOnlyList<int> stats)
         {
             Values[Stat.GP] = stats[0];
             Values[Stat.TP] = stats[1];

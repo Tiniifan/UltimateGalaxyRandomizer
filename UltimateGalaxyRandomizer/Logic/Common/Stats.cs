@@ -1,35 +1,50 @@
 ﻿using System.Collections.Generic;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Common
 {
+    
+    public enum Stat
+    {
+        GP,
+        TP,
+        Kick,
+        Dribble,
+        Technique,
+        Block,
+        Speed,
+        Stamina,
+        Catch,
+        Luck
+    }
+
     public class Stats
     {
-        public Dictionary<string, int> Values = new Dictionary<string, int>()
+        public Dictionary<Stat, int> Values { get; set; } = new()
         {
-            {"FP", 0 },
-            {"TP", 0 },
-            {"Kick", 0 },
-            {"Dribble", 0 },
-            {"Technique", 0 },
-            {"Block", 0 },
-            {"Speed", 0 },
-            {"Stamina", 0 },
-            {"Catch", 0 },
-            {"Luck", 0 },
+            { Stat.GP, 0 },
+            { Stat.TP, 0 },
+            { Stat.Kick, 0 },
+            { Stat.Dribble, 0 },
+            { Stat.Technique, 0 },
+            { Stat.Block, 0 },
+            { Stat.Speed, 0 },
+            { Stat.Stamina, 0 },
+            { Stat.Catch, 0 },
+            { Stat.Luck, 0 },
         };
 
-        public Stats(int[] stats)
+        public Stats(IReadOnlyList<int> stats)
         {
-            Values["FP"] = stats[0];
-            Values["TP"] = stats[1];
-            Values["Kick"] = stats[2];
-            Values["Dribble"] = stats[3];
-            Values["Technique"] = stats[4];
-            Values["Block"] = stats[5];
-            Values["Speed"] = stats[6];
-            Values["Stamina"] = stats[7];
-            Values["Catch"] = stats[8];
-            Values["Luck"] = stats[9];
+            Values[Stat.GP] = stats[0];
+            Values[Stat.TP] = stats[1];
+            Values[Stat.Kick] = stats[2];
+            Values[Stat.Dribble] = stats[3];
+            Values[Stat.Technique] = stats[4];
+            Values[Stat.Block] = stats[5];
+            Values[Stat.Speed] = stats[6];
+            Values[Stat.Stamina] = stats[7];
+            Values[Stat.Catch] = stats[8];
+            Values[Stat.Luck] = stats[9];
         }
     }
 }

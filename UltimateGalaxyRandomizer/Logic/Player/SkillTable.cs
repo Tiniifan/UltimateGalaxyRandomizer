@@ -1,12 +1,14 @@
-﻿using UltimateGalaxyRandomizer.Tools;
+﻿using System.Linq;
+using UltimateGalaxyRandomizer.Resources;
+using UltimateGalaxyRandomizer.Tools;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Player
 {
     public class SkillTable
     {
-        public uint SkillId { get; set; }
+        public Move.Move Skill { get; set; }
 
-        public short SkillNumber { get; set; }
+        // public short SkillNumber
 
         public byte LearnAtLevel { get; set; }
 
@@ -19,24 +21,24 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public SkillTable(DataReader reader)
         {
-            SkillId = reader.ReadUInt32();
-            SkillNumber = reader.ReadInt16();
+            Skill = Moves.PlayerMoves[reader.ReadUInt32()];
+            reader.Skip(sizeof(short)); //SkillNumber = reader.ReadInt16()
             LearnAtLevel = reader.ReadByte();
             SkillLevel = reader.ReadByte();
         }
 
         public SkillTable Clone() => new SkillTable
         {
-            SkillId = SkillId,
-            SkillNumber = SkillNumber,
+            Skill = Skill,
+            // SkillNumber = SkillNumber,
             LearnAtLevel = LearnAtLevel,
             SkillLevel = SkillLevel
         };
 
-        public void Write(DataWriter writer)
+        public void Write(DataWriter writer, ref short skillNumber)
         {
-            writer.WriteUInt32(SkillId);
-            writer.WriteInt16(SkillNumber);
+            writer.WriteUInt32(Moves.PlayerMoves.First(pair => pair.Value == Skill).Key);
+            writer.WriteInt16(skillNumber);
             writer.Write(LearnAtLevel);
             writer.Write(SkillLevel);
         }

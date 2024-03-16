@@ -12,7 +12,8 @@ namespace UltimateGalaxyRandomizer.Randomizer.Utility
         {
             var list = enumerable.ToList();
             return list[list.RandomIndex()];
-        }        
+        }   
+
         public static IEnumerable<T> Random<T>(this IEnumerable<T> enumerable, int number)
         {
             var list = enumerable.ToList();
@@ -38,7 +39,11 @@ namespace UltimateGalaxyRandomizer.Randomizer.Utility
 
             return probabilities.Length - 1;
         }
-
-        public static int RandomAsProbabilities(this int[] probabilities) => IndexFromProbabilities(probabilities);
+        
+        public static T RandomWithProbability<T>(this IEnumerable<KeyValuePair< T, int>> probabilities)
+        {
+            var list = probabilities.ToList();
+            return list[IndexFromProbabilities(list.Select(pair => pair.Value).ToArray())].Key;
+        }
     }
 }

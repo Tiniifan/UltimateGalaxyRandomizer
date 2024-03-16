@@ -19,8 +19,8 @@ namespace UltimateGalaxyRandomizer
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog ofd = new FolderBrowserDialog();
-            DialogResult result = ofd.ShowDialog();
+            var ofd = new FolderBrowserDialog();
+            var result = ofd.ShowDialog();
 
             if (result == DialogResult.OK)
             {
@@ -48,20 +48,19 @@ namespace UltimateGalaxyRandomizer
             }
         }
 
-        private Option GroupBoxToRandomizerOption(GroupBox groupBox) =>
-            new Option(groupBox.Controls.OfType<RadioButton>().OrderBy(x => x.Name).ToList())
-            {
-                CheckBoxes = groupBox.Controls.OfType<CheckBox>().ToDictionary(x => x.Name, x => x),
-                NumericUpDowns = groupBox.Controls.OfType<NumericUpDown>().ToDictionary(x => x.Name, x => x)
-            };
+        private static Option GroupBoxToRandomizerOption(GroupBox groupBox) => new([.. groupBox.Controls.OfType<RadioButton>().OrderBy(x => x.Name)])
+        {
+            CheckBoxes = groupBox.Controls.OfType<CheckBox>().ToDictionary(x => x.Name, x => x),
+            NumericUpDowns = groupBox.Controls.OfType<NumericUpDown>().ToDictionary(x => x.Name, x => x)
+        };
 
-        private Dictionary<string, Option> TabControlToDictOption(TabControl tabControl)
+        private static Dictionary<string, Option> TabControlToDictOption(TabControl tabControl)
         {
             var options = new Dictionary<string, Option>();
 
             foreach (Control control in tabControl.Controls)
             {
-                if (!(control is TabPage)) continue;
+                if (control is not TabPage) continue;
 
                 foreach (Control subControl in control.Controls)
                 {
@@ -88,7 +87,7 @@ namespace UltimateGalaxyRandomizer
 
         private void Option_CheckedChanged(object sender, EventArgs e)
         {
-            if (!(sender is RadioButton radioButton) || !(radioButton.Parent is GroupBox groupbox)) return;
+            if (sender is not RadioButton { Parent: GroupBox groupbox } radioButton) return;
 
             foreach (NumericUpDown numericUpDown in groupbox.Controls.OfType<NumericUpDown>())
             {
@@ -108,7 +107,7 @@ namespace UltimateGalaxyRandomizer
 
         private void InvokerProbabilityChange(object sender, EventArgs e)
         {
-            if (!(sender is NumericUpDown numericUpDownFocused) || !numericUpDownFocused.Focused) return;
+            if (sender is not NumericUpDown { Focused: true } numericUpDownFocused) return;
 
             var numericUpDowns = new List<NumericUpDown> { numericUpDownFightingSpirit, numericUpDownTotem, numericUpDownNoneInvoker };
             numericUpDowns.Remove(numericUpDownFocused);

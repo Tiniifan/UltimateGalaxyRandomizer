@@ -90,12 +90,16 @@ namespace UltimateGalaxyRandomizer
             this.radioButtonMoveStunDamage2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMoveStunDamage1 = new System.Windows.Forms.RadioButton();
             this.groupBoxMoveTP = new System.Windows.Forms.GroupBox();
+            this.numericUpDownMoveTPScale = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxScaleMoveTP = new System.Windows.Forms.CheckBox();
             this.radioButtonMoveTP2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMoveTP1 = new System.Windows.Forms.RadioButton();
             this.groupBoxMoveDifficulty = new System.Windows.Forms.GroupBox();
             this.radioButtonMoveDifficulty2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMoveDifficulty1 = new System.Windows.Forms.RadioButton();
             this.groupBoxMovePower = new System.Windows.Forms.GroupBox();
+            this.numericUpDownMovePowerScale = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxScaleMovePower = new System.Windows.Forms.CheckBox();
             this.radioButtonMovePower2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMovePower1 = new System.Windows.Forms.RadioButton();
             this.groupBoxMoveEffect = new System.Windows.Forms.GroupBox();
@@ -168,6 +172,15 @@ namespace UltimateGalaxyRandomizer
             this.checkBoxTeamsMiniMatchize = new System.Windows.Forms.CheckBox();
             this.checkBoxTeamsDisableScript = new System.Windows.Forms.CheckBox();
             this.checkBoxTeamsMaxDifficulty = new System.Windows.Forms.CheckBox();
+            this.tabPage14 = new System.Windows.Forms.TabPage();
+            this.groupBoxTeamSpiritLevel = new System.Windows.Forms.GroupBox();
+            this.radioButton2SpiritLevelRandom = new System.Windows.Forms.RadioButton();
+            this.radioButton1SpiritLevel = new System.Windows.Forms.RadioButton();
+            this.groupBoxMixiMax = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numericUpDownMixiMaxChance = new System.Windows.Forms.NumericUpDown();
+            this.radioButtonMixiMax2Random = new System.Windows.Forms.RadioButton();
+            this.radioButtonMixiMax1Unchanged = new System.Windows.Forms.RadioButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -199,15 +212,12 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxName = new System.Windows.Forms.GroupBox();
             this.radioButtonName2 = new System.Windows.Forms.RadioButton();
             this.radioButtonName1 = new System.Windows.Forms.RadioButton();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tabPlayerSkills = new System.Windows.Forms.TabPage();
             this.groupBoxArmoufiedUser = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.radioButtonArmoufied = new System.Windows.Forms.RadioButton();
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.numericUpDownArmoufly = new System.Windows.Forms.NumericUpDown();
-            this.groupBoxExperienceBar = new System.Windows.Forms.GroupBox();
-            this.radioButtonExperienceBar2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonExperienceBar1 = new System.Windows.Forms.RadioButton();
             this.groupBoxAvatar = new System.Windows.Forms.GroupBox();
             this.radioButtonAvatar2 = new System.Windows.Forms.RadioButton();
             this.radioButtonAvatar1 = new System.Windows.Forms.RadioButton();
@@ -221,8 +231,17 @@ namespace UltimateGalaxyRandomizer
             this.label6 = new System.Windows.Forms.Label();
             this.numericUpDownTotem = new System.Windows.Forms.NumericUpDown();
             this.groupBoxMoveset = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.numericUpDownNumberOfSkills = new System.Windows.Forms.NumericUpDown();
+            this.checkBoxOrderByMovePower = new System.Windows.Forms.CheckBox();
+            this.checkBoxRandomizeLearnLevel = new System.Windows.Forms.CheckBox();
+            this.checkBoxRandomizeSkillLevel = new System.Windows.Forms.CheckBox();
             this.radioButtonMoveset2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMoveset1 = new System.Windows.Forms.RadioButton();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.groupBoxExperienceBar = new System.Windows.Forms.GroupBox();
+            this.radioButtonExperienceBar2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonExperienceBar1 = new System.Windows.Forms.RadioButton();
             this.groupBoxFreedom = new System.Windows.Forms.GroupBox();
             this.radioButtonFreedom2 = new System.Windows.Forms.RadioButton();
             this.radioButtonFreedom1 = new System.Windows.Forms.RadioButton();
@@ -242,6 +261,8 @@ namespace UltimateGalaxyRandomizer
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.groupBoxMiscellaneousEquipment = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numericUpDownMaxStatIncrease = new System.Windows.Forms.NumericUpDown();
             this.radioButtonMiscellaneousEquipment2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMiscellaneousEquipment1 = new System.Windows.Forms.RadioButton();
             this.groupBoxMiscellaneousRecruitment = new System.Windows.Forms.GroupBox();
@@ -252,19 +273,6 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMiscellaneousShop = new System.Windows.Forms.GroupBox();
             this.radioButtonMiscellaneousShop2 = new System.Windows.Forms.RadioButton();
             this.radioButtonMiscellaneousShop1 = new System.Windows.Forms.RadioButton();
-            this.checkBoxRandomizeSkillNumber = new System.Windows.Forms.CheckBox();
-            this.checkBoxRandomizeSkillLevel = new System.Windows.Forms.CheckBox();
-            this.tabPage14 = new System.Windows.Forms.TabPage();
-            this.groupBoxMixiMax = new System.Windows.Forms.GroupBox();
-            this.radioButtonMixiMax2Random = new System.Windows.Forms.RadioButton();
-            this.radioButtonMixiMax1Unchanged = new System.Windows.Forms.RadioButton();
-            this.numericUpDownMixiMaxChance = new System.Windows.Forms.NumericUpDown();
-            this.radioButton1SpiritLevel = new System.Windows.Forms.RadioButton();
-            this.radioButton2SpiritLevelRandom = new System.Windows.Forms.RadioButton();
-            this.groupBoxTeamSpiritLevel = new System.Windows.Forms.GroupBox();
-            this.numericUpDownMaxStatIncrease = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabControl4.SuspendLayout();
@@ -290,8 +298,10 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMoveEvolution.SuspendLayout();
             this.groupBoxMoveStunDamage.SuspendLayout();
             this.groupBoxMoveTP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMoveTPScale)).BeginInit();
             this.groupBoxMoveDifficulty.SuspendLayout();
             this.groupBoxMovePower.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMovePowerScale)).BeginInit();
             this.groupBoxMoveEffect.SuspendLayout();
             this.groupBoxMoveElement.SuspendLayout();
             this.tabPage9.SuspendLayout();
@@ -321,6 +331,10 @@ namespace UltimateGalaxyRandomizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTeamsTimerMiniMatch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTeamsTimerMatch)).BeginInit();
             this.groupBoxTeamsMiscellaneous.SuspendLayout();
+            this.tabPage14.SuspendLayout();
+            this.groupBoxTeamSpiritLevel.SuspendLayout();
+            this.groupBoxMixiMax.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMixiMaxChance)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -333,16 +347,18 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxDescription.SuspendLayout();
             this.groupBoxNickname.SuspendLayout();
             this.groupBoxName.SuspendLayout();
-            this.tabPage6.SuspendLayout();
+            this.tabPlayerSkills.SuspendLayout();
             this.groupBoxArmoufiedUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownArmoufly)).BeginInit();
-            this.groupBoxExperienceBar.SuspendLayout();
             this.groupBoxAvatar.SuspendLayout();
             this.groupBoxInvokerUser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFightingSpirit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNoneInvoker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTotem)).BeginInit();
             this.groupBoxMoveset.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumberOfSkills)).BeginInit();
+            this.tabPage6.SuspendLayout();
+            this.groupBoxExperienceBar.SuspendLayout();
             this.groupBoxFreedom.SuspendLayout();
             this.groupBoxGrownStats.SuspendLayout();
             this.groupBoxBaseStats.SuspendLayout();
@@ -350,14 +366,10 @@ namespace UltimateGalaxyRandomizer
             this.tabControl1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBoxMiscellaneousEquipment.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxStatIncrease)).BeginInit();
             this.groupBoxMiscellaneousRecruitment.SuspendLayout();
             this.groupBoxMiscellaneousTreasureBox.SuspendLayout();
             this.groupBoxMiscellaneousShop.SuspendLayout();
-            this.tabPage14.SuspendLayout();
-            this.groupBoxMixiMax.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMixiMaxChance)).BeginInit();
-            this.groupBoxTeamSpiritLevel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxStatIncrease)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -1084,6 +1096,8 @@ namespace UltimateGalaxyRandomizer
             // 
             // groupBoxMoveTP
             // 
+            this.groupBoxMoveTP.Controls.Add(this.numericUpDownMoveTPScale);
+            this.groupBoxMoveTP.Controls.Add(this.checkBoxScaleMoveTP);
             this.groupBoxMoveTP.Controls.Add(this.radioButtonMoveTP2);
             this.groupBoxMoveTP.Controls.Add(this.radioButtonMoveTP1);
             this.groupBoxMoveTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1093,6 +1107,46 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMoveTP.TabIndex = 31;
             this.groupBoxMoveTP.TabStop = false;
             this.groupBoxMoveTP.Text = "TP";
+            // 
+            // numericUpDownMoveTPScale
+            // 
+            this.numericUpDownMoveTPScale.DecimalPlaces = 1;
+            this.numericUpDownMoveTPScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownMoveTPScale.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMoveTPScale.Location = new System.Drawing.Point(139, 73);
+            this.numericUpDownMoveTPScale.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMoveTPScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMoveTPScale.Name = "numericUpDownMoveTPScale";
+            this.numericUpDownMoveTPScale.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownMoveTPScale.TabIndex = 11;
+            this.numericUpDownMoveTPScale.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxScaleMoveTP
+            // 
+            this.checkBoxScaleMoveTP.AutoSize = true;
+            this.checkBoxScaleMoveTP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxScaleMoveTP.Location = new System.Drawing.Point(23, 74);
+            this.checkBoxScaleMoveTP.Name = "checkBoxScaleMoveTP";
+            this.checkBoxScaleMoveTP.Size = new System.Drawing.Size(53, 17);
+            this.checkBoxScaleMoveTP.TabIndex = 10;
+            this.checkBoxScaleMoveTP.Text = "Scale";
+            this.checkBoxScaleMoveTP.UseVisualStyleBackColor = true;
             // 
             // radioButtonMoveTP2
             // 
@@ -1156,6 +1210,8 @@ namespace UltimateGalaxyRandomizer
             // 
             // groupBoxMovePower
             // 
+            this.groupBoxMovePower.Controls.Add(this.numericUpDownMovePowerScale);
+            this.groupBoxMovePower.Controls.Add(this.checkBoxScaleMovePower);
             this.groupBoxMovePower.Controls.Add(this.radioButtonMovePower2);
             this.groupBoxMovePower.Controls.Add(this.radioButtonMovePower1);
             this.groupBoxMovePower.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1165,6 +1221,46 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMovePower.TabIndex = 29;
             this.groupBoxMovePower.TabStop = false;
             this.groupBoxMovePower.Text = "Power";
+            // 
+            // numericUpDownMovePowerScale
+            // 
+            this.numericUpDownMovePowerScale.DecimalPlaces = 1;
+            this.numericUpDownMovePowerScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownMovePowerScale.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMovePowerScale.Location = new System.Drawing.Point(134, 72);
+            this.numericUpDownMovePowerScale.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMovePowerScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDownMovePowerScale.Name = "numericUpDownMovePowerScale";
+            this.numericUpDownMovePowerScale.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownMovePowerScale.TabIndex = 13;
+            this.numericUpDownMovePowerScale.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxScaleMovePower
+            // 
+            this.checkBoxScaleMovePower.AutoSize = true;
+            this.checkBoxScaleMovePower.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxScaleMovePower.Location = new System.Drawing.Point(18, 73);
+            this.checkBoxScaleMovePower.Name = "checkBoxScaleMovePower";
+            this.checkBoxScaleMovePower.Size = new System.Drawing.Size(53, 17);
+            this.checkBoxScaleMovePower.TabIndex = 12;
+            this.checkBoxScaleMovePower.Text = "Scale";
+            this.checkBoxScaleMovePower.UseVisualStyleBackColor = true;
             // 
             // radioButtonMovePower2
             // 
@@ -1200,7 +1296,7 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMoveEffect.Size = new System.Drawing.Size(187, 116);
             this.groupBoxMoveEffect.TabIndex = 28;
             this.groupBoxMoveEffect.TabStop = false;
-            this.groupBoxMoveEffect.Text = "Effect";
+            this.groupBoxMoveEffect.Text = "Additional Effects";
             // 
             // radioButtonMoveEffect2
             // 
@@ -2072,6 +2168,118 @@ namespace UltimateGalaxyRandomizer
             this.checkBoxTeamsMaxDifficulty.Text = "AI Max Difficulty";
             this.checkBoxTeamsMaxDifficulty.UseVisualStyleBackColor = true;
             // 
+            // tabPage14
+            // 
+            this.tabPage14.Controls.Add(this.groupBoxTeamSpiritLevel);
+            this.tabPage14.Controls.Add(this.groupBoxMixiMax);
+            this.tabPage14.Location = new System.Drawing.Point(4, 22);
+            this.tabPage14.Name = "tabPage14";
+            this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage14.Size = new System.Drawing.Size(587, 371);
+            this.tabPage14.TabIndex = 2;
+            this.tabPage14.Text = "More";
+            this.tabPage14.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTeamSpiritLevel
+            // 
+            this.groupBoxTeamSpiritLevel.Controls.Add(this.radioButton2SpiritLevelRandom);
+            this.groupBoxTeamSpiritLevel.Controls.Add(this.radioButton1SpiritLevel);
+            this.groupBoxTeamSpiritLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxTeamSpiritLevel.Location = new System.Drawing.Point(199, 6);
+            this.groupBoxTeamSpiritLevel.Name = "groupBoxTeamSpiritLevel";
+            this.groupBoxTeamSpiritLevel.Size = new System.Drawing.Size(187, 116);
+            this.groupBoxTeamSpiritLevel.TabIndex = 29;
+            this.groupBoxTeamSpiritLevel.TabStop = false;
+            this.groupBoxTeamSpiritLevel.Text = "Spirit Level";
+            // 
+            // radioButton2SpiritLevelRandom
+            // 
+            this.radioButton2SpiritLevelRandom.AutoSize = true;
+            this.radioButton2SpiritLevelRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton2SpiritLevelRandom.Location = new System.Drawing.Point(23, 50);
+            this.radioButton2SpiritLevelRandom.Name = "radioButton2SpiritLevelRandom";
+            this.radioButton2SpiritLevelRandom.Size = new System.Drawing.Size(65, 17);
+            this.radioButton2SpiritLevelRandom.TabIndex = 4;
+            this.radioButton2SpiritLevelRandom.Text = "Random";
+            this.radioButton2SpiritLevelRandom.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1SpiritLevel
+            // 
+            this.radioButton1SpiritLevel.AutoSize = true;
+            this.radioButton1SpiritLevel.Checked = true;
+            this.radioButton1SpiritLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton1SpiritLevel.Location = new System.Drawing.Point(23, 27);
+            this.radioButton1SpiritLevel.Name = "radioButton1SpiritLevel";
+            this.radioButton1SpiritLevel.Size = new System.Drawing.Size(81, 17);
+            this.radioButton1SpiritLevel.TabIndex = 3;
+            this.radioButton1SpiritLevel.TabStop = true;
+            this.radioButton1SpiritLevel.Text = "Unchanged";
+            this.radioButton1SpiritLevel.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxMixiMax
+            // 
+            this.groupBoxMixiMax.Controls.Add(this.label9);
+            this.groupBoxMixiMax.Controls.Add(this.numericUpDownMixiMaxChance);
+            this.groupBoxMixiMax.Controls.Add(this.radioButtonMixiMax2Random);
+            this.groupBoxMixiMax.Controls.Add(this.radioButtonMixiMax1Unchanged);
+            this.groupBoxMixiMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxMixiMax.Location = new System.Drawing.Point(6, 6);
+            this.groupBoxMixiMax.Name = "groupBoxMixiMax";
+            this.groupBoxMixiMax.Size = new System.Drawing.Size(187, 116);
+            this.groupBoxMixiMax.TabIndex = 28;
+            this.groupBoxMixiMax.TabStop = false;
+            this.groupBoxMixiMax.Text = "MixiMax";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Enabled = false;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(20, 79);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(91, 13);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Mixi Max Chance:";
+            // 
+            // numericUpDownMixiMaxChance
+            // 
+            this.numericUpDownMixiMaxChance.Enabled = false;
+            this.numericUpDownMixiMaxChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownMixiMaxChance.Location = new System.Drawing.Point(139, 77);
+            this.numericUpDownMixiMaxChance.Name = "numericUpDownMixiMaxChance";
+            this.numericUpDownMixiMaxChance.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownMixiMaxChance.TabIndex = 11;
+            this.numericUpDownMixiMaxChance.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            // 
+            // radioButtonMixiMax2Random
+            // 
+            this.radioButtonMixiMax2Random.AutoSize = true;
+            this.radioButtonMixiMax2Random.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMixiMax2Random.Location = new System.Drawing.Point(23, 50);
+            this.radioButtonMixiMax2Random.Name = "radioButtonMixiMax2Random";
+            this.radioButtonMixiMax2Random.Size = new System.Drawing.Size(65, 17);
+            this.radioButtonMixiMax2Random.TabIndex = 4;
+            this.radioButtonMixiMax2Random.Text = "Random";
+            this.radioButtonMixiMax2Random.UseVisualStyleBackColor = true;
+            this.radioButtonMixiMax2Random.CheckedChanged += new System.EventHandler(this.Option_CheckedChanged);
+            // 
+            // radioButtonMixiMax1Unchanged
+            // 
+            this.radioButtonMixiMax1Unchanged.AutoSize = true;
+            this.radioButtonMixiMax1Unchanged.Checked = true;
+            this.radioButtonMixiMax1Unchanged.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonMixiMax1Unchanged.Location = new System.Drawing.Point(23, 27);
+            this.radioButtonMixiMax1Unchanged.Name = "radioButtonMixiMax1Unchanged";
+            this.radioButtonMixiMax1Unchanged.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonMixiMax1Unchanged.TabIndex = 3;
+            this.radioButtonMixiMax1Unchanged.TabStop = true;
+            this.radioButtonMixiMax1Unchanged.Text = "Unchanged";
+            this.radioButtonMixiMax1Unchanged.UseVisualStyleBackColor = true;
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.tabControl2);
@@ -2086,6 +2294,7 @@ namespace UltimateGalaxyRandomizer
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Controls.Add(this.tabPlayerSkills);
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Location = new System.Drawing.Point(6, 6);
             this.tabControl2.Name = "tabControl2";
@@ -2201,7 +2410,7 @@ namespace UltimateGalaxyRandomizer
             // 
             this.checkBoxElementAllowVoid.AutoSize = true;
             this.checkBoxElementAllowVoid.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxElementAllowVoid.Location = new System.Drawing.Point(110, 28);
+            this.checkBoxElementAllowVoid.Location = new System.Drawing.Point(106, 51);
             this.checkBoxElementAllowVoid.Name = "checkBoxElementAllowVoid";
             this.checkBoxElementAllowVoid.Size = new System.Drawing.Size(75, 17);
             this.checkBoxElementAllowVoid.TabIndex = 8;
@@ -2449,24 +2658,18 @@ namespace UltimateGalaxyRandomizer
             this.radioButtonName1.Text = "Unchanged";
             this.radioButtonName1.UseVisualStyleBackColor = true;
             // 
-            // tabPage6
+            // tabPlayerSkills
             // 
-            this.tabPage6.Controls.Add(this.groupBoxArmoufiedUser);
-            this.tabPage6.Controls.Add(this.groupBoxExperienceBar);
-            this.tabPage6.Controls.Add(this.groupBoxAvatar);
-            this.tabPage6.Controls.Add(this.groupBoxInvokerUser);
-            this.tabPage6.Controls.Add(this.groupBoxMoveset);
-            this.tabPage6.Controls.Add(this.groupBoxFreedom);
-            this.tabPage6.Controls.Add(this.groupBoxGrownStats);
-            this.tabPage6.Controls.Add(this.groupBoxBaseStats);
-            this.tabPage6.Controls.Add(this.groupBoxSwapPlayer);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(587, 371);
-            this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "Stats and more";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.tabPlayerSkills.Controls.Add(this.groupBoxArmoufiedUser);
+            this.tabPlayerSkills.Controls.Add(this.groupBoxAvatar);
+            this.tabPlayerSkills.Controls.Add(this.groupBoxInvokerUser);
+            this.tabPlayerSkills.Controls.Add(this.groupBoxMoveset);
+            this.tabPlayerSkills.Location = new System.Drawing.Point(4, 22);
+            this.tabPlayerSkills.Name = "tabPlayerSkills";
+            this.tabPlayerSkills.Size = new System.Drawing.Size(587, 371);
+            this.tabPlayerSkills.TabIndex = 2;
+            this.tabPlayerSkills.Text = "Skills and Avatar";
+            this.tabPlayerSkills.UseVisualStyleBackColor = true;
             // 
             // groupBoxArmoufiedUser
             // 
@@ -2475,10 +2678,10 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxArmoufiedUser.Controls.Add(this.radioButton6);
             this.groupBoxArmoufiedUser.Controls.Add(this.numericUpDownArmoufly);
             this.groupBoxArmoufiedUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxArmoufiedUser.Location = new System.Drawing.Point(6, 249);
+            this.groupBoxArmoufiedUser.Location = new System.Drawing.Point(394, 252);
             this.groupBoxArmoufiedUser.Name = "groupBoxArmoufiedUser";
             this.groupBoxArmoufiedUser.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxArmoufiedUser.TabIndex = 43;
+            this.groupBoxArmoufiedUser.TabIndex = 46;
             this.groupBoxArmoufiedUser.TabStop = false;
             this.groupBoxArmoufiedUser.Text = "Armourfied User";
             // 
@@ -2487,7 +2690,7 @@ namespace UltimateGalaxyRandomizer
             this.label8.AutoSize = true;
             this.label8.Enabled = false;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(118, 32);
+            this.label8.Location = new System.Drawing.Point(118, 53);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 13);
             this.label8.TabIndex = 11;
@@ -2522,7 +2725,7 @@ namespace UltimateGalaxyRandomizer
             // 
             this.numericUpDownArmoufly.Enabled = false;
             this.numericUpDownArmoufly.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownArmoufly.Location = new System.Drawing.Point(139, 28);
+            this.numericUpDownArmoufly.Location = new System.Drawing.Point(139, 51);
             this.numericUpDownArmoufly.Name = "numericUpDownArmoufly";
             this.numericUpDownArmoufly.Size = new System.Drawing.Size(42, 20);
             this.numericUpDownArmoufly.TabIndex = 10;
@@ -2532,51 +2735,15 @@ namespace UltimateGalaxyRandomizer
             0,
             0});
             // 
-            // groupBoxExperienceBar
-            // 
-            this.groupBoxExperienceBar.Controls.Add(this.radioButtonExperienceBar2);
-            this.groupBoxExperienceBar.Controls.Add(this.radioButtonExperienceBar1);
-            this.groupBoxExperienceBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxExperienceBar.Location = new System.Drawing.Point(392, 249);
-            this.groupBoxExperienceBar.Name = "groupBoxExperienceBar";
-            this.groupBoxExperienceBar.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxExperienceBar.TabIndex = 42;
-            this.groupBoxExperienceBar.TabStop = false;
-            this.groupBoxExperienceBar.Text = "Experience Bar";
-            // 
-            // radioButtonExperienceBar2
-            // 
-            this.radioButtonExperienceBar2.AutoSize = true;
-            this.radioButtonExperienceBar2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonExperienceBar2.Location = new System.Drawing.Point(23, 51);
-            this.radioButtonExperienceBar2.Name = "radioButtonExperienceBar2";
-            this.radioButtonExperienceBar2.Size = new System.Drawing.Size(65, 17);
-            this.radioButtonExperienceBar2.TabIndex = 1;
-            this.radioButtonExperienceBar2.Text = "Random";
-            this.radioButtonExperienceBar2.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonExperienceBar1
-            // 
-            this.radioButtonExperienceBar1.AutoSize = true;
-            this.radioButtonExperienceBar1.Checked = true;
-            this.radioButtonExperienceBar1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonExperienceBar1.Location = new System.Drawing.Point(23, 28);
-            this.radioButtonExperienceBar1.Name = "radioButtonExperienceBar1";
-            this.radioButtonExperienceBar1.Size = new System.Drawing.Size(81, 17);
-            this.radioButtonExperienceBar1.TabIndex = 0;
-            this.radioButtonExperienceBar1.TabStop = true;
-            this.radioButtonExperienceBar1.Text = "Unchanged";
-            this.radioButtonExperienceBar1.UseVisualStyleBackColor = true;
-            // 
             // groupBoxAvatar
             // 
             this.groupBoxAvatar.Controls.Add(this.radioButtonAvatar2);
             this.groupBoxAvatar.Controls.Add(this.radioButtonAvatar1);
             this.groupBoxAvatar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxAvatar.Location = new System.Drawing.Point(199, 128);
+            this.groupBoxAvatar.Location = new System.Drawing.Point(6, 252);
             this.groupBoxAvatar.Name = "groupBoxAvatar";
             this.groupBoxAvatar.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxAvatar.TabIndex = 40;
+            this.groupBoxAvatar.TabIndex = 45;
             this.groupBoxAvatar.TabStop = false;
             this.groupBoxAvatar.Text = "Avatar";
             // 
@@ -2615,10 +2782,10 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxInvokerUser.Controls.Add(this.label6);
             this.groupBoxInvokerUser.Controls.Add(this.numericUpDownTotem);
             this.groupBoxInvokerUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxInvokerUser.Location = new System.Drawing.Point(392, 128);
+            this.groupBoxInvokerUser.Location = new System.Drawing.Point(199, 252);
             this.groupBoxInvokerUser.Name = "groupBoxInvokerUser";
             this.groupBoxInvokerUser.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxInvokerUser.TabIndex = 39;
+            this.groupBoxInvokerUser.TabIndex = 44;
             this.groupBoxInvokerUser.TabStop = false;
             this.groupBoxInvokerUser.Text = "Invoker User";
             // 
@@ -2727,23 +2894,92 @@ namespace UltimateGalaxyRandomizer
             // 
             // groupBoxMoveset
             // 
+            this.groupBoxMoveset.Controls.Add(this.label10);
+            this.groupBoxMoveset.Controls.Add(this.numericUpDownNumberOfSkills);
+            this.groupBoxMoveset.Controls.Add(this.checkBoxOrderByMovePower);
+            this.groupBoxMoveset.Controls.Add(this.checkBoxRandomizeLearnLevel);
             this.groupBoxMoveset.Controls.Add(this.checkBoxRandomizeSkillLevel);
-            this.groupBoxMoveset.Controls.Add(this.checkBoxRandomizeSkillNumber);
             this.groupBoxMoveset.Controls.Add(this.radioButtonMoveset2);
             this.groupBoxMoveset.Controls.Add(this.radioButtonMoveset1);
             this.groupBoxMoveset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxMoveset.Location = new System.Drawing.Point(6, 128);
+            this.groupBoxMoveset.Location = new System.Drawing.Point(6, 6);
             this.groupBoxMoveset.Name = "groupBoxMoveset";
-            this.groupBoxMoveset.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxMoveset.TabIndex = 38;
+            this.groupBoxMoveset.Size = new System.Drawing.Size(187, 161);
+            this.groupBoxMoveset.TabIndex = 39;
             this.groupBoxMoveset.TabStop = false;
             this.groupBoxMoveset.Text = "Moveset";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Enabled = false;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(20, 123);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(116, 13);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "Max # of Passive Skills";
+            // 
+            // numericUpDownNumberOfSkills
+            // 
+            this.numericUpDownNumberOfSkills.Enabled = false;
+            this.numericUpDownNumberOfSkills.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownNumberOfSkills.Location = new System.Drawing.Point(139, 121);
+            this.numericUpDownNumberOfSkills.Maximum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.numericUpDownNumberOfSkills.Name = "numericUpDownNumberOfSkills";
+            this.numericUpDownNumberOfSkills.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownNumberOfSkills.TabIndex = 12;
+            this.numericUpDownNumberOfSkills.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // checkBoxOrderByMovePower
+            // 
+            this.checkBoxOrderByMovePower.AutoSize = true;
+            this.checkBoxOrderByMovePower.Enabled = false;
+            this.checkBoxOrderByMovePower.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxOrderByMovePower.Location = new System.Drawing.Point(23, 103);
+            this.checkBoxOrderByMovePower.Name = "checkBoxOrderByMovePower";
+            this.checkBoxOrderByMovePower.Size = new System.Drawing.Size(129, 17);
+            this.checkBoxOrderByMovePower.TabIndex = 11;
+            this.checkBoxOrderByMovePower.Text = "Order by Move Power";
+            this.checkBoxOrderByMovePower.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRandomizeLearnLevel
+            // 
+            this.checkBoxRandomizeLearnLevel.AutoSize = true;
+            this.checkBoxRandomizeLearnLevel.Enabled = false;
+            this.checkBoxRandomizeLearnLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRandomizeLearnLevel.Location = new System.Drawing.Point(23, 84);
+            this.checkBoxRandomizeLearnLevel.Name = "checkBoxRandomizeLearnLevel";
+            this.checkBoxRandomizeLearnLevel.Size = new System.Drawing.Size(157, 17);
+            this.checkBoxRandomizeLearnLevel.TabIndex = 10;
+            this.checkBoxRandomizeLearnLevel.Text = "Randomize Learning Levels";
+            this.checkBoxRandomizeLearnLevel.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRandomizeSkillLevel
+            // 
+            this.checkBoxRandomizeSkillLevel.AutoSize = true;
+            this.checkBoxRandomizeSkillLevel.Enabled = false;
+            this.checkBoxRandomizeSkillLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRandomizeSkillLevel.Location = new System.Drawing.Point(23, 65);
+            this.checkBoxRandomizeSkillLevel.Name = "checkBoxRandomizeSkillLevel";
+            this.checkBoxRandomizeSkillLevel.Size = new System.Drawing.Size(130, 17);
+            this.checkBoxRandomizeSkillLevel.TabIndex = 9;
+            this.checkBoxRandomizeSkillLevel.Text = "Randomize Skill Level";
+            this.checkBoxRandomizeSkillLevel.UseVisualStyleBackColor = true;
             // 
             // radioButtonMoveset2
             // 
             this.radioButtonMoveset2.AutoSize = true;
             this.radioButtonMoveset2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonMoveset2.Location = new System.Drawing.Point(23, 51);
+            this.radioButtonMoveset2.Location = new System.Drawing.Point(23, 42);
             this.radioButtonMoveset2.Name = "radioButtonMoveset2";
             this.radioButtonMoveset2.Size = new System.Drawing.Size(65, 17);
             this.radioButtonMoveset2.TabIndex = 1;
@@ -2756,13 +2992,64 @@ namespace UltimateGalaxyRandomizer
             this.radioButtonMoveset1.AutoSize = true;
             this.radioButtonMoveset1.Checked = true;
             this.radioButtonMoveset1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonMoveset1.Location = new System.Drawing.Point(23, 28);
+            this.radioButtonMoveset1.Location = new System.Drawing.Point(23, 19);
             this.radioButtonMoveset1.Name = "radioButtonMoveset1";
             this.radioButtonMoveset1.Size = new System.Drawing.Size(81, 17);
             this.radioButtonMoveset1.TabIndex = 0;
             this.radioButtonMoveset1.TabStop = true;
             this.radioButtonMoveset1.Text = "Unchanged";
             this.radioButtonMoveset1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.groupBoxExperienceBar);
+            this.tabPage6.Controls.Add(this.groupBoxFreedom);
+            this.tabPage6.Controls.Add(this.groupBoxGrownStats);
+            this.tabPage6.Controls.Add(this.groupBoxBaseStats);
+            this.tabPage6.Controls.Add(this.groupBoxSwapPlayer);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(587, 371);
+            this.tabPage6.TabIndex = 1;
+            this.tabPage6.Text = "Stats and more";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxExperienceBar
+            // 
+            this.groupBoxExperienceBar.Controls.Add(this.radioButtonExperienceBar2);
+            this.groupBoxExperienceBar.Controls.Add(this.radioButtonExperienceBar1);
+            this.groupBoxExperienceBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxExperienceBar.Location = new System.Drawing.Point(199, 128);
+            this.groupBoxExperienceBar.Name = "groupBoxExperienceBar";
+            this.groupBoxExperienceBar.Size = new System.Drawing.Size(187, 116);
+            this.groupBoxExperienceBar.TabIndex = 42;
+            this.groupBoxExperienceBar.TabStop = false;
+            this.groupBoxExperienceBar.Text = "Experience Bar";
+            // 
+            // radioButtonExperienceBar2
+            // 
+            this.radioButtonExperienceBar2.AutoSize = true;
+            this.radioButtonExperienceBar2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonExperienceBar2.Location = new System.Drawing.Point(23, 51);
+            this.radioButtonExperienceBar2.Name = "radioButtonExperienceBar2";
+            this.radioButtonExperienceBar2.Size = new System.Drawing.Size(65, 17);
+            this.radioButtonExperienceBar2.TabIndex = 1;
+            this.radioButtonExperienceBar2.Text = "Random";
+            this.radioButtonExperienceBar2.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonExperienceBar1
+            // 
+            this.radioButtonExperienceBar1.AutoSize = true;
+            this.radioButtonExperienceBar1.Checked = true;
+            this.radioButtonExperienceBar1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButtonExperienceBar1.Location = new System.Drawing.Point(23, 28);
+            this.radioButtonExperienceBar1.Name = "radioButtonExperienceBar1";
+            this.radioButtonExperienceBar1.Size = new System.Drawing.Size(81, 17);
+            this.radioButtonExperienceBar1.TabIndex = 0;
+            this.radioButtonExperienceBar1.TabStop = true;
+            this.radioButtonExperienceBar1.Text = "Unchanged";
+            this.radioButtonExperienceBar1.UseVisualStyleBackColor = true;
             // 
             // groupBoxFreedom
             // 
@@ -2892,7 +3179,7 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxSwapPlayer.Controls.Add(this.checkBoxSwapSamePosition);
             this.groupBoxSwapPlayer.Controls.Add(this.checkBoxSwapSameBody);
             this.groupBoxSwapPlayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxSwapPlayer.Location = new System.Drawing.Point(199, 249);
+            this.groupBoxSwapPlayer.Location = new System.Drawing.Point(6, 128);
             this.groupBoxSwapPlayer.Name = "groupBoxSwapPlayer";
             this.groupBoxSwapPlayer.Size = new System.Drawing.Size(187, 116);
             this.groupBoxSwapPlayer.TabIndex = 41;
@@ -3001,6 +3288,36 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMiscellaneousEquipment.TabIndex = 34;
             this.groupBoxMiscellaneousEquipment.TabStop = false;
             this.groupBoxMiscellaneousEquipment.Text = "Equipments Stat";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Enabled = false;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(15, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(95, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Max Stat increase:";
+            // 
+            // numericUpDownMaxStatIncrease
+            // 
+            this.numericUpDownMaxStatIncrease.Enabled = false;
+            this.numericUpDownMaxStatIncrease.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpDownMaxStatIncrease.Location = new System.Drawing.Point(139, 73);
+            this.numericUpDownMaxStatIncrease.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxStatIncrease.Name = "numericUpDownMaxStatIncrease";
+            this.numericUpDownMaxStatIncrease.Size = new System.Drawing.Size(42, 20);
+            this.numericUpDownMaxStatIncrease.TabIndex = 12;
+            this.numericUpDownMaxStatIncrease.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
             // 
             // radioButtonMiscellaneousEquipment2
             // 
@@ -3121,172 +3438,6 @@ namespace UltimateGalaxyRandomizer
             this.radioButtonMiscellaneousShop1.Text = "Unchanged";
             this.radioButtonMiscellaneousShop1.UseVisualStyleBackColor = true;
             // 
-            // checkBoxRandomizeSkillNumber
-            // 
-            this.checkBoxRandomizeSkillNumber.AutoSize = true;
-            this.checkBoxRandomizeSkillNumber.Enabled = false;
-            this.checkBoxRandomizeSkillNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRandomizeSkillNumber.Location = new System.Drawing.Point(23, 74);
-            this.checkBoxRandomizeSkillNumber.Name = "checkBoxRandomizeSkillNumber";
-            this.checkBoxRandomizeSkillNumber.Size = new System.Drawing.Size(149, 17);
-            this.checkBoxRandomizeSkillNumber.TabIndex = 9;
-            this.checkBoxRandomizeSkillNumber.Text = "Randomize Move Number";
-            this.checkBoxRandomizeSkillNumber.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxRandomizeSkillLevel
-            // 
-            this.checkBoxRandomizeSkillLevel.AutoSize = true;
-            this.checkBoxRandomizeSkillLevel.Enabled = false;
-            this.checkBoxRandomizeSkillLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRandomizeSkillLevel.Location = new System.Drawing.Point(23, 93);
-            this.checkBoxRandomizeSkillLevel.Name = "checkBoxRandomizeSkillLevel";
-            this.checkBoxRandomizeSkillLevel.Size = new System.Drawing.Size(138, 17);
-            this.checkBoxRandomizeSkillLevel.TabIndex = 10;
-            this.checkBoxRandomizeSkillLevel.Text = "Randomize Move Level";
-            this.checkBoxRandomizeSkillLevel.UseVisualStyleBackColor = true;
-            // 
-            // tabPage14
-            // 
-            this.tabPage14.Controls.Add(this.groupBoxTeamSpiritLevel);
-            this.tabPage14.Controls.Add(this.groupBoxMixiMax);
-            this.tabPage14.Location = new System.Drawing.Point(4, 22);
-            this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage14.Size = new System.Drawing.Size(587, 371);
-            this.tabPage14.TabIndex = 2;
-            this.tabPage14.Text = "More";
-            this.tabPage14.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxMixiMax
-            // 
-            this.groupBoxMixiMax.Controls.Add(this.label9);
-            this.groupBoxMixiMax.Controls.Add(this.numericUpDownMixiMaxChance);
-            this.groupBoxMixiMax.Controls.Add(this.radioButtonMixiMax2Random);
-            this.groupBoxMixiMax.Controls.Add(this.radioButtonMixiMax1Unchanged);
-            this.groupBoxMixiMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxMixiMax.Location = new System.Drawing.Point(6, 6);
-            this.groupBoxMixiMax.Name = "groupBoxMixiMax";
-            this.groupBoxMixiMax.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxMixiMax.TabIndex = 28;
-            this.groupBoxMixiMax.TabStop = false;
-            this.groupBoxMixiMax.Text = "MixiMax";
-            // 
-            // radioButtonMixiMax2Random
-            // 
-            this.radioButtonMixiMax2Random.AutoSize = true;
-            this.radioButtonMixiMax2Random.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonMixiMax2Random.Location = new System.Drawing.Point(23, 50);
-            this.radioButtonMixiMax2Random.Name = "radioButtonMixiMax2Random";
-            this.radioButtonMixiMax2Random.Size = new System.Drawing.Size(65, 17);
-            this.radioButtonMixiMax2Random.TabIndex = 4;
-            this.radioButtonMixiMax2Random.Text = "Random";
-            this.radioButtonMixiMax2Random.UseVisualStyleBackColor = true;
-            this.radioButtonMixiMax2Random.CheckedChanged += new System.EventHandler(this.Option_CheckedChanged);
-            // 
-            // radioButtonMixiMax1Unchanged
-            // 
-            this.radioButtonMixiMax1Unchanged.AutoSize = true;
-            this.radioButtonMixiMax1Unchanged.Checked = true;
-            this.radioButtonMixiMax1Unchanged.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButtonMixiMax1Unchanged.Location = new System.Drawing.Point(23, 27);
-            this.radioButtonMixiMax1Unchanged.Name = "radioButtonMixiMax1Unchanged";
-            this.radioButtonMixiMax1Unchanged.Size = new System.Drawing.Size(81, 17);
-            this.radioButtonMixiMax1Unchanged.TabIndex = 3;
-            this.radioButtonMixiMax1Unchanged.TabStop = true;
-            this.radioButtonMixiMax1Unchanged.Text = "Unchanged";
-            this.radioButtonMixiMax1Unchanged.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDownMixiMaxChance
-            // 
-            this.numericUpDownMixiMaxChance.Enabled = false;
-            this.numericUpDownMixiMaxChance.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownMixiMaxChance.Location = new System.Drawing.Point(139, 77);
-            this.numericUpDownMixiMaxChance.Name = "numericUpDownMixiMaxChance";
-            this.numericUpDownMixiMaxChance.Size = new System.Drawing.Size(42, 20);
-            this.numericUpDownMixiMaxChance.TabIndex = 11;
-            this.numericUpDownMixiMaxChance.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            0});
-            // 
-            // radioButton1SpiritLevel
-            // 
-            this.radioButton1SpiritLevel.AutoSize = true;
-            this.radioButton1SpiritLevel.Checked = true;
-            this.radioButton1SpiritLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1SpiritLevel.Location = new System.Drawing.Point(23, 27);
-            this.radioButton1SpiritLevel.Name = "radioButton1SpiritLevel";
-            this.radioButton1SpiritLevel.Size = new System.Drawing.Size(81, 17);
-            this.radioButton1SpiritLevel.TabIndex = 3;
-            this.radioButton1SpiritLevel.TabStop = true;
-            this.radioButton1SpiritLevel.Text = "Unchanged";
-            this.radioButton1SpiritLevel.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2SpiritLevelRandom
-            // 
-            this.radioButton2SpiritLevelRandom.AutoSize = true;
-            this.radioButton2SpiritLevelRandom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2SpiritLevelRandom.Location = new System.Drawing.Point(23, 50);
-            this.radioButton2SpiritLevelRandom.Name = "radioButton2SpiritLevelRandom";
-            this.radioButton2SpiritLevelRandom.Size = new System.Drawing.Size(65, 17);
-            this.radioButton2SpiritLevelRandom.TabIndex = 4;
-            this.radioButton2SpiritLevelRandom.Text = "Random";
-            this.radioButton2SpiritLevelRandom.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxTeamSpiritLevel
-            // 
-            this.groupBoxTeamSpiritLevel.Controls.Add(this.radioButton2SpiritLevelRandom);
-            this.groupBoxTeamSpiritLevel.Controls.Add(this.radioButton1SpiritLevel);
-            this.groupBoxTeamSpiritLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxTeamSpiritLevel.Location = new System.Drawing.Point(199, 6);
-            this.groupBoxTeamSpiritLevel.Name = "groupBoxTeamSpiritLevel";
-            this.groupBoxTeamSpiritLevel.Size = new System.Drawing.Size(187, 116);
-            this.groupBoxTeamSpiritLevel.TabIndex = 29;
-            this.groupBoxTeamSpiritLevel.TabStop = false;
-            this.groupBoxTeamSpiritLevel.Text = "Spirit Level";
-            // 
-            // numericUpDownMaxStatIncrease
-            // 
-            this.numericUpDownMaxStatIncrease.Enabled = false;
-            this.numericUpDownMaxStatIncrease.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDownMaxStatIncrease.Location = new System.Drawing.Point(139, 73);
-            this.numericUpDownMaxStatIncrease.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownMaxStatIncrease.Name = "numericUpDownMaxStatIncrease";
-            this.numericUpDownMaxStatIncrease.Size = new System.Drawing.Size(42, 20);
-            this.numericUpDownMaxStatIncrease.TabIndex = 12;
-            this.numericUpDownMaxStatIncrease.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Enabled = false;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(15, 75);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(95, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Max Stat increase:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Enabled = false;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(20, 79);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(91, 13);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "Mixi Max Chance:";
-            // 
             // RandomizerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3340,10 +3491,12 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxMoveStunDamage.PerformLayout();
             this.groupBoxMoveTP.ResumeLayout(false);
             this.groupBoxMoveTP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMoveTPScale)).EndInit();
             this.groupBoxMoveDifficulty.ResumeLayout(false);
             this.groupBoxMoveDifficulty.PerformLayout();
             this.groupBoxMovePower.ResumeLayout(false);
             this.groupBoxMovePower.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMovePowerScale)).EndInit();
             this.groupBoxMoveEffect.ResumeLayout(false);
             this.groupBoxMoveEffect.PerformLayout();
             this.groupBoxMoveElement.ResumeLayout(false);
@@ -3391,6 +3544,12 @@ namespace UltimateGalaxyRandomizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTeamsTimerMatch)).EndInit();
             this.groupBoxTeamsMiscellaneous.ResumeLayout(false);
             this.groupBoxTeamsMiscellaneous.PerformLayout();
+            this.tabPage14.ResumeLayout(false);
+            this.groupBoxTeamSpiritLevel.ResumeLayout(false);
+            this.groupBoxTeamSpiritLevel.PerformLayout();
+            this.groupBoxMixiMax.ResumeLayout(false);
+            this.groupBoxMixiMax.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMixiMaxChance)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
@@ -3412,12 +3571,10 @@ namespace UltimateGalaxyRandomizer
             this.groupBoxNickname.PerformLayout();
             this.groupBoxName.ResumeLayout(false);
             this.groupBoxName.PerformLayout();
-            this.tabPage6.ResumeLayout(false);
+            this.tabPlayerSkills.ResumeLayout(false);
             this.groupBoxArmoufiedUser.ResumeLayout(false);
             this.groupBoxArmoufiedUser.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownArmoufly)).EndInit();
-            this.groupBoxExperienceBar.ResumeLayout(false);
-            this.groupBoxExperienceBar.PerformLayout();
             this.groupBoxAvatar.ResumeLayout(false);
             this.groupBoxAvatar.PerformLayout();
             this.groupBoxInvokerUser.ResumeLayout(false);
@@ -3427,6 +3584,10 @@ namespace UltimateGalaxyRandomizer
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTotem)).EndInit();
             this.groupBoxMoveset.ResumeLayout(false);
             this.groupBoxMoveset.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumberOfSkills)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            this.groupBoxExperienceBar.ResumeLayout(false);
+            this.groupBoxExperienceBar.PerformLayout();
             this.groupBoxFreedom.ResumeLayout(false);
             this.groupBoxFreedom.PerformLayout();
             this.groupBoxGrownStats.ResumeLayout(false);
@@ -3439,19 +3600,13 @@ namespace UltimateGalaxyRandomizer
             this.tabPage7.ResumeLayout(false);
             this.groupBoxMiscellaneousEquipment.ResumeLayout(false);
             this.groupBoxMiscellaneousEquipment.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxStatIncrease)).EndInit();
             this.groupBoxMiscellaneousRecruitment.ResumeLayout(false);
             this.groupBoxMiscellaneousRecruitment.PerformLayout();
             this.groupBoxMiscellaneousTreasureBox.ResumeLayout(false);
             this.groupBoxMiscellaneousTreasureBox.PerformLayout();
             this.groupBoxMiscellaneousShop.ResumeLayout(false);
             this.groupBoxMiscellaneousShop.PerformLayout();
-            this.tabPage14.ResumeLayout(false);
-            this.groupBoxMixiMax.ResumeLayout(false);
-            this.groupBoxMixiMax.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMixiMaxChance)).EndInit();
-            this.groupBoxTeamSpiritLevel.ResumeLayout(false);
-            this.groupBoxTeamSpiritLevel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxStatIncrease)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3497,29 +3652,9 @@ namespace UltimateGalaxyRandomizer
         private System.Windows.Forms.RadioButton radioButtonName2;
         private System.Windows.Forms.RadioButton radioButtonName1;
         private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.GroupBox groupBoxArmoufiedUser;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.RadioButton radioButtonArmoufied;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.NumericUpDown numericUpDownArmoufly;
         private System.Windows.Forms.GroupBox groupBoxExperienceBar;
         private System.Windows.Forms.RadioButton radioButtonExperienceBar2;
         private System.Windows.Forms.RadioButton radioButtonExperienceBar1;
-        private System.Windows.Forms.GroupBox groupBoxAvatar;
-        private System.Windows.Forms.RadioButton radioButtonAvatar2;
-        private System.Windows.Forms.RadioButton radioButtonAvatar1;
-        private System.Windows.Forms.GroupBox groupBoxInvokerUser;
-        private System.Windows.Forms.RadioButton radioButtonInvoker2;
-        private System.Windows.Forms.RadioButton radioButtonInvoker1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown numericUpDownFightingSpirit;
-        private System.Windows.Forms.NumericUpDown numericUpDownNoneInvoker;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown numericUpDownTotem;
-        private System.Windows.Forms.GroupBox groupBoxMoveset;
-        private System.Windows.Forms.RadioButton radioButtonMoveset2;
-        private System.Windows.Forms.RadioButton radioButtonMoveset1;
         private System.Windows.Forms.GroupBox groupBoxFreedom;
         private System.Windows.Forms.RadioButton radioButtonFreedom2;
         private System.Windows.Forms.RadioButton radioButtonFreedom1;
@@ -3682,8 +3817,6 @@ namespace UltimateGalaxyRandomizer
         private System.Windows.Forms.GroupBox groupBoxMiscellaneousEquipment;
         private System.Windows.Forms.RadioButton radioButtonMiscellaneousEquipment2;
         private System.Windows.Forms.RadioButton radioButtonMiscellaneousEquipment1;
-        private System.Windows.Forms.CheckBox checkBoxRandomizeSkillNumber;
-        private System.Windows.Forms.CheckBox checkBoxRandomizeSkillLevel;
         private System.Windows.Forms.TabPage tabPage14;
         private System.Windows.Forms.GroupBox groupBoxMixiMax;
         private System.Windows.Forms.RadioButton radioButtonMixiMax2Random;
@@ -3695,6 +3828,36 @@ namespace UltimateGalaxyRandomizer
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown numericUpDownMaxStatIncrease;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TabPage tabPlayerSkills;
+        private System.Windows.Forms.GroupBox groupBoxArmoufiedUser;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.RadioButton radioButtonArmoufied;
+        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.NumericUpDown numericUpDownArmoufly;
+        private System.Windows.Forms.GroupBox groupBoxAvatar;
+        private System.Windows.Forms.RadioButton radioButtonAvatar2;
+        private System.Windows.Forms.RadioButton radioButtonAvatar1;
+        private System.Windows.Forms.GroupBox groupBoxInvokerUser;
+        private System.Windows.Forms.RadioButton radioButtonInvoker2;
+        private System.Windows.Forms.RadioButton radioButtonInvoker1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown numericUpDownFightingSpirit;
+        private System.Windows.Forms.NumericUpDown numericUpDownNoneInvoker;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown numericUpDownTotem;
+        private System.Windows.Forms.GroupBox groupBoxMoveset;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown numericUpDownNumberOfSkills;
+        private System.Windows.Forms.CheckBox checkBoxOrderByMovePower;
+        private System.Windows.Forms.CheckBox checkBoxRandomizeLearnLevel;
+        private System.Windows.Forms.CheckBox checkBoxRandomizeSkillLevel;
+        private System.Windows.Forms.RadioButton radioButtonMoveset2;
+        private System.Windows.Forms.RadioButton radioButtonMoveset1;
+        private System.Windows.Forms.NumericUpDown numericUpDownMoveTPScale;
+        private System.Windows.Forms.CheckBox checkBoxScaleMoveTP;
+        private System.Windows.Forms.NumericUpDown numericUpDownMovePowerScale;
+        private System.Windows.Forms.CheckBox checkBoxScaleMovePower;
     }
 }
 

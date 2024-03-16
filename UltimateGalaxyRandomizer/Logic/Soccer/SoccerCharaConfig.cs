@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Linq;
-using System.IO;
 using System.Collections.Generic;
-using UltimateGalaxyRandomizer.Tools;
+using System.IO;
+using System.Linq;
 using UltimateGalaxyRandomizer.Resources;
+using UltimateGalaxyRandomizer.Tools;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Soccer
 {
     public class SoccerCharaConfig
     {
-        public List<SoccerPlayer> Players = new List<SoccerPlayer>();
+        public List<SoccerPlayer> Players { get;  } = new List<SoccerPlayer>();
 
         private static SoccerPlayer GetPlayer(uint charaParamId)
         {
@@ -65,20 +65,19 @@ namespace UltimateGalaxyRandomizer.Logic
             return null;
         }
 
-        private uint GetAvatarKey(SoccerAvatar avatar)
+        private static uint GetAvatarKey(SoccerAvatar avatar)
         {
             if (Avatars.FightingSpirits.FirstOrDefault(x => x.Value == avatar.Avatar).Key != 0x00)
             {
                 return Avatars.FightingSpirits.FirstOrDefault(x => x.Value == avatar.Avatar).Key;
             }
-            else if (Avatars.Totems.FirstOrDefault(x => x.Value == avatar.Avatar).Key != 0x00)
+
+            if (Avatars.Totems.FirstOrDefault(x => x.Value == avatar.Avatar).Key != 0x00)
             {
                 return Avatars.Totems.FirstOrDefault(x => x.Value == avatar.Avatar).Key;
-            } 
-            else
-            {
-                return 0x00;
             }
+
+            return 0x00;
         }
 
         public SoccerCharaConfig(DataReader reader)

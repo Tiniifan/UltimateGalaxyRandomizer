@@ -1,37 +1,14 @@
-﻿using System.Collections.Generic;
-
-namespace UltimateGalaxyRandomizer.Logic
+﻿namespace UltimateGalaxyRandomizer.Logic.Move
 {
-    public class Effect
+    public enum Effect
     {
-        public string Name { get; set; }
-
-        public byte Position { get; set; }
-
-        public Effect(string name)
-        {
-            Name = name;
-        }
-
-        public Effect(string name, byte position)
-        {
-            Name = name;
-            Position = position;
-        }
-    }
-
-    public class Effects
-    {
-        public static Dictionary<byte, Effect> Values = new Dictionary<byte, Effect>()
-        {
-            {0x00, new Effect("Normal") },
-            {0x02, new Effect("Punch", 0x04) },
-            {0x03, new Effect("Punch +", 0x04) },
-            {0x04, new Effect("Long Shot", 0x01) },
-            {0x05, new Effect("Chain", 0x01) },
-            {0x06, new Effect("Block Shot", 0x01) },
-            {0x07, new Effect("Defense Block", 0x03) },
-            {0x08, new Effect("Punch ++", 0x04) },
-        };
+        Normal = 0,
+        Punch = 2,
+        PunchPlus = 3,
+        LongShoot = 4,
+        ChainShoot = 5,
+        ShootBlock = 6,
+        DefenseBlock = 7,
+        PunchPlusPlus = 8
     }
 }

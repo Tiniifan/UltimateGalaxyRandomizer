@@ -1,15 +1,9 @@
-﻿namespace UltimateGalaxyRandomizer.Logic
+﻿namespace UltimateGalaxyRandomizer.Logic.Soccer
 {
-    public class SoccerAvatar
+    public class SoccerAvatar(Avatar.Avatar avatar, byte level)
     {
-        public object Avatar { get; set; }
+        public Avatar.Avatar Avatar { get; set; } = avatar;
 
-        public byte Level { get; set; }
-
-        public SoccerAvatar(object avatar, byte level)
-        {
-            Avatar = avatar;
-            Level = level;
-        }
+        public byte Level { get; set; } = level;
     }
 }

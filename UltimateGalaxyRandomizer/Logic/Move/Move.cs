@@ -1,7 +1,8 @@
 ﻿using System;
+using UltimateGalaxyRandomizer.Logic.Common;
 using UltimateGalaxyRandomizer.Tools;
 
-namespace UltimateGalaxyRandomizer.Logic
+namespace UltimateGalaxyRandomizer.Logic.Move
 {
     public class Move
     {
@@ -9,19 +10,19 @@ namespace UltimateGalaxyRandomizer.Logic
 
         public long Offset { get; set; }
 
-        public uint NameID { get; set; }
+        public uint NameId { get; set; }
 
-        public uint DescriptionID { get; set; }
+        public uint DescriptionId { get; set; }
 
-        public byte Effect { get; set; }
+        public Effect Effect { get; set; }
 
         public byte LearnSpeed { get; set; }
 
         public byte Evolution { get; set; }
 
-        public byte Element { get; set; }
+        public Element Element { get; set; }
 
-        public byte Position { get; set; }
+        public MoveType Type { get; set; }
 
         public byte TP { get; set; }
 
@@ -43,15 +44,15 @@ namespace UltimateGalaxyRandomizer.Logic
         public void Read(DataReader reader)
         {
             Offset = reader.BaseStream.Position-4;
-            NameID = reader.ReadUInt32();
-            DescriptionID = reader.ReadUInt32();
+            NameId = reader.ReadUInt32();
+            DescriptionId = reader.ReadUInt32();
             reader.Skip(0x08);
-            Effect = reader.ReadByte();
+            Effect = (Effect)reader.ReadByte();
             reader.Skip(0x06);
-            Element = reader.ReadByte();
+            Element = (Element)reader.ReadByte();
             LearnSpeed = reader.ReadByte();
             Evolution = reader.ReadByte();
-            Position = reader.ReadByte();
+            Type = (MoveType)reader.ReadByte();
             TP = reader.ReadByte();
             Partner = reader.ReadByte();
             reader.Skip(0x01);
@@ -66,15 +67,15 @@ namespace UltimateGalaxyRandomizer.Logic
         public void Write(DataWriter writer)
         {
             writer.Seek((uint) Offset + 4);
-            writer.WriteUInt32(NameID);
-            writer.WriteUInt32(DescriptionID);
+            writer.WriteUInt32(NameId);
+            writer.WriteUInt32(DescriptionId);
             writer.Skip(0x08);
-            writer.Write(Effect);
+            writer.Write(Convert.ToByte(Effect));
             writer.Skip(0x06);
-            writer.Write(Element);
+            writer.Write(Convert.ToByte(Element));
             writer.Write(LearnSpeed);
             writer.Write(Evolution);
-            writer.Write(Position);
+            writer.Write(Convert.ToByte(Type));
             writer.Write(TP);
             writer.Write(Partner);
             writer.Skip(0x01);

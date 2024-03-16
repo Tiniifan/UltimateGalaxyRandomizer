@@ -6,11 +6,11 @@ using UltimateGalaxyRandomizer.Tools;
 using UltimateGalaxyRandomizer.Logic;
 using UltimateGalaxyRandomizer.Logic.Avatar;
 using UltimateGalaxyRandomizer.Logic.Common;
+using UltimateGalaxyRandomizer.Logic.Move;
+using UltimateGalaxyRandomizer.Logic.Player;
+using UltimateGalaxyRandomizer.Logic.Soccer;
 using UltimateGalaxyRandomizer.Resources;
 using UltimateGalaxyRandomizer.Randomizer.Utility;
-
-// TODO: randomize mixi-max
-// TODO: randomize avatar level
 
 namespace UltimateGalaxyRandomizer.Randomizer
 {
@@ -110,17 +110,18 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxStyle"].Name == "Random")
                 {
-                    player.Base.Style = (byte)Probability.Generator.Next(0, 6);
+                    player.Base.Style = Styles.Values.Keys.Random();
                 }
 
                 if (options["groupBoxElement"].Name == "Random")
                 {
-                    player.Param.Element = (byte)Probability.Generator.Next(1, 5 + Convert.ToInt32(options["groupBoxElement"].CheckBoxes["checkBoxElementAllowVoid"].Checked));
+                    var allowVoid = options["groupBoxElement"].CheckBoxes["checkBoxElementAllowVoid"].Checked;
+                    player.Param.Element = (Element)Probability.Generator.Next(1, allowVoid ? 5 : 6);
                 }
 
                 if (options["groupBoxPosition"].Name == "Random")
                 {
-                    player.Param.Position = (byte)Probability.Generator.Next(1, 4);
+                    player.Param.Position = (Position)Probability.Generator.Next(1, 5);
                 }
 
                 switch (options["groupBoxBaseStats"].Name)
@@ -128,7 +129,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     case "Swap":
                     {
                         // Shuffle
-                        List<int> tempStat = player.Param.BaseStat.Values.Select(x => x.Value).ToList();
+                        var tempStat = player.Param.BaseStat.Values.Select(x => x.Value).ToList();
                         for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
                         {
                             player.Param.BaseStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = tempStat.Random();
@@ -139,15 +140,13 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     case "Random":
                     {
                         // Generate Random Base Stat
-                        Position playerPosition = Positions.Player[player.Param.Position];
-                        Element playerElement = Elements.Values[player.Param.Element];
-                        Gender playerGender = Identity.Genders[(byte)(player.Base.Identity & 0x0F)];
+                        Gender playerGender = (Gender)(player.Base.Identity & 0b1111);
 
-                        for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
+                        foreach (var stat in Enum.GetValues(typeof(Stat)).Cast<Stat>())
                         {
                             int baseStat = Probability.Generator.Next(24, 45);
-                            int finalStat = (playerPosition.StatBuff[s] * baseStat / 100) + (playerElement.StatBuff[s] * baseStat / 100) + (playerGender.StatBuff[s] * baseStat / 100) + baseStat;
-                            player.Param.BaseStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = finalStat;
+                            int finalStat = (player.Param.Position.GetStatBuffs()[stat] * baseStat / 100) + (player.Param.Element.GetStatBuffs()[stat] * baseStat / 100) + (playerGender.GetStatBuffs()[stat] * baseStat / 100) + baseStat;
+                            player.Param.BaseStat.Values[stat] = finalStat;
                         }
 
                         break;
@@ -156,7 +155,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxGrownStats"].Name == "Random")
                 {
-                    var grownStats = new[] { 0, 1, 2, 254, 255 };
+                    int[] grownStats = [0, 1, 2, 254, 255];
                     for (int s = 0; s < player.Param.BaseStat.Values.Count; s++)
                     {
                         player.Param.GrownStat.Values[player.Param.BaseStat.Values.ElementAt(s).Key] = grownStats.Random();
@@ -170,21 +169,40 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxMoveset"].Name == "Random")
                 {
-                    if (options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillNumber"].Checked)
-                    {
-                        player.Param.SkillCount = Convert.ToByte(Probability.Generator.Next(4, 7));
-                    }
+
+                    var maxSkills = Convert.ToInt32(options["groupBoxMoveset"].NumericUpDowns["numericUpDownNumberOfSkills"].Value);
 
                     // Get Position and Element Type Probability
-                    var moveset = player.GetRandomMoveset(player.Param.SkillCount);
+                    var moveset = player.GetRandomMoveset(player.Param.SkillCount, maxSkills).OrderBy(pair => pair.Value.Power).ToList();
                     
-                    bool randomLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
-                    player.Skills = moveset.Select((id, i) => new SkillTable
+                    if (options["groupBoxMoveset"].CheckBoxes["checkBoxOrderByMovePower"].Checked)
                     {
-                        SkillId = id,
-                        SkillLevel = Convert.ToByte(randomLevel ? Probability.Generator.Next(1, 7) : 1),
-                        SkillNumber = Convert.ToInt16(i),
-                        LearnAtLevel = Convert.ToByte(player.Skills.Length > i ? player.Skills[i].LearnAtLevel : 0)
+                        moveset = [.. moveset.OrderBy(pair => pair.Value.Type == MoveType.Skill ? Probability.Generator.Next(1, 100) : pair.Value.Power)];
+                        if (moveset.Count > 4)
+                        {
+                            // move weaker moves to the last 2 positions as they are the ones with no requirements
+                            for (int times = 0; times < moveset.Count - 4; times++)
+                            {
+                                var first = moveset[0];
+                                for (int i = 0; i < moveset.Count - 1; i++) moveset[i] = moveset[i + 1];
+                                moveset[moveset.Count - 1] = first;
+                            }
+                        }
+                    }
+
+                    bool randomLearnLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeLearnLevel"].Checked;
+                    bool randomSkillLevel = options["groupBoxMoveset"].CheckBoxes["checkBoxRandomizeSkillLevel"].Checked;
+                    var lastLearnLevel = 0;
+                    player.Skills = moveset.Select((pair, i) =>
+                    {
+                        lastLearnLevel = Probability.Generator.Next(lastLearnLevel + 1, i == 0 ? 15 : (i + 1) * 20);
+                        var learnLevel = Convert.ToByte(i < 4 ? lastLearnLevel : 1);
+                        return new SkillTable
+                        {
+                            Skill = pair.Value,
+                            SkillLevel = randomSkillLevel ? Evolutions.Technique.Keys.Random() : (byte)1,
+                            LearnAtLevel = randomLearnLevel ? learnLevel : player.Skills[i].LearnAtLevel
+                        };
                     }).ToArray();
                 }
 
@@ -201,18 +219,12 @@ namespace UltimateGalaxyRandomizer.Randomizer
                             Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownFightingSpirit"].Value),
                             Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownTotem"].Value),
                             Convert.ToInt32(options["groupBoxInvokerUser"].NumericUpDowns["numericUpDownNoneInvoker"].Value));
-                        switch (invokerStatus)
+                        avatarId = invokerStatus switch
                         {
-                            case 0:
-                                avatarId = player.GetRandomFightingSpirit();
-                                break;
-                            case 1:
-                                avatarId = player.GetRandomTotem();
-                                break;
-                            case 2:
-                                avatarId = 0x00;
-                                break;
-                        }
+                            0 => player.GetRandomFightingSpirit(),
+                            1 => player.GetRandomTotem(),
+                            _ => 0
+                        };
                     }
 
                     player.Param.Avatar = avatarId;
@@ -250,15 +262,14 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxExperienceBar"].Name == "Random")
                 {
-                    player.Param.ExperienceBar = Convert.ToByte(Probability.Generator.Next(1, 8));
+                    player.Param.ExperienceBar = ExperienceBar.Values.Keys.Random();
                 }
             }
         }
 
         public static void RandomizeMoves(Dictionary<string, Option> options)
         {
-            // Randomize Each Player Moves -- Exclude Skill
-            foreach (var move in Moves.PlayerMoves.Values.Where(move => move.Position != 15))
+            foreach (var move in Moves.PlayerMoves.Values.Where(move => move.Type != MoveType.Skill))
             {
                 if (options["groupBoxMoveEvolution"].Name == "Random")
                 {
@@ -267,31 +278,28 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxMoveElement"].Name == "Random")
                 {
-                    move.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
+                    move.Element = Enum.GetValues(typeof(Element)).Cast<Element>().Where(e => e != Element.None).Random();
                 }
 
                 if (options["groupBoxMoveEffect"].Name == "Random")
                 {
-                    if (Probability.FromPercentage(70) || move.Position == 0x02)
-                    {
-                        move.Effect = 0x00;
-                    }
-                    else
-                    {
-                        move.Effect = Effects.Values.Where(x => x.Value.Position == move.Position).Select(x => x.Key).Random();
-                    }
+                    move.Effect = Probability.FromPercentage(70) ? Effect.Normal : move.Type.GetCompatibleEffects().Random();
                 }
 
                 if (options["groupBoxMovePower"].Name == "Random")
                 {
                     int power = Probability.Generator.Next(3, 21) * 10;
 
-                    if (move.Effect != 0x0)
+                    if (move.Effect != Effect.Normal)
                     {
                         power -= 10;
                     }
 
                     move.Power = Convert.ToByte(power / 2);
+                }
+                if (options["groupBoxMovePower"].CheckBoxes["checkBoxScaleMovePower"].Checked)
+                {
+                    move.Power = Convert.ToByte(move.Power * options["groupBoxMovePower"].NumericUpDowns["numericUpDownMovePowerScale"].Value);
                 }
 
                 if (options["groupBoxMoveTP"].Name == "Random")
@@ -306,6 +314,10 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                     move.TP = Convert.ToByte(tpCost);
                 }
+                if (options["groupBoxMoveTP"].CheckBoxes["checkBoxScaleMoveTP"].Checked)
+                {
+                    move.TP = Convert.ToByte(move.TP * options["groupBoxMoveTP"].NumericUpDowns["numericUpDownMoveTPScale"].Value);
+                }
 
                 if (options["groupBoxMoveDifficulty"].Name == "Random")
                 {
@@ -319,36 +331,22 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (options["groupBoxMoveStunDamage"].Name == "Random")
                 {
                     int damage = Probability.Generator.Next(0, 11);
-
-                    if (move.Position == 0x04)
-                    {
-                        damage *= -10;
-                    }
-                    else
-                    {
-                        damage *= 10;
-                    }
-
+                    damage *= move.Type == MoveType.Save ? -10 : 10;
                     move.Damage = Convert.ToSByte(damage);
                 }
 
-                if (options["groupBoxMoveFoulRate"].Name == "Random")
+                if (options["groupBoxMoveFoulRate"].Name == "Random" && move.Type is MoveType.Dribble or MoveType.Block)
                 {
-#pragma warning disable S1066
-                    if (move.Position == 0x02 || move.Position == 0x03)
-#pragma warning restore S1066
-                    {
-                        move.FoulRate = Convert.ToByte(Probability.Generator.Next(0, 5) * 10);
-                    }
+                    move.FoulRate = Convert.ToByte(Probability.Generator.Next(0, 40));
                 }
             }
 
             // Randomize Each Fighting Spirit Moves
-            foreach (var move in Moves.FightingSpiritMoves.Values.Where(move => move.Position != 15))
+            foreach (var move in Moves.FightingSpiritMoves.Values.Where(move => move.Type != MoveType.Skill))
             {
                 if (options["groupBoxMoveElement"].Name == "Random")
                 {
-                    move.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
+                    move.Element = (Element)(Probability.Generator.Next(1, 6));
                 }
 
                 if (options["groupBoxMovePower"].Name == "Random")
@@ -367,7 +365,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         tpCost += (move.Power - 145) * 2;
                     }
 
-                    if (move.Position != 0x01)
+                    if (move.Type != MoveType.Shoot)
                     {
                         tpCost = Convert.ToInt32(tpCost / 1.5);
                     }
@@ -379,36 +377,20 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 if (options["groupBoxMoveStunDamage"].Name == "Random")
                 {
                     int damage = Probability.Generator.Next(0, 11);
-
-                    if (move.Position == 0x04)
-                    {
-                        damage *= -10;
-                    }
-                    else
-                    {
-                        damage *= 10;
-                    }
-
+                    damage *= move.Type == MoveType.Save ? -10 : 10;
                     move.Damage = Convert.ToSByte(damage);
                 }
             }
 
-            foreach (var move in Moves.TotemMoves.Values.Where(move => move.Position != 15))
+            foreach (var move in Moves.TotemMoves.Values.Where(move => move.Type != MoveType.Skill))
             {
                 if (options["groupBoxMovePower"].Name == "Random")
                 {
-                    int power = 0;
-
                     // Totem Move are as strong as Fighting Spirit
-                    if (options["groupBoxMoveMiscellaneous"].Name == "Random")
-                    {
-                        power = Probability.Generator.Next(30, 41) * 10;
-                    }
-                    else
-                    {
-                        List<int> possiblePower = new List<int>() { 250, 300 };
-                        power = possiblePower[Probability.Generator.Next(0, possiblePower.Count)];
-                    }
+                    var power =
+                        options["groupBoxMoveMiscellaneous"].Name == "Random"
+                        ? Probability.Generator.Next(30, 41) * 10
+                        : ((IEnumerable<int>) [250, 300]).Random();
 
                     move.Power = Convert.ToByte(power / 2);
                 }
@@ -423,34 +405,15 @@ namespace UltimateGalaxyRandomizer.Randomizer
                     }
                     else
                     {
-                        List<int> tpCost = new List<int>() { 40, 50, 70 };
-                        move.TP = Convert.ToByte(tpCost[Probability.Generator.Next(0, tpCost.Count)]);
+                        move.TP = ((IEnumerable<byte>)[40, 50, 70]).Random();
                     }
                 }
 
                 if (options["groupBoxMoveStunDamage"].Name == "Random")
                 {
-                    int damage = 0;
-
                     // Totem Move are as strong as Fighting Spirit
-                    if (options["groupBoxMoveMiscellaneous"].Name == "Random")
-                    {
-                        damage = Probability.Generator.Next(0, 11);
-                    }
-                    else
-                    {
-                        damage = Probability.Generator.Next(0, 4);
-                    }
-
-                    if (move.Position == 0x04)
-                    {
-                        damage *= -10;
-                    }
-                    else
-                    {
-                        damage *= 10;
-                    }
-
+                    var damage = Probability.Generator.Next(0, options["groupBoxMoveMiscellaneous"].Name == "Random" ? 11 : 4);
+                    damage *= move.Type == MoveType.Save ? -10 : 10;
                     move.Damage = Convert.ToSByte(damage);
                 }
             }
@@ -459,36 +422,13 @@ namespace UltimateGalaxyRandomizer.Randomizer
             foreach (var move in Moves.MovesUltimate)
             {
                 if (options["groupBoxUltimatePower"].Name == "Random")
-                {
                     move.Power = Convert.ToInt16(Probability.Generator.Next(28, 33) * 10);
-                }
-
                 if (options["groupBoxUltimateTP"].Name == "Random")
-                {
-                    List<int> tpCost = new List<int>() { 85, 99 };
-                    move.TP = Convert.ToByte(tpCost[Probability.Generator.Next(0, tpCost.Count)]);
-                }
-
+                    move.TP = ((IEnumerable<byte>) [85, 99]).Random();
                 if (options["groupBoxUltimateDifficulty"].Name == "Random")
-                {
                     move.Technique = 0x64;
-                }
-
                 if (options["groupBoxUltimateStunDamage"].Name == "Random")
-                {
-                    int damage = Probability.Generator.Next(0, 11);
-
-                    if (move.Damage < 0)
-                    {
-                        damage *= -10;
-                    }
-                    else
-                    {
-                        damage *= 10;
-                    }
-
-                    move.Damage = Convert.ToSByte(damage);
-                }
+                    move.Damage = Convert.ToSByte(Probability.Generator.Next(0, 11) * (move.Damage < 0 ? -10 : 10));
             }
         }
 
@@ -499,36 +439,31 @@ namespace UltimateGalaxyRandomizer.Randomizer
             {
                 if (options["groupBoxSpiritElement"].Name == "Random")
                 {
-                    avatar.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
+                    avatar.Element = (Element)Probability.Generator.Next(1, 6);
                 }
 
                 if (options["groupBoxSpiritMove"].Name == "Random")
                 {
-                    int movePosition = avatar.GetPositionProbability().RandomIndex();
-                    while (movePosition == 4)
-                    {
-                        // Exclude Skill Probability
-                        movePosition = avatar.GetPositionProbability().RandomIndex();
-                    }
-                    var possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Position == movePosition + 1).ToDictionary(x => x.Key, x => x.Value);
+                    avatar.Position = (MoveType)Probability.Generator.Next(1, 5);
+                    var possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Type == avatar.Position).ToDictionary(x => x.Key, x => x.Value);
 
                     // Create a list of moves according to player element probability
-                    int moveElement =avatar.GetElementProbability().RandomIndex();
-                    possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement + 1).ToDictionary(x => x.Key, x => x.Value);
+                    var moveElement =avatar.Element.GetElementProbability().RandomWithProbability();
+                    possibleMoves = possibleMoves.Where(x => x.Value.Element == moveElement).ToDictionary(x => x.Key, x => x.Value);
 
                     // Only in an extreme case
                     if (possibleMoves.Count == 0)
                     {
-                        possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
+                        possibleMoves = Moves.FightingSpiritMoves.Where(x => x.Value.Type != MoveType.Skill).ToDictionary(x => x.Key, x => x.Value);
                     }
 
-                    avatar.MoveID = possibleMoves.ElementAt(Probability.Generator.Next(0, possibleMoves.Count)).Key;
+                    avatar.MoveId = possibleMoves.Random().Key;
                 }
 
                 if (options["groupBoxSpiritSkill"].Name == "Random")
                 {
-                    var possibleSkills = Moves.FightingSpiritMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
-                    avatar.SkillID = possibleSkills.ElementAt(Probability.Generator.Next(0, possibleSkills.Count)).Key;
+                    var possibleSkills = Moves.FightingSpiritMoves.Where(x => x.Value.Type == MoveType.Skill).ToDictionary(x => x.Key, x => x.Value);
+                    avatar.SkillId = possibleSkills.Random().Key;
                 }
 
                 if (options["groupBoxSpiritPoint"].Name == "Random")
@@ -563,19 +498,19 @@ namespace UltimateGalaxyRandomizer.Randomizer
             {
                 if (options["groupBoxTotemElement"].Name == "Random")
                 {
-                    avatar.Element = Convert.ToByte(Probability.Generator.Next(1, 6));
+                    avatar.Element = (Element)(Probability.Generator.Next(1, 6));
                 }
 
                 if (options["groupBoxTotemMove"].Name == "Random")
                 {
-                    var possibleMoves = Moves.TotemMoves.Where(x => x.Value.Position != 15).ToDictionary(x => x.Key, x => x.Value);
+                    var possibleMoves = Moves.TotemMoves.Where(x => x.Value.Type != MoveType.Skill).ToDictionary(x => x.Key, x => x.Value);
                     avatar.MoveId = possibleMoves.ElementAt(Probability.Generator.Next(0, possibleMoves.Count)).Key;
                 }
 
                 if (options["groupBoxTotemRoulette"].Name == "Random")
                 {
                     // Create Temp Skill List
-                    var tempSkills = Moves.TotemMoves.Where(x => x.Value.Position == 15).ToDictionary(x => x.Key, x => x.Value);
+                    var tempSkills = Moves.TotemMoves.Where(x => x.Value.Type == MoveType.Skill).ToDictionary(x => x.Key, x => x.Value);
 
                     // Remove Miss
                     if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoMiss"].Checked)
@@ -585,14 +520,12 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                     for (int s = 0; s < avatar.SkillRoulette.Length; s++)
                     {
-                        var randomSkill = tempSkills.ElementAt(Probability.Generator.Next(0, tempSkills.Count));
+                        var randomSkill = tempSkills.Random();
                         avatar.SkillRoulette[s] = randomSkill.Key;
 
                         // Remove Move to avoid duplication
-                        if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoDuplicate"].Checked)
-                        {
+                        if (options["groupBoxTotemRoulette"].CheckBoxes["checkBoxRouletteNoDuplicate"].Checked) 
                             tempSkills.Remove(randomSkill.Key);
-                        }
                     }
                 }
 
@@ -610,38 +543,38 @@ namespace UltimateGalaxyRandomizer.Randomizer
                 }
             }
         }
-
+        
         public static void RandomizeEquipments(Dictionary<string, Option> options)
         {
             if (options["groupBoxMiscellaneousEquipment"].Name != "Random") return;
             var max = Convert.ToInt32(options["groupBoxMiscellaneousEquipment"].NumericUpDowns["numericUpDownMaxStatIncrease"].Value) + 1;
 
-            // Randomize Each Boots
+            // Randomize Each Boot
             foreach (var equipmentStats in Equipments.Boots.Values.Select(eq => eq.BaseStat.Values))
             {
-                equipmentStats["Kick"] = Probability.Generator.Next(0, max);
-                equipmentStats["Speed"] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Kick] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Speed] = Probability.Generator.Next(0, max);
             }
 
-            // Randomize Each Gloves
+            // Randomize Each Glove
             foreach (var equipmentStats in Equipments.Gloves.Values.Select(eq => eq.BaseStat.Values))
             {
-                equipmentStats["Catch"] = Probability.Generator.Next(0, max);
-                equipmentStats["Technique"] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Catch] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Technique] = Probability.Generator.Next(0, max);
             }
 
-            // Randomize Each Bracelets
+            // Randomize Each Bracelet
             foreach (var equipmentStats in Equipments.Bracelets.Values.Select(eq => eq.BaseStat.Values))
             {
-                equipmentStats["Stamina"] = Probability.Generator.Next(0, max);
-                equipmentStats["Luck"] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Stamina] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Luck] = Probability.Generator.Next(0, max);
             }
 
-            // Randomize Each Pendants
+            // Randomize Each Pendant
             foreach (var equipmentStats in Equipments.Pendants.Values.Select(eq => eq.BaseStat.Values))
             {
-                equipmentStats["Dribble"] = Probability.Generator.Next(0, max);
-                equipmentStats["Block"] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Dribble] = Probability.Generator.Next(0, max);
+                equipmentStats[Stat.Block] = Probability.Generator.Next(0, max);
             }
         }
 
@@ -768,9 +701,9 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
                 if (options["groupBoxTeamSpiritLevel"].Name == "Random" && team.SoccerChara != null)
                 {
-                    team.SoccerChara.Players.Where(p => p.Avatar != null).ToList().ForEach(p =>
+                    team.SoccerChara.Players.Where(p => p.Avatar is { Avatar: FightingSpirit }).ToList().ForEach(p =>
                     {
-                        p.Avatar.Level = Convert.ToByte(Probability.Generator.Next(1, 7));
+                        p.Avatar.Level = Evolutions.FightingSpirit.Keys.Random();
                     });
                 }
 
@@ -781,8 +714,8 @@ namespace UltimateGalaxyRandomizer.Randomizer
                         var haveMixiMax = Probability.FromPercentage(Convert.ToInt32(options["groupBoxMixiMax"].NumericUpDowns["numericUpDownMixiMaxChance"].Value));
                         if (haveMixiMax)
                         {
-                            var mixiPlayer = Players.All.Values.Except(new[] { p.Player }).Random();
-                            var mixiMoves = mixiPlayer.Skills.Random(2).Select(s => new SoccerMove(Moves.PlayerMoves[s.SkillId], s.SkillLevel));
+                            var mixiPlayer = Players.All.Values.Except([p.Player]).Random();
+                            var mixiMoves = mixiPlayer.Skills.Random(2).Select(s => new SoccerMove(s.Skill, s.SkillLevel));
                             p.MixiMax = new SoccerPlayer(mixiPlayer, mixiMoves.ToArray())
                             {
                                 Avatar = SoccerCharaConfig.GetAvatar(mixiPlayer.Param.Avatar, Convert.ToByte(Probability.Generator.Next(1, 7)))
@@ -799,8 +732,8 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
         public static void RandomizeShop(string filename)
         {
-            DataReader shopReader = new DataReader(File.ReadAllBytes(filename));
-            DataWriter shopWriter = new DataWriter(filename);
+            var shopReader = new DataReader(File.ReadAllBytes(filename));
+            var shopWriter = new DataWriter(filename);
 
             var takeUInt32 = shopReader.ReadUInt32();
             while (shopReader.BaseStream.Position < shopReader.Length)
@@ -837,8 +770,8 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
         public static void RandomizeTreasureBox(string filename)
         {
-            DataReader treasureBoxReader = new DataReader(File.ReadAllBytes(filename));
-            DataWriter treasureBoxWriter = new DataWriter(filename);
+            var treasureBoxReader = new DataReader(File.ReadAllBytes(filename));
+            var treasureBoxWriter = new DataWriter(filename);
 
             // Find Start Byte
             treasureBoxReader.Seek(0x3C);

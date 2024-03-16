@@ -615,8 +615,8 @@ namespace UltimateGalaxyRandomizer.Resources
             {0x107D21AB, new Move("AB217D10")},
         };
 
-        public static readonly IReadOnlyList<MoveUltimate> MovesUltimate = new List<MoveUltimate>()
-        {
+        public static readonly IReadOnlyList<MoveUltimate> MovesUltimate =
+        [
             new MoveUltimate("Ultimate Evolution 1"),
             new MoveUltimate("Ultimate Evolution 2"),
             new MoveUltimate("Ultimate Evolution 3"),
@@ -633,6 +633,6 @@ namespace UltimateGalaxyRandomizer.Resources
             new MoveUltimate("Ultimate Evolution 14"),
             new MoveUltimate("Ultimate Evolution 15"),
             new MoveUltimate("Ultimate Evolution 16"),
-        };
+        ];
     }
 }

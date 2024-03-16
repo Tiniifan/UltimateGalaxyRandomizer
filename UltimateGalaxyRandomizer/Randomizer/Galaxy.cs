@@ -23,9 +23,9 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void ReadPlayers()
         {
             // Initialise File Reader
-            DataReader charaBaseReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_base_0.02.cfg.bin.nat"));
-            DataReader charaParamReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat"));
-            DataReader skillTableReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat"));
+            var charaBaseReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_base_0.02.cfg.bin.nat"));
+            var charaParamReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat"));
+            var skillTableReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat"));
 
             // Load Player Table
             charaBaseReader.Skip(0x04);
@@ -134,12 +134,12 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void WritePlayers()
         {
             // Initialise Data Writer
-            DataWriter charaBaseWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_base_0.02.cfg.bin.nat");
-            DataWriter charaParamWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat");
-            DataWriter skillTableWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat");
+            var charaBaseWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_base_0.02.cfg.bin.nat");
+            var charaParamWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/chara_param_0.03.cfg.bin.nat");
+            var skillTableWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_table_0.01.cfg.bin.nat");
 
             // Merge Player Dictionaries to one
-            Dictionary<uint, Player> players = new Dictionary<uint, Player>();
+            Dictionary<uint, Player> players = [];
             Players.Story.ToList().ForEach(x => players.Add(x.Key, x.Value));
             Players.Normal.ToList().ForEach(x => players.Add(x.Key, x.Value));
             Players.Scout.ToList().ForEach(x => players.Add(x.Key, x.Value));
@@ -175,10 +175,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
             // Merge Player Dictionaries to one list
             if (options["groupBoxSwapPlayer"].Name != "Random") return;
 
-            List<Player> players = new List<Player>();
-            players.AddRange(Players.Story.Values.ToList());
-            players.AddRange(Players.Normal.Values.ToList());
-            players.AddRange(Players.Scout.Values.ToList());
+            List<Player> players = [.. Players.Story.Values, .. Players.Normal.Values, .. Players.Scout.Values];
 
             // Create Temp directory
             System.IO.Directory.CreateDirectory(Directory + "/ie6_b_fa/temp/");
@@ -222,9 +219,9 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void ReadMoves()
         {
             // Initialise File Reader
-            DataReader skillConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_config_0.29d.cfg.bin.nat"));
+            var skillConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_config_0.29d.cfg.bin.nat"));
 
-            int skillCount = skillConfigReader.ReadInt32();
+            var skillCount = skillConfigReader.ReadInt32();
 
             // Read Move Data
             skillConfigReader.Seek(0x14);
@@ -263,13 +260,9 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void WriteMoves()
         {
             // Initialise File Writer
-            DataWriter skillConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_config_0.29d.cfg.bin.nat");
+            var skillConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/skill_config_0.29d.cfg.bin.nat");
 
-            // Merge Move Dictionary to one list
-            List<Move> moves = new List<Move>();
-            moves.AddRange(Moves.PlayerMoves.Select(x => x.Value).ToList());
-            moves.AddRange(Moves.FightingSpiritMoves.Select(x => x.Value).ToList());
-            moves.AddRange(Moves.TotemMoves.Select(x => x.Value).ToList());
+            List<Move> moves = [.. Moves.PlayerMoves.Values, .. Moves.FightingSpiritMoves.Values, .. Moves.TotemMoves.Values];
 
             // Write Move
             foreach (var move in moves) move.Write(skillConfigWriter);
@@ -292,29 +285,29 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void ReadAvatars()
         {
             // Initialise File Reader
-            DataReader itemconfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat"));
+            var itemConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat"));
 
             // Fighting Spirit
-            itemconfigReader.Seek(0x2BC24);
-            foreach (var avatarId in Avatars.FightingSpirits.Select(t => itemconfigReader.ReadUInt32()))
+            itemConfigReader.Seek(0x2BC24);
+            foreach (var avatarId in Avatars.FightingSpirits.Select(t => itemConfigReader.ReadUInt32()))
             {
-                Avatars.FightingSpirits[avatarId].Read(itemconfigReader);
+                Avatars.FightingSpirits[avatarId].Read(itemConfigReader);
             }
 
             // Totem
-            itemconfigReader.Seek(0x2D774);
-            foreach (var avatarId in Avatars.Totems.Select(totem => itemconfigReader.ReadUInt32()))
+            itemConfigReader.Seek(0x2D774);
+            foreach (var avatarId in Avatars.Totems.Select(totem => itemConfigReader.ReadUInt32()))
             {
-                Avatars.Totems[avatarId].Read(itemconfigReader);
+                Avatars.Totems[avatarId].Read(itemConfigReader);
             }
 
             // Close Stream
-            itemconfigReader.Close();
+            itemConfigReader.Close();
         }
         private void WriteAvatars()
         {
             // Initialise File Writer
-            DataWriter itemConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
+            var itemConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
 
             // Fighting Spirit
             itemConfigWriter.Seek(0x2BC24);
@@ -340,14 +333,14 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void ReadEquipments()
         {
             // Initialise File Reader
-            DataReader itemConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat"));
+            var itemConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat"));
 
-            int equipmentCount = itemConfigReader.ReadInt32();
+            var equipmentCount = itemConfigReader.ReadInt32();
 
             itemConfigReader.Seek(0x30);
             for (int i = 0; i < equipmentCount; i++)
             {
-                uint equipmentId = itemConfigReader.ReadUInt32();
+                var equipmentId = itemConfigReader.ReadUInt32();
 
                 if (Equipments.Boots.ContainsKey(equipmentId))
                 {
@@ -377,29 +370,31 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void WriteEquipments()
         {
             // Initialise File Writer
-            DataWriter itemconfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
+            var itemConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
 
             // Merge Equipment Dictionary to one list
-            List<Equipment> equipments = new List<Equipment>();
-            equipments.AddRange(Equipments.Boots.Select(x => x.Value).ToList());
-            equipments.AddRange(Equipments.Gloves.Select(x => x.Value).ToList());
-            equipments.AddRange(Equipments.Pendants.Select(x => x.Value).ToList());
-            equipments.AddRange(Equipments.Bracelets.Select(x => x.Value).ToList());
+            List<Equipment> equipments =
+            [
+                .. Equipments.Boots.Values,
+                .. Equipments.Gloves.Values,
+                .. Equipments.Pendants.Values,
+                .. Equipments.Bracelets.Values,
+            ];
 
             // Write Equipment Data
-            foreach (var t in equipments) t.Write(itemconfigWriter);
+            foreach (var t in equipments) t.Write(itemConfigWriter);
 
             // Close Stream
-            itemconfigWriter.Close();
+            itemConfigWriter.Close();
         }
 
         private void ReadSoccer(Team team)
         {
-            string soccerFile = team.ScriptID.ToString().PadLeft(4, '0');
+            var soccerFile = team.ScriptID.ToString().PadLeft(4, '0');
 
             if (!File.Exists(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin")) return;
 
-            DataReader soccerCharaReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin"));
+            var soccerCharaReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin"));
 
             team.SoccerChara = new SoccerCharaConfig(soccerCharaReader);
 
@@ -407,11 +402,11 @@ namespace UltimateGalaxyRandomizer.Randomizer
         }
         private void WriteSoccer(Team team)
         {
-            string soccerFile = team.ScriptID.ToString().PadLeft(4, '0');
+            var soccerFile = team.ScriptID.ToString().PadLeft(4, '0');
 
             if (!File.Exists(Directory + "/ie6_b_fa/data/res/soccer/soccer_chara_btl" + soccerFile + ".cfg.bin")) return;
 
-            SoccerCharaConfig teamSoccerChara = team.SoccerChara;
+            var teamSoccerChara = team.SoccerChara;
 
             // Fix Scripted Player
             foreach (var player in teamSoccerChara.Players)
@@ -447,16 +442,16 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void ReadTeams()
         {
             // Initialise File Reader
-            DataReader soccerConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/soccer/soccer_config_0.01.cfg.bin"));
-            DataReader teamParamReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/team/team_param.cfg.bin"));
+            var soccerConfigReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/soccer/soccer_config_0.01.cfg.bin"));
+            var teamParamReader = new DataReader(File.ReadAllBytes(Directory + "/ie6_b_fa/data/res/team/team_param.cfg.bin"));
 
             // Read Team Config
             soccerConfigReader.Seek(0x3C);
-            int teamCount = soccerConfigReader.ReadInt32();
+            var teamCount = soccerConfigReader.ReadInt32();
             for (int i = 0; i < teamCount; i++)
             {
                 soccerConfigReader.Skip(0x0C);
-                uint teamID = soccerConfigReader.ReadUInt32();
+                var teamID = soccerConfigReader.ReadUInt32();
 
                 if (Teams.Story.ContainsKey(teamID))
                 {
@@ -531,8 +526,8 @@ namespace UltimateGalaxyRandomizer.Randomizer
         private void WriteTeams()
         {
             // Initialise File Writer
-            DataWriter soccerConfigWriter = new DataWriter(Directory + "/ie6_b_fa/data/res/soccer/soccer_config_0.01.cfg.bin");
-            DataWriter teamParamWriter = new DataWriter(Directory + "/ie6_b_fa/data/res/team/team_param.cfg.bin");
+            var soccerConfigWriter = new DataWriter(Directory + "/ie6_b_fa/data/res/soccer/soccer_config_0.01.cfg.bin");
+            var teamParamWriter = new DataWriter(Directory + "/ie6_b_fa/data/res/team/team_param.cfg.bin");
 
             // Merge Teams Dictionaries to one
             var teams = new Dictionary<uint, Team>();
@@ -598,7 +593,7 @@ namespace UltimateGalaxyRandomizer.Randomizer
 
             if (options["groupBoxMiscellaneousRecruitment"].CheckBoxes["checkBoxMiscellaneousRecuitRemove"].Checked)
             {
-                DataWriter itemConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
+                var itemConfigWriter = new DataWriter(Directory + "/ie6_a_fa/gds_pack_decomp_pck/item_config_0.08a.cfg.bin.nat");
 
                 itemConfigWriter.Seek(0xEA44);
                 for (int i = 0; i < 1988; i++)

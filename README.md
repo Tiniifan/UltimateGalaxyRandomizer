@@ -23,5 +23,5 @@ Do you have a suggestion? <br/>
 Do you want to share your random run? <br/>
 [Join the Official Discord!](https://discord.gg/3wKp5ZxA9N)
 
-[Direct Download Link of UltimateGalaxyRandomizer](https://github.com/Tiniifan/UltimateGalaxyRandomizer/releases/download/1.1.0.0/UltimateGalaxyRandomizer.exe)
+[Direct Download Link of UltimateGalaxyRandomizer](https://github.com/Tiniifan/UltimateGalaxyRandomizer/releases/latest/download/UltimateGalaxyRandomizer.exe)
 
